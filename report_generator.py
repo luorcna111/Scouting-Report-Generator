@@ -84,18 +84,20 @@ class ScoutingPDF(FPDF):
 
 def _create_radar_chart(player_row, output_path):
     """
-    Erstellt ein Radar-Chart mit den 4 Scoring-Kategorien.
+    Erstellt ein Radar-Chart mit den Scoring-Kategorien.
 
     Args:
         player_row: Series mit Spielerdaten und Scores
         output_path: Pfad zum Speichern des Chart-Bildes
     """
-    categories = ["Torquote", "Einsatzzeit", "Spielpraxis", "Disziplin"]
+    categories = ["Scorerquote", "Einsatzzeit", "Spielpraxis", "Disziplin", "Alter", "Elf d. Woche"]
     scores = [
-        player_row.get("score_tore", 0),
+        player_row.get("score_scorer", 0),
         player_row.get("score_einsatz", 0),
         player_row.get("score_praxis", 0),
         player_row.get("score_disziplin", 0),
+        player_row.get("score_alter", 0),
+        player_row.get("score_edw", 0),
     ]
 
     # Anzahl Achsen

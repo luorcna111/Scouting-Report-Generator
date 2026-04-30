@@ -1,0 +1,217 @@
+22:04:56 [INFO] Gestartet: 30.04.2026 22:04:56
+22:04:56 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+22:04:56 [INFO] ============================================================
+22:04:56 [INFO] DATENVERARBEITUNG GESTARTET
+22:04:56 [INFO] ============================================================
+22:04:56 [WARNING] Konnte nicht aus SQLite-Datenbank laden: near "alter": syntax error
+22:04:56 [INFO] Fallback auf CSV-Datei...
+22:04:56 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+22:04:56 [INFO]   -> 59 Spieler geladen
+22:04:56 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+22:04:56 [INFO] Validiere Daten...
+22:04:56 [INFO] Starte FuPa-Daten-Pipeline (Assists & EdW)...
+22:04:56 [INFO] Verbinde mit FuPa.net (Mock-API) fuer Assists und EdW...
+22:04:56 [INFO] FuPa Daten fuer 59 Spieler bezogen und in C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\fupa_data_20260430.csv gespeichert.
+22:04:56 [INFO] Datenquellen erfolgreich kombiniert!
+22:04:56 [INFO]   -> 59 Spieler nach Validierung
+22:04:56 [INFO] Berechne abgeleitete Metriken...
+22:04:56 [INFO] 
+  Top 3 Torquote:
+22:04:56 [INFO]     Simon Gruber (TSV 1861 Nördlingen): 0.90 Tore/Spiel
+22:04:56 [INFO]     Jonas Kronbichler (SV Kirchanschöring): 0.76 Tore/Spiel
+22:04:56 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+22:04:56 [INFO] 
+Datenverarbeitung abgeschlossen:
+22:04:56 [INFO]   Spieler gesamt:     59
+22:04:56 [INFO]   Ligen:              3
+22:04:56 [INFO]   Vereine:            41
+22:04:56 [INFO]   Tore gesamt:        686
+22:04:56 [INFO]   Durchschn. Spiele:  26.9
+22:04:56 [INFO]   Durchschn. Tore:    11.6
+22:04:56 [INFO] 
+[SCHRITT 2] Scoring berechnen
+22:04:56 [INFO] ============================================================
+22:04:56 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+22:04:56 [INFO] ============================================================
+22:04:56 [INFO] Berechne Kategorie-Scores...
+22:04:56 [INFO]   Scorerquote-Scores: Min=52.0, Max=100.0, Mittel=77.7
+22:04:56 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+22:04:56 [INFO]   Elf-der-Woche-Scores: Min=33.3, Max=100.0
+22:04:56 [INFO] 
+Berechne gewichteten Gesamtscore...
+22:04:56 [INFO] Wende Liga-Faktor an...
+22:04:56 [INFO] 
+==================================================
+22:04:56 [INFO] SCORE-VERTEILUNG:
+22:04:56 [INFO] ==================================================
+22:04:56 [INFO]   Score >= 70: 3 Spieler (5.1%)
+22:04:56 [INFO]   Score >= 60: 40 Spieler (67.8%)
+22:04:56 [INFO]   Score >= 50: 55 Spieler (93.2%)
+22:04:56 [INFO]   Score <  50: 4 Spieler (6.8%)
+22:04:56 [INFO] 
+__________________________________________________
+22:04:56 [INFO] TOP 10 SPIELER:
+22:04:56 [INFO] __________________________________________________
+22:04:56 [INFO]   # 1 | Anton Heinz               | Regionalliga Bayern    | Score:  75.3 | Herausragend
+22:04:56 [INFO]   # 2 | Severo Sturm              | Regionalliga Bayern    | Score:  74.2 | Gut
+22:04:56 [INFO]   # 3 | Tobias Stossberger        | Regionalliga Bayern    | Score:  71.6 | Gut
+22:04:56 [INFO]   # 4 | Piet Scobel               | Regionalliga Bayern    | Score:  69.8 | Gut
+22:04:56 [INFO]   # 4 | Lado Akhalaia             | Regionalliga Bayern    | Score:  69.8 | Gut
+22:04:56 [INFO]   # 6 | David Günes               | Regionalliga Bayern    | Score:  69.5 | Gut
+22:04:56 [INFO]   # 7 | Yannick Glessing          | Regionalliga Bayern    | Score:  69.3 | Gut
+22:04:56 [INFO]   # 8 | Lukas Da Silva Freundorfer | Bayernliga Nord        | Score:  68.6 | Gut
+22:04:56 [INFO]   # 9 | Simon Gruber              | Bayernliga Süd         | Score:  68.5 | Gut
+22:04:56 [INFO]   #10 | Jermain Nischalke         | Regionalliga Bayern    | Score:  68.1 | Gut
+22:04:56 [INFO] __________________________________________________
+
+22:04:56 [INFO] 
+[SCHRITT 3] KI-Fazit generieren (Gemini) fuer Top 5 Spieler
+22:04:56 [INFO]   Generiere KI-Fazit fuer Anton Heinz...
+22:04:57 [INFO] AFC is enabled with max remote calls: 10.
+22:04:57 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+22:04:57 [ERROR] Fehler bei Gemini API-Aufruf: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+22:04:57 [INFO]   Generiere KI-Fazit fuer Severo Sturm...
+22:04:58 [INFO] AFC is enabled with max remote calls: 10.
+22:04:58 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+22:04:58 [ERROR] Fehler bei Gemini API-Aufruf: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+22:04:58 [INFO]   Generiere KI-Fazit fuer Tobias Stossberger...
+22:04:58 [INFO] AFC is enabled with max remote calls: 10.
+22:04:58 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+22:04:58 [ERROR] Fehler bei Gemini API-Aufruf: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+22:04:58 [INFO]   Generiere KI-Fazit fuer Piet Scobel...
+22:04:59 [INFO] AFC is enabled with max remote calls: 10.
+22:04:59 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+22:04:59 [ERROR] Fehler bei Gemini API-Aufruf: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+22:04:59 [INFO]   Generiere KI-Fazit fuer Lado Akhalaia...
+22:04:59 [INFO] AFC is enabled with max remote calls: 10.
+22:05:00 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+22:05:00 [ERROR] Fehler bei Gemini API-Aufruf: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+22:05:00 [INFO] 
+[SCHRITT 4] PDF-Reports generieren
+22:05:00 [INFO] Generiere Uebersichts-Report...
+22:05:00 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260430.pdf
+22:05:00 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260430.pdf
+22:05:00 [INFO] 
+  Generiere individuelle Reports fuer Top 5 Spieler...
+22:05:00 [INFO] Generiere Report: Anton Heinz (Rang #1)
+22:05:00 [INFO]   -> Report gespeichert: Scouting_Report_Anton_Heinz_20260430.pdf
+22:05:00 [INFO]   [OK] #1 Anton Heinz: Scouting_Report_Anton_Heinz_20260430.pdf
+22:05:00 [INFO] Generiere Report: Severo Sturm (Rang #2)
+22:05:00 [INFO]   -> Report gespeichert: Scouting_Report_Severo_Sturm_20260430.pdf
+22:05:00 [INFO]   [OK] #2 Severo Sturm: Scouting_Report_Severo_Sturm_20260430.pdf
+22:05:00 [INFO] Generiere Report: Tobias Stossberger (Rang #3)
+22:05:00 [INFO]   -> Report gespeichert: Scouting_Report_Tobias_Stossberger_20260430.pdf
+22:05:00 [INFO]   [OK] #3 Tobias Stossberger: Scouting_Report_Tobias_Stossberger_20260430.pdf
+22:05:00 [INFO] Generiere Report: Piet Scobel (Rang #4)
+22:05:01 [INFO]   -> Report gespeichert: Scouting_Report_Piet_Scobel_20260430.pdf
+22:05:01 [INFO]   [OK] #4 Piet Scobel: Scouting_Report_Piet_Scobel_20260430.pdf
+22:05:01 [INFO] Generiere Report: Lado Akhalaia (Rang #5)
+22:05:01 [INFO]   -> Report gespeichert: Scouting_Report_Lado_Akhalaia_20260430.pdf
+22:05:01 [INFO]   [OK] #5 Lado Akhalaia: Scouting_Report_Lado_Akhalaia_20260430.pdf
+22:05:01 [INFO] 
+[SCHRITT 5] E-Mail-Benachrichtigungen
+22:05:01 [INFO]   Info: Simulationsmodus aktiv (--send-emails fuer echten Versand)
+22:05:01 [INFO] 
+============================================================
+22:05:01 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+22:05:01 [INFO] ============================================================
+22:05:01 [INFO] 
+📧 E-Mail-Benachrichtigung für Anton Heinz (Score: 75.3)
+22:05:01 [INFO]    Betreff: Scouting-Alert: Anton Heinz (Score: 75.3/100)
+22:05:01 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+22:05:01 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+22:05:01 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Anton_Heinz_20260430.pdf
+22:05:01 [INFO]    ✅ E-Mail-Simulation erfolgreich
+22:05:01 [INFO] 
+📧 E-Mail-Benachrichtigung für Severo Sturm (Score: 74.2)
+22:05:01 [INFO]    Betreff: Scouting-Alert: Severo Sturm (Score: 74.2/100)
+22:05:01 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+22:05:01 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+22:05:01 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Severo_Sturm_20260430.pdf
+22:05:01 [INFO]    ✅ E-Mail-Simulation erfolgreich
+22:05:01 [INFO] 
+📧 E-Mail-Benachrichtigung für Tobias Stossberger (Score: 71.6)
+22:05:01 [INFO]    Betreff: Scouting-Alert: Tobias Stossberger (Score: 71.6/100)
+22:05:01 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+22:05:01 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+22:05:01 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Tobias_Stossberger_20260430.pdf
+22:05:01 [INFO]    ✅ E-Mail-Simulation erfolgreich
+22:05:01 [INFO] 
+📧 E-Mail-Benachrichtigung für Piet Scobel (Score: 69.8)
+22:05:01 [INFO]    Betreff: Scouting-Alert: Piet Scobel (Score: 69.8/100)
+22:05:01 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+22:05:01 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+22:05:01 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Piet_Scobel_20260430.pdf
+22:05:01 [INFO]    ✅ E-Mail-Simulation erfolgreich
+22:05:01 [INFO] 
+📧 E-Mail-Benachrichtigung für Lado Akhalaia (Score: 69.8)
+22:05:01 [INFO]    Betreff: Scouting-Alert: Lado Akhalaia (Score: 69.8/100)
+22:05:01 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+22:05:01 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+22:05:01 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Lado_Akhalaia_20260430.pdf
+22:05:01 [INFO]    ✅ E-Mail-Simulation erfolgreich
+22:05:01 [INFO]   David Günes: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Yannick Glessing: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Lukas Da Silva Freundorfer: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Simon Gruber: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Jermain Nischalke: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Jonas Kronbichler: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Benjamin Baier: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Lucas Seidel: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Timo Kraeftner: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Cornelius Pfeiffer: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Kelvin Onuigwe: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Marin Hrgota: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Nico Ott: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Raffael Ascher: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Selim Mjaki: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Alexander Moratz: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Jonas Bauer: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Tom Kunert: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Fabian Vogl: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Tarsis Bonga: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Leonhard Thiel: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Michael Senger: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Pascal Schittler: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Lucas Markert: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Jean-Paul Ajala-Alexis: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Lukas Riglewski: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Cristian Leone: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Daniele Sgodzaj: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Samed Bahar: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Simon Skarlatidis: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Jorden Aigboje: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Alessandro Kazakov: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Achitpol Keereerom: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Lucas Schraufstetter: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO]   Manuel Omelanowsky: kein PDF-Report vorhanden, E-Mail wird übersprungen
+22:05:01 [INFO] 
+📊 5 E-Mail-Alerts simuliert
+22:05:01 [INFO] 
+============================================================
+22:05:01 [INFO] ZUSAMMENFASSUNG
+22:05:01 [INFO] ============================================================
+22:05:01 [INFO]   Verarbeitete Spieler:    59
+22:05:01 [INFO]   Ligen:                   3
+22:05:01 [INFO]   Generierte Reports:      6 (inkl. Uebersicht)
+22:05:01 [INFO]   KI-Fazits generiert:     0 von 5
+22:05:01 [INFO]   E-Mail-Alerts:           5 von 5
+22:05:01 [INFO]   Score-Schwellenwert:     60/100
+22:05:01 [INFO]   Datenquelle:             www.bfv.de
+22:05:01 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+22:05:01 [INFO]   Laufzeit:                4.6 Sekunden
+22:05:01 [INFO] 
+  Spieler mit Score >= 70: 3 (5.1%)
+22:05:01 [INFO] 
+  TOP 5 SPIELER:
+22:05:01 [INFO]   [Mail] # 1 | Anton Heinz               | FC Bayern München II   | Score:  75.3 | Herausragend
+22:05:01 [INFO]   [Mail] # 2 | Severo Sturm              | TSV Aubstadt           | Score:  74.2 | Gut
+22:05:01 [INFO]   [Mail] # 3 | Tobias Stossberger        | TSV Buchbach           | Score:  71.6 | Gut
+22:05:01 [INFO]   [Mail] # 4 | Piet Scobel               | 1. FC Nürnberg II      | Score:  69.8 | Gut
+22:05:01 [INFO]   [Mail] # 5 | Lado Akhalaia             | SpVgg Greuther Fürth II | Score:  69.8 | Gut
+22:05:01 [INFO] 
+============================================================
+22:05:01 [INFO] Scouting-Analyse abgeschlossen!
+22:05:01 [INFO] ============================================================
+

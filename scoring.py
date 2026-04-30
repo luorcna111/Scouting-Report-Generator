@@ -38,30 +38,37 @@ from config import (
 logger = logging.getLogger(__name__)
 
 
-def score_tore_pro_spiel(df):
+def score_scorer_pro_spiel(df):
     """
-    Bewertet die Torquote (Tore pro Spiel).
+    Bewertet die Scorerquote (Tore + Assists pro Spiel).
 
-    Formel: (tore_pro_spiel / benchmark) * 100, gedeckelt bei 100
-    Benchmark: 0.80 Tore/Spiel = Score 100 (extrem selten!)
-
-    In der Praxis:
-    - 0.3 Tore/Spiel = Score 37.5 (solider Torjaeger)
-    - 0.5 Tore/Spiel = Score 62.5 (Top-Torjaeger)
-    - 0.65 Tore/Spiel = Score 81.3 (Ausnahme-Stuermer)
-    - 0.8+ Tore/Spiel = Score 100 (fast unmoeglich)
-
-    Returns:
-        pandas Series mit Scores (0-100)
+    Formel: ((tore + assists) / spiele) / benchmark * 100
+    Benchmark: 1.0 Scorerpunkte/Spiel = Score 100
     """
-    benchmark = SCORING_BENCHMARKS["tore_pro_spiel_max"]
+    benchmark = SCORING_BENCHMARKS.get("scorer_pro_spiel_max", 1.0)
+    
+    # Sicherstellen, dass Assists vorhanden sind
+    if "assists" not in df.columns:
+        df["assists"] = 0
+        
+    scorer_pro_spiel = (df["tore"] + df["assists"]) / df["spiele"].replace(0, 1)
 
-    # Quadratische Daempfung: Macht es progressiv schwerer
-    # Exponent 0.70 = starke Daempfung bei hohen Werten
-    # 0.3 T/Sp -> ~38, 0.5 T/Sp -> ~55, 0.7 T/Sp -> ~72, 0.9 T/Sp -> ~88
-    raw = df["tore_pro_spiel"] / benchmark
-    scores = (raw ** 0.70) * 100  # Exponent < 1 = starke Daempfung
+    # Quadratische Daempfung
+    raw = scorer_pro_spiel / benchmark
+    scores = (raw ** 0.70) * 100
 
+    return scores.clip(0, 100).round(1)
+
+def score_elf_der_woche(df):
+    """
+    Bewertet die FuPa Elf-der-Woche Nominierungen.
+    3 Nominierungen in einer Saison = 100 Punkte.
+    """
+    if "elf_der_woche" not in df.columns:
+        df["elf_der_woche"] = 0
+        
+    # 3 Nominierungen = 100 Punkte
+    scores = (df["elf_der_woche"] / 3.0) * 100
     return scores.clip(0, 100).round(1)
 
 
@@ -201,38 +208,33 @@ def calculate_scores(df):
     # Schritt 1: Einzelne Kategorie-Scores berechnen
     logger.info("Berechne Kategorie-Scores...")
 
-    df["score_tore"] = score_tore_pro_spiel(df)
+    df["score_scorer"] = score_scorer_pro_spiel(df)
     df["score_einsatz"] = score_einsatzzeit(df)
     df["score_praxis"] = score_spielpraxis(df)
     df["score_disziplin"] = score_disziplin(df)
     df["score_alter"] = score_alter(df)
+    df["score_edw"] = score_elf_der_woche(df)
 
-    logger.info(f"  Torquote-Scores:    Min={df['score_tore'].min():.1f}, "
-                f"Max={df['score_tore'].max():.1f}, "
-                f"Mittel={df['score_tore'].mean():.1f}")
+    logger.info(f"  Scorerquote-Scores: Min={df['score_scorer'].min():.1f}, "
+                f"Max={df['score_scorer'].max():.1f}, "
+                f"Mittel={df['score_scorer'].mean():.1f}")
     logger.info(f"  Einsatzzeit-Scores: Min={df['score_einsatz'].min():.1f}, "
                 f"Max={df['score_einsatz'].max():.1f}, "
                 f"Mittel={df['score_einsatz'].mean():.1f}")
-    logger.info(f"  Spielpraxis-Scores: Min={df['score_praxis'].min():.1f}, "
-                f"Max={df['score_praxis'].max():.1f}, "
-                f"Mittel={df['score_praxis'].mean():.1f}")
-    logger.info(f"  Disziplin-Scores:   Min={df['score_disziplin'].min():.1f}, "
-                f"Max={df['score_disziplin'].max():.1f}, "
-                f"Mittel={df['score_disziplin'].mean():.1f}")
-    logger.info(f"  Alter-Scores:       Min={df['score_alter'].min():.1f}, "
-                f"Max={df['score_alter'].max():.1f}, "
-                f"Mittel={df['score_alter'].mean():.1f}")
+    logger.info(f"  Elf-der-Woche-Scores: Min={df['score_edw'].min():.1f}, "
+                f"Max={df['score_edw'].max():.1f}")
 
     # Schritt 2: Gewichteten Gesamtscore berechnen
     logger.info("\nBerechne gewichteten Gesamtscore...")
 
     weights = BFV_SCORING_WEIGHTS
     df["raw_score"] = (
-        df["score_tore"] * weights.get("tore_pro_spiel", 0) +
+        df["score_scorer"] * weights.get("scorerquote", 0) +
         df["score_einsatz"] * weights.get("einsatzzeit", 0) +
         df["score_praxis"] * weights.get("spielpraxis", 0) +
         df["score_disziplin"] * weights.get("disziplin", 0) +
-        df["score_alter"] * weights.get("alter", 0)
+        df["score_alter"] * weights.get("alter", 0) +
+        df["score_edw"] * weights.get("elf_der_woche", 0)
     ).round(1)
 
     # Schritt 3: Liga-Faktor anwenden
@@ -298,11 +300,17 @@ def get_score_breakdown(player_row):
         Dictionary mit Kategorie -> {score, value, weight, beschreibung}
     """
     breakdown = {
-        "Torquote": {
-            "score": player_row.get("score_tore", 0),
-            "value": f"{player_row.get('tore_pro_spiel', 0):.2f} Tore/Spiel",
-            "raw_value": f"{int(player_row.get('tore', 0))} Tore in {int(player_row.get('spiele', 0))} Spielen",
-            "weight": BFV_SCORING_WEIGHTS["tore_pro_spiel"],
+        "Scorerquote": {
+            "score": player_row.get("score_scorer", 0),
+            "value": f"{player_row.get('tore', 0) + player_row.get('assists', 0)} Scorer ({(player_row.get('tore', 0) + player_row.get('assists', 0)) / max(1, player_row.get('spiele', 1)):.2f}/Sp)",
+            "raw_value": f"{int(player_row.get('tore', 0))} Tore, {int(player_row.get('assists', 0))} Assists",
+            "weight": BFV_SCORING_WEIGHTS.get("scorerquote", 0),
+        },
+        "Elf der Woche": {
+            "score": player_row.get("score_edw", 0),
+            "value": f"{int(player_row.get('elf_der_woche', 0))}x nominiert",
+            "raw_value": "FuPa.net Auszeichnung",
+            "weight": BFV_SCORING_WEIGHTS.get("elf_der_woche", 0),
         },
         "Einsatzzeit": {
             "score": player_row.get("score_einsatz", 0),
