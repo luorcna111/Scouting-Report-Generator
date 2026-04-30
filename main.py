@@ -144,7 +144,7 @@ def run_scraper(liga_filter=None):
             }
             leagues = liga_map.get(liga_filter, [liga_filter])
 
-        players = scrape_all_leagues(leagues=leagues, headless=True, max_per_league=20)
+        players = scrape_all_leagues(leagues=leagues, headless=True, max_per_league=100)
 
         if players:
             csv_path = DATA_DIR / f"bfv_scraped_{datetime.now().strftime('%Y%m%d')}.csv"

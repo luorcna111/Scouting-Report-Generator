@@ -89,13 +89,15 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
     players = []
 
     try:
-        # "MEHR" Button klicken um alle Spieler zu laden
-        try:
-            mehr_btn = driver.find_element(By.XPATH, "//button[contains(text(), 'MEHR')]")
-            mehr_btn.click()
-            time.sleep(2)
-        except Exception:
-            pass  # Button nicht vorhanden = alle Spieler schon geladen
+        # "MEHR" Button klicken um genug Spieler zu laden (ca. 20 pro Klick)
+        clicks_needed = (max_players // 20) + 1
+        for _ in range(clicks_needed):
+            try:
+                mehr_btn = driver.find_element(By.XPATH, "//button[contains(text(), 'MEHR') or contains(text(), 'Mehr')]")
+                driver.execute_script("arguments[0].click();", mehr_btn)
+                time.sleep(2.5)
+            except Exception:
+                break  # Button nicht mehr da oder verdeckt
 
         # Torjaeger-Eintraege finden
         entries = driver.find_elements(By.CSS_SELECTOR, ".bfv-torjaeger-entry, .scorer-entry, [class*='torjaeger']")
@@ -356,7 +358,7 @@ def main():
                        help="Ligen zum Scrapen (z.B. regionalliga bayernliga_nord)")
     parser.add_argument("--headless", action="store_true", default=True,
                        help="Chrome ohne Fenster")
-    parser.add_argument("--max", type=int, default=20,
+    parser.add_argument("--max", type=int, default=100,
                        help="Max. Spieler pro Liga")
     parser.add_argument("--output", type=str, default=None,
                        help="Ausgabe-CSV-Pfad")
