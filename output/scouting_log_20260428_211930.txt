@@ -1,0 +1,364 @@
+21:19:30 [INFO] Gestartet: 28.04.2026 21:19:30
+21:19:30 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+21:19:30 [INFO] ============================================================
+21:19:30 [INFO] DATENVERARBEITUNG GESTARTET
+21:19:30 [INFO] ============================================================
+21:19:30 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+21:19:30 [INFO]   -> 59 Spieler geladen
+21:19:30 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+21:19:30 [INFO] Validiere Daten...
+21:19:30 [INFO]   -> 59 Spieler nach Validierung
+21:19:30 [INFO] Berechne abgeleitete Metriken...
+21:19:30 [INFO] 
+  Top 3 Torquote:
+21:19:30 [INFO]     Simon Gruber (TSV 1861 Noerdlingen): 0.90 Tore/Spiel
+21:19:30 [INFO]     Jonas Kronbichler (SV Kirchanschoering): 0.76 Tore/Spiel
+21:19:30 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+21:19:30 [INFO] 
+Datenverarbeitung abgeschlossen:
+21:19:30 [INFO]   Spieler gesamt:     59
+21:19:30 [INFO]   Ligen:              3
+21:19:30 [INFO]   Vereine:            41
+21:19:30 [INFO]   Tore gesamt:        686
+21:19:30 [INFO]   Durchschn. Spiele:  26.9
+21:19:30 [INFO]   Durchschn. Tore:    11.6
+21:19:30 [INFO] 
+[SCHRITT 2] Scoring berechnen
+21:19:30 [INFO] ============================================================
+21:19:30 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+21:19:30 [INFO] ============================================================
+21:19:30 [INFO] Berechne Kategorie-Scores...
+21:19:30 [INFO]   Torquote-Scores:    Min=39.3, Max=100.0, Mittel=58.6
+21:19:30 [INFO]   Einsatzzeit-Scores: Min=60.6, Max=97.8, Mittel=85.5
+21:19:30 [INFO]   Spielpraxis-Scores: Min=79.7, Max=97.6, Mittel=91.6
+21:19:30 [INFO]   Disziplin-Scores:   Min=22.0, Max=88.0, Mittel=71.7
+21:19:30 [INFO] 
+Berechne gewichteten Gesamtscore...
+21:19:30 [INFO] Wende Liga-Faktor an...
+21:19:30 [INFO] 
+==================================================
+21:19:30 [INFO] SCORE-VERTEILUNG:
+21:19:30 [INFO] ==================================================
+21:19:30 [INFO]   Score >= 70: 35 Spieler (59.3%)
+21:19:30 [INFO]   Score >= 60: 55 Spieler (93.2%)
+21:19:30 [INFO]   Score >= 50: 59 Spieler (100.0%)
+21:19:30 [INFO]   Score <  50: 0 Spieler (0.0%)
+21:19:30 [INFO] 
+__________________________________________________
+21:19:30 [INFO] TOP 10 SPIELER:
+21:19:30 [INFO] __________________________________________________
+21:19:30 [INFO]   # 1 | Simon Gruber              | Bayernliga Sued        | Score:  85.6 | Herausragend
+21:19:30 [INFO]   # 2 | Jonas Kronbichler         | Bayernliga Sued        | Score:  85.3 | Herausragend
+21:19:30 [INFO]   # 3 | Anton Heinz               | Regionalliga Bayern    | Score:  85.1 | Herausragend
+21:19:30 [INFO]   # 4 | Raffael Ascher            | Bayernliga Sued        | Score:  81.5 | Herausragend
+21:19:30 [INFO]   # 5 | Severo Sturm              | Regionalliga Bayern    | Score:  80.1 | Herausragend
+21:19:30 [INFO]   # 6 | Tobias Stossberger        | Regionalliga Bayern    | Score:  79.9 | Herausragend
+21:19:30 [INFO]   # 7 | Piet Scobel               | Regionalliga Bayern    | Score:  78.4 | Herausragend
+21:19:30 [INFO]   # 7 | Lukas Riglewski           | Bayernliga Sued        | Score:  78.4 | Herausragend
+21:19:30 [INFO]   # 9 | Michael Senger            | Bayernliga Sued        | Score:  77.2 | Herausragend
+21:19:30 [INFO]   #10 | Lado Akhalaia             | Regionalliga Bayern    | Score:  77.1 | Herausragend
+21:19:30 [INFO] __________________________________________________
+
+21:19:30 [INFO] 
+[SCHRITT 3] PDF-Reports generieren
+21:19:30 [INFO] Generiere Uebersichts-Report...
+21:19:30 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260428.pdf
+21:19:30 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260428.pdf
+21:19:30 [INFO] 
+  Generiere individuelle Reports fuer Top 5 Spieler...
+21:19:30 [INFO] Generiere Report: Simon Gruber (Rang #1)
+21:19:30 [INFO]   -> Report gespeichert: Scouting_Report_Simon_Gruber_20260428.pdf
+21:19:30 [INFO]   [OK] #1 Simon Gruber: Scouting_Report_Simon_Gruber_20260428.pdf
+21:19:30 [INFO] Generiere Report: Jonas Kronbichler (Rang #2)
+21:19:31 [INFO]   -> Report gespeichert: Scouting_Report_Jonas_Kronbichler_20260428.pdf
+21:19:31 [INFO]   [OK] #2 Jonas Kronbichler: Scouting_Report_Jonas_Kronbichler_20260428.pdf
+21:19:31 [INFO] Generiere Report: Anton Heinz (Rang #3)
+21:19:31 [INFO]   -> Report gespeichert: Scouting_Report_Anton_Heinz_20260428.pdf
+21:19:31 [INFO]   [OK] #3 Anton Heinz: Scouting_Report_Anton_Heinz_20260428.pdf
+21:19:31 [INFO] Generiere Report: Raffael Ascher (Rang #4)
+21:19:31 [INFO]   -> Report gespeichert: Scouting_Report_Raffael_Ascher_20260428.pdf
+21:19:31 [INFO]   [OK] #4 Raffael Ascher: Scouting_Report_Raffael_Ascher_20260428.pdf
+21:19:31 [INFO] Generiere Report: Severo Sturm (Rang #5)
+21:19:32 [INFO]   -> Report gespeichert: Scouting_Report_Severo_Sturm_20260428.pdf
+21:19:32 [INFO]   [OK] #5 Severo Sturm: Scouting_Report_Severo_Sturm_20260428.pdf
+21:19:32 [INFO] 
+[SCHRITT 4] E-Mail-Benachrichtigungen
+21:19:32 [INFO]   Info: Simulationsmodus aktiv (--send-emails fuer echten Versand)
+21:19:32 [INFO] 
+============================================================
+21:19:32 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+21:19:32 [INFO] ============================================================
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Gruber (Score: 85.6)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Simon Gruber (Score: 85.6/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Simon_Gruber_20260428.pdf
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Jonas Kronbichler (Score: 85.3)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Jonas Kronbichler (Score: 85.3/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Jonas_Kronbichler_20260428.pdf
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Anton Heinz (Score: 85.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Anton Heinz (Score: 85.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Anton_Heinz_20260428.pdf
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Raffael Ascher (Score: 81.5)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Raffael Ascher (Score: 81.5/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Raffael_Ascher_20260428.pdf
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Severo Sturm (Score: 80.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Severo Sturm (Score: 80.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Severo_Sturm_20260428.pdf
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Tobias Stossberger (Score: 79.9)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Tobias Stossberger (Score: 79.9/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Piet Scobel (Score: 78.4)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Piet Scobel (Score: 78.4/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Lukas Riglewski (Score: 78.4)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Lukas Riglewski (Score: 78.4/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Michael Senger (Score: 77.2)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Michael Senger (Score: 77.2/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Lado Akhalaia (Score: 77.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Lado Akhalaia (Score: 77.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Yannick Glessing (Score: 76.4)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Yannick Glessing (Score: 76.4/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Felix Bachschmid (Score: 76.4)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Felix Bachschmid (Score: 76.4/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Cristian Leone (Score: 76.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Cristian Leone (Score: 76.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Kelvin Onuigwe (Score: 76.0)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Kelvin Onuigwe (Score: 76.0/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Benjamin Baier (Score: 75.4)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Benjamin Baier (Score: 75.4/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Tarsis Bonga (Score: 75.0)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Tarsis Bonga (Score: 75.0/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Skarlatidis (Score: 75.0)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Simon Skarlatidis (Score: 75.0/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Jermain Nischalke (Score: 74.8)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Jermain Nischalke (Score: 74.8/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Achitpol Keereerom (Score: 74.7)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Achitpol Keereerom (Score: 74.7/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Leonhard Thiel (Score: 74.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Leonhard Thiel (Score: 74.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Lucas Schraufstetter (Score: 73.7)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Lucas Schraufstetter (Score: 73.7/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für David Lang (Score: 73.2)
+21:19:32 [INFO]    Betreff: Scouting-Alert: David Lang (Score: 73.2/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Timo Kraeftner (Score: 73.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Timo Kraeftner (Score: 73.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für David Guenes (Score: 72.5)
+21:19:32 [INFO]    Betreff: Scouting-Alert: David Guenes (Score: 72.5/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Lukas Da Silva Freundorfer (Score: 72.4)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Lukas Da Silva Freundorfer (Score: 72.4/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Fabian Vogl (Score: 72.1)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Fabian Vogl (Score: 72.1/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Nico Ott (Score: 71.9)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Nico Ott (Score: 71.9/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Achitpol Keereerom BL (Score: 71.7)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Achitpol Keereerom BL (Score: 71.7/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Daniele Sgodzaj (Score: 71.5)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Daniele Sgodzaj (Score: 71.5/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Selim Mjaki (Score: 71.5)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Selim Mjaki (Score: 71.5/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Marin Hrgota (Score: 70.7)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Marin Hrgota (Score: 70.7/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Manuel Omelanowsky (Score: 70.7)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Manuel Omelanowsky (Score: 70.7/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Thomas Breu (Score: 70.6)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Thomas Breu (Score: 70.6/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Felix Lehmer (Score: 70.2)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Felix Lehmer (Score: 70.2/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📧 E-Mail-Benachrichtigung für Cornelius Pfeiffer (Score: 70.0)
+21:19:32 [INFO]    Betreff: Scouting-Alert: Cornelius Pfeiffer (Score: 70.0/100)
+21:19:32 [INFO]    Empfänger: linus.eilers@hm.edu
+21:19:32 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:19:32 [INFO]    📎 Anhang: 
+21:19:32 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:19:32 [INFO] 
+📊 35 E-Mail-Alerts simuliert
+21:19:32 [INFO] 
+============================================================
+21:19:32 [INFO] ZUSAMMENFASSUNG
+21:19:32 [INFO] ============================================================
+21:19:32 [INFO]   Verarbeitete Spieler:    59
+21:19:32 [INFO]   Ligen:                   3
+21:19:32 [INFO]   Generierte Reports:      6 (inkl. Uebersicht)
+21:19:32 [INFO]   E-Mail-Alerts:           35 von 35
+21:19:32 [INFO]   Score-Schwellenwert:     70/100
+21:19:32 [INFO]   Datenquelle:             www.bfv.de
+21:19:32 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+21:19:32 [INFO]   Laufzeit:                1.8 Sekunden
+21:19:32 [INFO] 
+  Spieler mit Score >= 70: 35 (59.3%)
+21:19:32 [INFO] 
+  TOP 5 SPIELER:
+21:19:32 [INFO]   [Mail] # 1 | Simon Gruber              | TSV 1861 Noerdlingen   | Score:  85.6 | Herausragend
+21:19:32 [INFO]   [Mail] # 2 | Jonas Kronbichler         | SV Kirchanschoering    | Score:  85.3 | Herausragend
+21:19:32 [INFO]   [Mail] # 3 | Anton Heinz               | FC Bayern Muenchen II  | Score:  85.1 | Herausragend
+21:19:32 [INFO]   [Mail] # 4 | Raffael Ascher            | FC Spfr. Schwaig       | Score:  81.5 | Herausragend
+21:19:32 [INFO]   [Mail] # 5 | Severo Sturm              | TSV Aubstadt           | Score:  80.1 | Herausragend
+21:19:32 [INFO] 
+============================================================
+21:19:32 [INFO] Scouting-Analyse abgeschlossen!
+21:19:32 [INFO] ============================================================
+

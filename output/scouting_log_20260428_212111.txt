@@ -1,0 +1,126 @@
+21:21:11 [INFO] Gestartet: 28.04.2026 21:21:11
+21:21:11 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+21:21:11 [INFO] ============================================================
+21:21:11 [INFO] DATENVERARBEITUNG GESTARTET
+21:21:11 [INFO] ============================================================
+21:21:11 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+21:21:11 [INFO]   -> 59 Spieler geladen
+21:21:11 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+21:21:11 [INFO] Validiere Daten...
+21:21:11 [INFO]   -> 59 Spieler nach Validierung
+21:21:11 [INFO] Berechne abgeleitete Metriken...
+21:21:11 [INFO] 
+  Top 3 Torquote:
+21:21:11 [INFO]     Simon Gruber (TSV 1861 Noerdlingen): 0.90 Tore/Spiel
+21:21:11 [INFO]     Jonas Kronbichler (SV Kirchanschoering): 0.76 Tore/Spiel
+21:21:11 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+21:21:11 [INFO] 
+Datenverarbeitung abgeschlossen:
+21:21:11 [INFO]   Spieler gesamt:     59
+21:21:11 [INFO]   Ligen:              3
+21:21:11 [INFO]   Vereine:            41
+21:21:11 [INFO]   Tore gesamt:        686
+21:21:11 [INFO]   Durchschn. Spiele:  26.9
+21:21:11 [INFO]   Durchschn. Tore:    11.6
+21:21:11 [INFO] 
+[SCHRITT 2] Scoring berechnen
+21:21:11 [INFO] ============================================================
+21:21:11 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+21:21:11 [INFO] ============================================================
+21:21:11 [INFO] Berechne Kategorie-Scores...
+21:21:11 [INFO]   Torquote-Scores:    Min=39.7, Max=92.9, Mittel=55.0
+21:21:11 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+21:21:11 [INFO]   Spielpraxis-Scores: Min=58.6, Max=82.9, Mittel=72.6
+21:21:11 [INFO]   Disziplin-Scores:   Min=1.0, Max=84.0, Mittel=62.9
+21:21:11 [INFO] 
+Berechne gewichteten Gesamtscore...
+21:21:11 [INFO] Wende Liga-Faktor an...
+21:21:11 [INFO] 
+==================================================
+21:21:11 [INFO] SCORE-VERTEILUNG:
+21:21:11 [INFO] ==================================================
+21:21:11 [INFO]   Score >= 70: 1 Spieler (1.7%)
+21:21:11 [INFO]   Score >= 60: 17 Spieler (28.8%)
+21:21:11 [INFO]   Score >= 50: 50 Spieler (84.7%)
+21:21:11 [INFO]   Score <  50: 9 Spieler (15.3%)
+21:21:11 [INFO] 
+__________________________________________________
+21:21:11 [INFO] TOP 10 SPIELER:
+21:21:11 [INFO] __________________________________________________
+21:21:11 [INFO]   # 1 | Simon Gruber              | Bayernliga Sued        | Score:  71.6 | Gut
+21:21:11 [INFO]   # 2 | Jonas Kronbichler         | Bayernliga Sued        | Score:  68.7 | Gut
+21:21:11 [INFO]   # 3 | Tobias Stossberger        | Regionalliga Bayern    | Score:  67.8 | Gut
+21:21:11 [INFO]   # 4 | Anton Heinz               | Regionalliga Bayern    | Score:  66.6 | Gut
+21:21:11 [INFO]   # 5 | Severo Sturm              | Regionalliga Bayern    | Score:  64.3 | Gut
+21:21:11 [INFO]   # 6 | Michael Senger            | Bayernliga Sued        | Score:  64.0 | Gut
+21:21:11 [INFO]   # 7 | Raffael Ascher            | Bayernliga Sued        | Score:  63.6 | Gut
+21:21:11 [INFO]   # 8 | Piet Scobel               | Regionalliga Bayern    | Score:  62.7 | Gut
+21:21:11 [INFO]   # 9 | Lukas Riglewski           | Bayernliga Sued        | Score:  62.2 | Gut
+21:21:11 [INFO]   #10 | Achitpol Keereerom        | Regionalliga Bayern    | Score:  62.0 | Gut
+21:21:11 [INFO] __________________________________________________
+
+21:21:11 [INFO] 
+[SCHRITT 3] PDF-Reports generieren
+21:21:11 [INFO] Generiere Uebersichts-Report...
+21:21:11 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260428.pdf
+21:21:11 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260428.pdf
+21:21:11 [INFO] 
+  Generiere individuelle Reports fuer Top 5 Spieler...
+21:21:11 [INFO] Generiere Report: Simon Gruber (Rang #1)
+21:21:11 [INFO]   -> Report gespeichert: Scouting_Report_Simon_Gruber_20260428.pdf
+21:21:11 [INFO]   [OK] #1 Simon Gruber: Scouting_Report_Simon_Gruber_20260428.pdf
+21:21:11 [INFO] Generiere Report: Jonas Kronbichler (Rang #2)
+21:21:11 [INFO]   -> Report gespeichert: Scouting_Report_Jonas_Kronbichler_20260428.pdf
+21:21:11 [INFO]   [OK] #2 Jonas Kronbichler: Scouting_Report_Jonas_Kronbichler_20260428.pdf
+21:21:11 [INFO] Generiere Report: Tobias Stossberger (Rang #3)
+21:21:12 [INFO]   -> Report gespeichert: Scouting_Report_Tobias_Stossberger_20260428.pdf
+21:21:12 [INFO]   [OK] #3 Tobias Stossberger: Scouting_Report_Tobias_Stossberger_20260428.pdf
+21:21:12 [INFO] Generiere Report: Anton Heinz (Rang #4)
+21:21:12 [INFO]   -> Report gespeichert: Scouting_Report_Anton_Heinz_20260428.pdf
+21:21:12 [INFO]   [OK] #4 Anton Heinz: Scouting_Report_Anton_Heinz_20260428.pdf
+21:21:12 [INFO] Generiere Report: Severo Sturm (Rang #5)
+21:21:12 [INFO]   -> Report gespeichert: Scouting_Report_Severo_Sturm_20260428.pdf
+21:21:12 [INFO]   [OK] #5 Severo Sturm: Scouting_Report_Severo_Sturm_20260428.pdf
+21:21:12 [INFO] 
+[SCHRITT 4] E-Mail-Benachrichtigungen
+21:21:12 [INFO]   Info: Simulationsmodus aktiv (--send-emails fuer echten Versand)
+21:21:12 [INFO] 
+============================================================
+21:21:12 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+21:21:12 [INFO] ============================================================
+21:21:12 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Gruber (Score: 71.6)
+21:21:12 [INFO]    Betreff: Scouting-Alert: Simon Gruber (Score: 71.6/100)
+21:21:12 [INFO]    Empfänger: linus.eilers@hm.edu
+21:21:12 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+21:21:12 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Simon_Gruber_20260428.pdf
+21:21:12 [INFO]    ✅ E-Mail-Simulation erfolgreich
+21:21:12 [INFO] 
+📊 1 E-Mail-Alerts simuliert
+21:21:12 [INFO] 
+============================================================
+21:21:12 [INFO] ZUSAMMENFASSUNG
+21:21:12 [INFO] ============================================================
+21:21:12 [INFO]   Verarbeitete Spieler:    59
+21:21:12 [INFO]   Ligen:                   3
+21:21:12 [INFO]   Generierte Reports:      6 (inkl. Uebersicht)
+21:21:12 [INFO]   E-Mail-Alerts:           1 von 1
+21:21:12 [INFO]   Score-Schwellenwert:     70/100
+21:21:12 [INFO]   Datenquelle:             www.bfv.de
+21:21:12 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+21:21:12 [INFO]   Laufzeit:                1.8 Sekunden
+21:21:12 [INFO] 
+  Spieler mit Score >= 70: 1 (1.7%)
+21:21:12 [INFO] 
+  TOP 5 SPIELER:
+21:21:12 [INFO]   [Mail] # 1 | Simon Gruber              | TSV 1861 Noerdlingen   | Score:  71.6 | Gut
+21:21:12 [INFO]          # 2 | Jonas Kronbichler         | SV Kirchanschoering    | Score:  68.7 | Gut
+21:21:12 [INFO]          # 3 | Tobias Stossberger        | TSV Buchbach           | Score:  67.8 | Gut
+21:21:12 [INFO]          # 4 | Anton Heinz               | FC Bayern Muenchen II  | Score:  66.6 | Gut
+21:21:12 [INFO]          # 5 | Severo Sturm              | TSV Aubstadt           | Score:  64.3 | Gut
+21:21:12 [INFO] 
+============================================================
+21:21:12 [INFO] Scouting-Analyse abgeschlossen!
+21:21:12 [INFO] ============================================================
+

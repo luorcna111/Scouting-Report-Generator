@@ -1,0 +1,312 @@
+23:58:06 [INFO] Gestartet: 28.04.2026 23:58:06
+23:58:06 [INFO] 
+[SCHRITT 0] BFV Live-Scraping
+23:58:06 [INFO] Starte BFV Live-Scraping...
+23:58:08 [INFO] Chrome WebDriver erfolgreich gestartet
+23:58:08 [INFO] Scrape Torjaeger: Regionalliga Bayern -> https://www.bfv.de/ergebnisse/wettbewerb/-/02T7P80AI800000DVS5489BTVSDFH806-G/torjaeger
+23:58:14 [INFO]   -> 0 Spieler gefunden in Regionalliga Bayern
+23:58:14 [INFO] Liga Regionalliga Bayern: 0 Spieler verarbeitet
+23:58:14 [INFO] Scrape Torjaeger: Bayernliga Nord -> https://www.bfv.de/ergebnisse/wettbewerb/-/02T7P82NM0000004VS5489BTVSDFH806-G/torjaeger
+23:58:19 [INFO]   -> 0 Spieler gefunden in Bayernliga Nord
+23:58:19 [INFO] Liga Bayernliga Nord: 0 Spieler verarbeitet
+23:58:19 [INFO] Scrape Torjaeger: Bayernliga Sued -> https://www.bfv.de/ergebnisse/wettbewerb/-/02T7P82P8S000055VS5489BTVSDFH806-G/torjaeger
+23:58:25 [INFO]   -> 0 Spieler gefunden in Bayernliga Sued
+23:58:25 [INFO] Liga Bayernliga Sued: 0 Spieler verarbeitet
+23:58:25 [INFO] Scrape Torjaeger: Landesliga Mitte -> https://www.bfv.de/ergebnisse/wettbewerb/-/02T7P85B3K000008VS5489BTVSDFH806-G/torjaeger
+23:58:30 [INFO]   -> 0 Spieler gefunden in Landesliga Mitte
+23:58:30 [INFO] Liga Landesliga Mitte: 0 Spieler verarbeitet
+23:58:30 [INFO] Scrape Torjaeger: Landesliga Nordost -> https://www.bfv.de/ergebnisse/wettbewerb/-/02T7P85BRG000000VS5489BTVSDFH806-G/torjaeger
+23:58:35 [INFO]   -> 0 Spieler gefunden in Landesliga Nordost
+23:58:35 [INFO] Liga Landesliga Nordost: 0 Spieler verarbeitet
+23:58:37 [INFO] WebDriver geschlossen
+23:58:37 [WARNING] Scraping hat keine Daten geliefert. Nutze CSV-Fallback.
+23:58:37 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+23:58:37 [INFO] ============================================================
+23:58:37 [INFO] DATENVERARBEITUNG GESTARTET
+23:58:37 [INFO] ============================================================
+23:58:38 [WARNING] Konnte nicht aus SQLite-Datenbank laden: near "alter": syntax error
+23:58:38 [INFO] Fallback auf CSV-Datei...
+23:58:38 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+23:58:38 [INFO]   -> 59 Spieler geladen
+23:58:38 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+23:58:38 [INFO] Validiere Daten...
+23:58:38 [INFO]   -> 59 Spieler nach Validierung
+23:58:38 [INFO] Berechne abgeleitete Metriken...
+23:58:38 [INFO] 
+  Top 3 Torquote:
+23:58:38 [INFO]     Simon Gruber (TSV 1861 Noerdlingen): 0.90 Tore/Spiel
+23:58:38 [INFO]     Jonas Kronbichler (SV Kirchanschoering): 0.76 Tore/Spiel
+23:58:38 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+23:58:38 [INFO] 
+Datenverarbeitung abgeschlossen:
+23:58:38 [INFO]   Spieler gesamt:     59
+23:58:38 [INFO]   Ligen:              3
+23:58:38 [INFO]   Vereine:            41
+23:58:38 [INFO]   Tore gesamt:        686
+23:58:38 [INFO]   Durchschn. Spiele:  26.9
+23:58:38 [INFO]   Durchschn. Tore:    11.6
+23:58:38 [INFO] 
+[SCHRITT 2] Scoring berechnen
+23:58:38 [INFO] ============================================================
+23:58:38 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+23:58:38 [INFO] ============================================================
+23:58:38 [INFO] Berechne Kategorie-Scores...
+23:58:38 [INFO]   Torquote-Scores:    Min=46.4, Max=100.0, Mittel=64.2
+23:58:38 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+23:58:38 [INFO]   Spielpraxis-Scores: Min=58.6, Max=82.9, Mittel=72.6
+23:58:38 [INFO]   Disziplin-Scores:   Min=1.0, Max=84.0, Mittel=62.9
+23:58:38 [INFO]   Alter-Scores:       Min=100.0, Max=100.0, Mittel=100.0
+23:58:38 [INFO] 
+Berechne gewichteten Gesamtscore...
+23:58:38 [INFO] Wende Liga-Faktor an...
+23:58:38 [INFO] 
+==================================================
+23:58:38 [INFO] SCORE-VERTEILUNG:
+23:58:38 [INFO] ==================================================
+23:58:38 [INFO]   Score >= 70: 33 Spieler (55.9%)
+23:58:38 [INFO]   Score >= 60: 59 Spieler (100.0%)
+23:58:38 [INFO]   Score >= 50: 59 Spieler (100.0%)
+23:58:38 [INFO]   Score <  50: 0 Spieler (0.0%)
+23:58:38 [INFO] 
+__________________________________________________
+23:58:38 [INFO] TOP 10 SPIELER:
+23:58:38 [INFO] __________________________________________________
+23:58:38 [INFO]   # 1 | Simon Gruber              | Bayernliga Sued        | Score:  85.7 | Herausragend
+23:58:38 [INFO]   # 2 | Jonas Kronbichler         | Bayernliga Sued        | Score:  83.2 | Herausragend
+23:58:38 [INFO]   # 3 | Severo Sturm              | Regionalliga Bayern    | Score:  81.3 | Herausragend
+23:58:38 [INFO]   # 3 | Tobias Stossberger        | Regionalliga Bayern    | Score:  81.3 | Herausragend
+23:58:38 [INFO]   # 5 | Lucas Schraufstetter      | Regionalliga Bayern    | Score:  80.3 | Herausragend
+23:58:38 [INFO]   # 6 | Raffael Ascher            | Bayernliga Sued        | Score:  80.1 | Herausragend
+23:58:38 [INFO]   # 7 | Anton Heinz               | Regionalliga Bayern    | Score:  79.2 | Herausragend
+23:58:38 [INFO]   # 8 | Benjamin Baier            | Regionalliga Bayern    | Score:  76.9 | Herausragend
+23:58:38 [INFO]   # 9 | Lukas Riglewski           | Bayernliga Sued        | Score:  76.7 | Herausragend
+23:58:38 [INFO]   # 9 | Michael Senger            | Bayernliga Sued        | Score:  76.7 | Herausragend
+23:58:38 [INFO] __________________________________________________
+
+23:58:38 [INFO] 
+[SCHRITT 3] PDF-Reports generieren
+23:58:38 [INFO] Generiere Uebersichts-Report...
+23:58:38 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260428.pdf
+23:58:38 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260428.pdf
+23:58:38 [INFO] 
+  Generiere individuelle Reports fuer Top 5 Spieler...
+23:58:38 [INFO] Generiere Report: Simon Gruber (Rang #1)
+23:58:40 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+23:58:40 [INFO]   -> Report gespeichert: Scouting_Report_Simon_Gruber_20260428.pdf
+23:58:40 [INFO]   [OK] #1 Simon Gruber: Scouting_Report_Simon_Gruber_20260428.pdf
+23:58:40 [INFO] Generiere Report: Jonas Kronbichler (Rang #2)
+23:58:40 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+23:58:40 [INFO]   -> Report gespeichert: Scouting_Report_Jonas_Kronbichler_20260428.pdf
+23:58:40 [INFO]   [OK] #2 Jonas Kronbichler: Scouting_Report_Jonas_Kronbichler_20260428.pdf
+23:58:40 [INFO] Generiere Report: Severo Sturm (Rang #3)
+23:58:41 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+23:58:41 [INFO]   -> Report gespeichert: Scouting_Report_Severo_Sturm_20260428.pdf
+23:58:41 [INFO]   [OK] #3 Severo Sturm: Scouting_Report_Severo_Sturm_20260428.pdf
+23:58:41 [INFO] Generiere Report: Tobias Stossberger (Rang #4)
+23:58:41 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+23:58:41 [INFO]   -> Report gespeichert: Scouting_Report_Tobias_Stossberger_20260428.pdf
+23:58:41 [INFO]   [OK] #4 Tobias Stossberger: Scouting_Report_Tobias_Stossberger_20260428.pdf
+23:58:41 [INFO] Generiere Report: Lucas Schraufstetter (Rang #5)
+23:58:41 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+23:58:41 [INFO]   -> Report gespeichert: Scouting_Report_Lucas_Schraufstetter_20260428.pdf
+23:58:41 [INFO]   [OK] #5 Lucas Schraufstetter: Scouting_Report_Lucas_Schraufstetter_20260428.pdf
+23:58:41 [INFO] 
+[SCHRITT 4] E-Mail-Benachrichtigungen
+23:58:41 [INFO] 
+============================================================
+23:58:41 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+23:58:41 [INFO] ============================================================
+23:58:41 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Gruber (Score: 85.7)
+23:58:41 [INFO]    Betreff: Scouting-Alert: Simon Gruber (Score: 85.7/100)
+23:58:41 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:42 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. 5b1f17b1804b1-48a7c5845c8sm8128865e9.7 - gsmtp', 'informationssystemetest@gmail.com')
+23:58:42 [INFO] 
+📧 E-Mail-Benachrichtigung für Jonas Kronbichler (Score: 83.2)
+23:58:42 [INFO]    Betreff: Scouting-Alert: Jonas Kronbichler (Score: 83.2/100)
+23:58:42 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:42 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. 5b1f17b1804b1-48a7c5be6a4sm7521385e9.11 - gsmtp', 'informationssystemetest@gmail.com')
+23:58:42 [INFO] 
+📧 E-Mail-Benachrichtigung für Severo Sturm (Score: 81.3)
+23:58:42 [INFO]    Betreff: Scouting-Alert: Severo Sturm (Score: 81.3/100)
+23:58:42 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:42 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. ffacd0b85a97d-447b4216604sm1114446f8f.10 - gsmtp', 'informationssystemetest@gmail.com')
+23:58:42 [INFO] 
+📧 E-Mail-Benachrichtigung für Tobias Stossberger (Score: 81.3)
+23:58:42 [INFO]    Betreff: Scouting-Alert: Tobias Stossberger (Score: 81.3/100)
+23:58:42 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:42 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. ffacd0b85a97d-447b421721fsm810838f8f.15 - gsmtp', 'informationssystemetest@gmail.com')
+23:58:42 [INFO] 
+📧 E-Mail-Benachrichtigung für Lucas Schraufstetter (Score: 80.3)
+23:58:42 [INFO]    Betreff: Scouting-Alert: Lucas Schraufstetter (Score: 80.3/100)
+23:58:42 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. 5b1f17b1804b1-48a7c2fb5c7sm5019045e9.5 - gsmtp', 'informationssystemetest@gmail.com')
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Raffael Ascher (Score: 80.1)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Raffael Ascher (Score: 80.1/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Anton Heinz (Score: 79.2)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Anton Heinz (Score: 79.2/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Benjamin Baier (Score: 76.9)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Benjamin Baier (Score: 76.9/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Lukas Riglewski (Score: 76.7)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Lukas Riglewski (Score: 76.7/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Michael Senger (Score: 76.7)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Michael Senger (Score: 76.7/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Felix Bachschmid (Score: 76.0)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Felix Bachschmid (Score: 76.0/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Achitpol Keereerom (Score: 75.7)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Achitpol Keereerom (Score: 75.7/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Piet Scobel (Score: 74.4)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Piet Scobel (Score: 74.4/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Cristian Leone (Score: 74.3)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Cristian Leone (Score: 74.3/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Yannick Glessing (Score: 73.9)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Yannick Glessing (Score: 73.9/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Kelvin Onuigwe (Score: 73.7)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Kelvin Onuigwe (Score: 73.7/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Leonhard Thiel (Score: 73.5)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Leonhard Thiel (Score: 73.5/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Thomas Breu (Score: 73.2)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Thomas Breu (Score: 73.2/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Skarlatidis (Score: 73.2)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Simon Skarlatidis (Score: 73.2/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Selim Mjaki (Score: 72.9)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Selim Mjaki (Score: 72.9/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für David Lang (Score: 72.9)
+23:58:43 [INFO]    Betreff: Scouting-Alert: David Lang (Score: 72.9/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Jermain Nischalke (Score: 72.8)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Jermain Nischalke (Score: 72.8/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Pascal Schittler (Score: 72.7)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Pascal Schittler (Score: 72.7/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Tom Kunert (Score: 72.7)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Tom Kunert (Score: 72.7/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Nico Ott (Score: 72.5)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Nico Ott (Score: 72.5/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Lukas Da Silva Freundorfer (Score: 72.2)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Lukas Da Silva Freundorfer (Score: 72.2/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für David Guenes (Score: 72.0)
+23:58:43 [INFO]    Betreff: Scouting-Alert: David Guenes (Score: 72.0/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Lado Akhalaia (Score: 71.2)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Lado Akhalaia (Score: 71.2/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Timo Kraeftner (Score: 71.1)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Timo Kraeftner (Score: 71.1/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Daniele Sgodzaj (Score: 70.8)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Daniele Sgodzaj (Score: 70.8/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Jorden Aigboje (Score: 70.6)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Jorden Aigboje (Score: 70.6/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Tarsis Bonga (Score: 70.4)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Tarsis Bonga (Score: 70.4/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📧 E-Mail-Benachrichtigung für Alexander Moratz (Score: 70.0)
+23:58:43 [INFO]    Betreff: Scouting-Alert: Alexander Moratz (Score: 70.0/100)
+23:58:43 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+23:58:43 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+23:58:43 [INFO] 
+📊 0 E-Mail-Alerts versendet
+23:58:43 [INFO] 
+============================================================
+23:58:43 [INFO] ZUSAMMENFASSUNG
+23:58:43 [INFO] ============================================================
+23:58:43 [INFO]   Verarbeitete Spieler:    59
+23:58:43 [INFO]   Ligen:                   3
+23:58:43 [INFO]   Generierte Reports:      6 (inkl. Uebersicht)
+23:58:43 [INFO]   E-Mail-Alerts:           0 von 33
+23:58:43 [INFO]   Score-Schwellenwert:     70/100
+23:58:43 [INFO]   Datenquelle:             www.bfv.de
+23:58:43 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+23:58:43 [INFO]   Laufzeit:                36.6 Sekunden
+23:58:43 [INFO] 
+  Spieler mit Score >= 70: 33 (55.9%)
+23:58:43 [INFO] 
+  TOP 5 SPIELER:
+23:58:43 [INFO]          # 1 | Simon Gruber              | TSV 1861 Noerdlingen   | Score:  85.7 | Herausragend
+23:58:43 [INFO]          # 2 | Jonas Kronbichler         | SV Kirchanschoering    | Score:  83.2 | Herausragend
+23:58:43 [INFO]          # 3 | Severo Sturm              | TSV Aubstadt           | Score:  81.3 | Herausragend
+23:58:43 [INFO]          # 4 | Tobias Stossberger        | TSV Buchbach           | Score:  81.3 | Herausragend
+23:58:43 [INFO]          # 5 | Lucas Schraufstetter      | VfB Eichstaett         | Score:  80.3 | Herausragend
+23:58:43 [INFO] 
+============================================================
+23:58:43 [INFO] Scouting-Analyse abgeschlossen!
+23:58:43 [INFO] ============================================================
+

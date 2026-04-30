@@ -1,0 +1,19 @@
+# Python-spezifisch
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Sensible Daten (NIEMALS HOCHLADEN!)
+.env
+.env.local
+
+# Projekt-spezifisch (Generierte Dateien)
+output/*.pdf
+data/scouting_db.sqlite
+
+# OS-spezifisch
+.DS_Store
+Thumbs.db

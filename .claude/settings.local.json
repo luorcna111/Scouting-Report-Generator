@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python -c ' *)",
+      "Bash(python main.py --top 1)",
+      "Bash(python main.py --top 2)",
+      "Bash(python main.py --top 1 --send-emails)"
+    ]
+  }
+}

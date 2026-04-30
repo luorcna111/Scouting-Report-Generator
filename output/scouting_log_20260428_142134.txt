@@ -1,0 +1,140 @@
+14:21:34 [INFO] Gestartet: 28.04.2026 14:21:34
+14:21:34 [INFO] 
+📂 SCHRITT 1: Daten laden und verarbeiten
+14:21:34 [INFO] ============================================================
+14:21:34 [INFO] DATENVERARBEITUNG GESTARTET
+14:21:34 [INFO] ============================================================
+14:21:34 [INFO] Lade Datenquelle: bundesliga (source_bundesliga.csv)
+14:21:34 [INFO]   → 20 Einträge geladen (['Spieler', 'Position', 'Alter', 'Marktwert_Mio', 'Verein', 'Nationalität', 'Tore', 'Vorlagen', 'Spiele', 'Minuten'])
+14:21:34 [INFO]   → Spalten normalisiert: ['name', 'position', 'age', 'market_value_mio', 'team', 'nationality', 'goals', 'assists', 'matches', 'minutes']
+14:21:34 [INFO]   → Positionen normalisiert: ['Sturm' 'Mittelfeld' 'Abwehr' 'Torwart']
+14:21:34 [INFO]   → Liga zugewiesen: Bundesliga
+14:21:34 [INFO] Lade Datenquelle: premier_league (source_premier_league.csv)
+14:21:34 [INFO]   → 20 Einträge geladen (['Player', 'Pos', 'Age', 'MarketValue_M', 'Club', 'Nationality', 'Goals', 'Assists', 'Matches', 'Minutes'])
+14:21:34 [INFO]   → Spalten normalisiert: ['name', 'position', 'age', 'market_value_mio', 'team', 'nationality', 'goals', 'assists', 'matches', 'minutes']
+14:21:34 [INFO]   → Positionen normalisiert: ['Sturm' 'Mittelfeld' 'Abwehr' 'Torwart']
+14:21:34 [INFO]   → Liga zugewiesen: Premier League
+14:21:34 [INFO] Lade Datenquelle: detailstats (source_detailstats.csv)
+14:21:34 [INFO]   → 40 Einträge geladen (['player_name', 'league', 'pass_accuracy', 'tackles_per_game', 'interceptions_per_game', 'aerial_duels_won_pct', 'dribbles_per_game', 'key_passes_per_game', 'shots_on_target_pct'])
+14:21:34 [INFO]   → Spalten normalisiert: ['name', 'league', 'pass_accuracy', 'tackles_per_game', 'interceptions_per_game', 'aerial_duels_won_pct', 'dribbles_per_game', 'key_passes_per_game', 'shots_on_target_pct']
+14:21:34 [INFO] 
+Führe 2 Basis-Datenquellen zusammen...
+14:21:34 [INFO]   → 40 Spieler insgesamt
+14:21:34 [INFO] 
+Merge Detail-Statistiken (40 Einträge)...
+14:21:34 [INFO]   → Merge abgeschlossen
+14:21:34 [INFO] 
+Datenbereinigung...
+14:21:34 [INFO] Berechne abgeleitete Metriken...
+14:21:34 [INFO] 
+Wende Suchfilter an...
+14:21:34 [INFO]   → 4 Spieler durch Filter ausgeschlossen
+14:21:34 [INFO] 
+============================================================
+14:21:34 [INFO] ERGEBNIS: 36 Spieler nach Verarbeitung
+14:21:34 [INFO] ============================================================
+
+14:21:34 [INFO] 
+📊 SCHRITT 2: Scoring berechnen
+14:21:34 [INFO] ============================================================
+14:21:34 [INFO] SCORING-ENGINE GESTARTET
+14:21:34 [INFO] ============================================================
+14:21:34 [INFO] Berechne Kategorie-Scores...
+14:21:34 [INFO] Berechne gewichteten Gesamtscore...
+14:21:34 [INFO] 
+──────────────────────────────────────────────────
+14:21:34 [INFO] TOP 10 SPIELER:
+14:21:34 [INFO] ──────────────────────────────────────────────────
+14:21:34 [INFO]   # 1 | Tiago Ferreira            | Mittelfeld | Score:  74.0 | ✅ Gut
+14:21:34 [INFO]   # 2 | Emiliano Rossi            | Sturm      | Score:  73.7 | ✅ Gut
+14:21:34 [INFO]   # 3 | Rui Delgado               | Mittelfeld | Score:  72.7 | ✅ Gut
+14:21:34 [INFO]   # 4 | Carlos Mendez             | Mittelfeld | Score:  72.6 | ✅ Gut
+14:21:34 [INFO]   # 5 | Kenji Tanaka              | Mittelfeld | Score:  72.1 | ✅ Gut
+14:21:34 [INFO]   # 6 | Maximilian Berger         | Sturm      | Score:  70.8 | ✅ Gut
+14:21:34 [INFO]   # 7 | James Whitfield           | Sturm      | Score:  70.5 | ✅ Gut
+14:21:34 [INFO]   # 8 | Leon Kramer               | Sturm      | Score:  69.6 | ➡️ Durchschnittlich
+14:21:34 [INFO]   # 9 | Luca Esposito             | Mittelfeld | Score:  69.4 | ➡️ Durchschnittlich
+14:21:34 [INFO]   #10 | Pavel Novotny             | Abwehr     | Score:  69.0 | ➡️ Durchschnittlich
+14:21:34 [INFO] ──────────────────────────────────────────────────
+
+14:21:34 [INFO] 
+📄 SCHRITT 3: PDF-Reports generieren
+14:21:35 [INFO] Übersichts-Report generiert: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Uebersicht_20260428.pdf
+14:21:35 [INFO]   ✅ Übersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Uebersicht_20260428.pdf
+14:21:35 [INFO] 
+  Generiere individuelle Reports für Top 5 Spieler...
+14:21:35 [INFO] Report generiert: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Tiago_Ferreira_20260428.pdf
+14:21:35 [INFO]   ✅ #1 Tiago Ferreira: Scouting_Report_Tiago_Ferreira_20260428.pdf
+14:21:35 [INFO] Report generiert: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Emiliano_Rossi_20260428.pdf
+14:21:35 [INFO]   ✅ #2 Emiliano Rossi: Scouting_Report_Emiliano_Rossi_20260428.pdf
+14:21:35 [INFO] Report generiert: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Rui_Delgado_20260428.pdf
+14:21:35 [INFO]   ✅ #3 Rui Delgado: Scouting_Report_Rui_Delgado_20260428.pdf
+14:21:36 [INFO] Report generiert: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Carlos_Mendez_20260428.pdf
+14:21:36 [INFO]   ✅ #4 Carlos Mendez: Scouting_Report_Carlos_Mendez_20260428.pdf
+14:21:36 [INFO] Report generiert: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Kenji_Tanaka_20260428.pdf
+14:21:36 [INFO]   ✅ #5 Kenji Tanaka: Scouting_Report_Kenji_Tanaka_20260428.pdf
+14:21:36 [INFO] 
+📧 SCHRITT 4: E-Mail-Benachrichtigungen
+14:21:36 [INFO] 
+============================================================
+14:21:36 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+14:21:36 [INFO] ============================================================
+14:21:36 [INFO] 
+📧 E-Mail-Benachrichtigung für Tiago Ferreira (Score: 74.0)
+14:21:36 [INFO]    Betreff: ⚽ Scouting-Alert: Tiago Ferreira (Score: 74.0/100)
+14:21:36 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:38 [INFO]    ✅ E-Mail erfolgreich versendet!
+14:21:38 [INFO] 
+📧 E-Mail-Benachrichtigung für Emiliano Rossi (Score: 73.7)
+14:21:38 [INFO]    Betreff: ⚽ Scouting-Alert: Emiliano Rossi (Score: 73.7/100)
+14:21:38 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:40 [INFO]    ✅ E-Mail erfolgreich versendet!
+14:21:40 [INFO] 
+📧 E-Mail-Benachrichtigung für Rui Delgado (Score: 72.7)
+14:21:40 [INFO]    Betreff: ⚽ Scouting-Alert: Rui Delgado (Score: 72.7/100)
+14:21:40 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:42 [INFO]    ✅ E-Mail erfolgreich versendet!
+14:21:42 [INFO] 
+📧 E-Mail-Benachrichtigung für Carlos Mendez (Score: 72.6)
+14:21:42 [INFO]    Betreff: ⚽ Scouting-Alert: Carlos Mendez (Score: 72.6/100)
+14:21:42 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:44 [INFO]    ✅ E-Mail erfolgreich versendet!
+14:21:44 [INFO] 
+📧 E-Mail-Benachrichtigung für Kenji Tanaka (Score: 72.1)
+14:21:44 [INFO]    Betreff: ⚽ Scouting-Alert: Kenji Tanaka (Score: 72.1/100)
+14:21:44 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:46 [INFO]    ✅ E-Mail erfolgreich versendet!
+14:21:46 [INFO] 
+📧 E-Mail-Benachrichtigung für Maximilian Berger (Score: 70.8)
+14:21:46 [INFO]    Betreff: ⚽ Scouting-Alert: Maximilian Berger (Score: 70.8/100)
+14:21:46 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:46 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+14:21:46 [INFO] 
+📧 E-Mail-Benachrichtigung für James Whitfield (Score: 70.5)
+14:21:46 [INFO]    Betreff: ⚽ Scouting-Alert: James Whitfield (Score: 70.5/100)
+14:21:46 [INFO]    Empfänger: linus.eilers@hm.edu
+14:21:46 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+14:21:46 [INFO] 
+📊 5 E-Mail-Alerts versendet
+14:21:46 [INFO] 
+============================================================
+14:21:46 [INFO] 📋 ZUSAMMENFASSUNG
+14:21:46 [INFO] ============================================================
+14:21:46 [INFO]   Verarbeitete Spieler:    36
+14:21:46 [INFO]   Generierte Reports:      6 (inkl. Übersicht)
+14:21:46 [INFO]   E-Mail-Alerts:           5 von 7
+14:21:46 [INFO]   Score-Schwellenwert:     70/100
+14:21:46 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+14:21:46 [INFO]   Laufzeit:                11.3 Sekunden
+14:21:46 [INFO] 
+🏆 TOP 5 SPIELER:
+14:21:46 [INFO]   📧 # 1 | Tiago Ferreira            | Mittelfeld | RB Leipzig           | Score:  74.0 | ✅ Gut
+14:21:46 [INFO]   📧 # 2 | Emiliano Rossi            | Sturm      | Liverpool FC         | Score:  73.7 | ✅ Gut
+14:21:46 [INFO]   📧 # 3 | Rui Delgado               | Mittelfeld | FC Bayern München    | Score:  72.7 | ✅ Gut
+14:21:46 [INFO]   📧 # 4 | Carlos Mendez             | Mittelfeld | Liverpool FC         | Score:  72.6 | ✅ Gut
+14:21:46 [INFO]   📧 # 5 | Kenji Tanaka              | Mittelfeld | Tottenham            | Score:  72.1 | ✅ Gut
+14:21:46 [INFO] 
+============================================================
+14:21:46 [INFO] ✅ Scouting-Analyse abgeschlossen!
+14:21:46 [INFO] ============================================================
+

@@ -1,0 +1,61 @@
+14:00:28 [INFO] Gestartet: 28.04.2026 14:00:28
+14:00:28 [INFO] 
+📂 SCHRITT 1: Daten laden und verarbeiten
+14:00:28 [INFO] ============================================================
+14:00:28 [INFO] DATENVERARBEITUNG GESTARTET
+14:00:28 [INFO] ============================================================
+14:00:28 [INFO] Lade Datenquelle: bundesliga (source_bundesliga.csv)
+14:00:28 [INFO]   → 20 Einträge geladen (['Spieler', 'Position', 'Alter', 'Marktwert_Mio', 'Verein', 'Nationalität', 'Tore', 'Vorlagen', 'Spiele', 'Minuten'])
+14:00:28 [INFO]   → Spalten normalisiert: ['name', 'position', 'age', 'market_value_mio', 'team', 'nationality', 'goals', 'assists', 'matches', 'minutes']
+14:00:28 [INFO]   → Positionen normalisiert: ['Sturm' 'Mittelfeld' 'Abwehr' 'Torwart']
+14:00:28 [INFO]   → Liga zugewiesen: Bundesliga
+14:00:28 [INFO] Lade Datenquelle: premier_league (source_premier_league.csv)
+14:00:28 [INFO]   → 20 Einträge geladen (['Player', 'Pos', 'Age', 'MarketValue_M', 'Club', 'Nationality', 'Goals', 'Assists', 'Matches', 'Minutes'])
+14:00:28 [INFO]   → Spalten normalisiert: ['name', 'position', 'age', 'market_value_mio', 'team', 'nationality', 'goals', 'assists', 'matches', 'minutes']
+14:00:28 [INFO]   → Positionen normalisiert: ['Sturm' 'Mittelfeld' 'Abwehr' 'Torwart']
+14:00:28 [INFO]   → Liga zugewiesen: Premier League
+14:00:28 [INFO] Lade Datenquelle: detailstats (source_detailstats.csv)
+14:00:28 [INFO]   → 40 Einträge geladen (['player_name', 'league', 'pass_accuracy', 'tackles_per_game', 'interceptions_per_game', 'aerial_duels_won_pct', 'dribbles_per_game', 'key_passes_per_game', 'shots_on_target_pct'])
+14:00:28 [INFO]   → Spalten normalisiert: ['name', 'league', 'pass_accuracy', 'tackles_per_game', 'interceptions_per_game', 'aerial_duels_won_pct', 'dribbles_per_game', 'key_passes_per_game', 'shots_on_target_pct']
+14:00:28 [INFO] 
+Führe 2 Basis-Datenquellen zusammen...
+14:00:28 [INFO]   → 40 Spieler insgesamt
+14:00:28 [INFO] 
+Merge Detail-Statistiken (40 Einträge)...
+14:00:28 [INFO]   → Merge abgeschlossen
+14:00:28 [INFO] 
+Datenbereinigung...
+14:00:28 [INFO] Berechne abgeleitete Metriken...
+14:00:28 [INFO] 
+Wende Suchfilter an...
+14:00:28 [INFO]   → 4 Spieler durch Filter ausgeschlossen
+14:00:28 [INFO] 
+============================================================
+14:00:28 [INFO] ERGEBNIS: 36 Spieler nach Verarbeitung
+14:00:28 [INFO] ============================================================
+
+14:00:28 [INFO] 
+📊 SCHRITT 2: Scoring berechnen
+14:00:28 [INFO] ============================================================
+14:00:28 [INFO] SCORING-ENGINE GESTARTET
+14:00:28 [INFO] ============================================================
+14:00:28 [INFO] Berechne Kategorie-Scores...
+14:00:28 [INFO] Berechne gewichteten Gesamtscore...
+14:00:28 [INFO] 
+──────────────────────────────────────────────────
+14:00:28 [INFO] TOP 10 SPIELER:
+14:00:28 [INFO] ──────────────────────────────────────────────────
+14:00:28 [INFO]   # 1 | Tiago Ferreira            | Mittelfeld | Score:  74.0 | ✅ Gut
+14:00:28 [INFO]   # 2 | Emiliano Rossi            | Sturm      | Score:  73.7 | ✅ Gut
+14:00:28 [INFO]   # 3 | Rui Delgado               | Mittelfeld | Score:  72.7 | ✅ Gut
+14:00:28 [INFO]   # 4 | Carlos Mendez             | Mittelfeld | Score:  72.6 | ✅ Gut
+14:00:28 [INFO]   # 5 | Kenji Tanaka              | Mittelfeld | Score:  72.1 | ✅ Gut
+14:00:28 [INFO]   # 6 | Maximilian Berger         | Sturm      | Score:  70.8 | ✅ Gut
+14:00:28 [INFO]   # 7 | James Whitfield           | Sturm      | Score:  70.5 | ✅ Gut
+14:00:28 [INFO]   # 8 | Leon Kramer               | Sturm      | Score:  69.6 | ➡️ Durchschnittlich
+14:00:28 [INFO]   # 9 | Luca Esposito             | Mittelfeld | Score:  69.4 | ➡️ Durchschnittlich
+14:00:28 [INFO]   #10 | Pavel Novotny             | Abwehr     | Score:  69.0 | ➡️ Durchschnittlich
+14:00:28 [INFO] ──────────────────────────────────────────────────
+
+14:00:28 [INFO] 
+📄 SCHRITT 3: PDF-Reports generieren
