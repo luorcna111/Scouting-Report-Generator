@@ -11,6 +11,9 @@ TM_URLS = {
     "Bayernliga Süd": "https://www.transfermarkt.de/bayernliga-sud/scorerliste/wettbewerb/OLL6",
     "Landesliga Mitte": "https://www.transfermarkt.de/landesliga-bayern-mitte/scorerliste/wettbewerb/LBM",
     "Landesliga Nordost": "https://www.transfermarkt.de/landesliga-bayern-nordost/scorerliste/wettbewerb/BLN",
+    "Landesliga Nordwest": "https://www.transfermarkt.de/landesliga-bayern-nordwest/scorerliste/wettbewerb/LBNW",
+    "Landesliga Südwest": "https://www.transfermarkt.de/landesliga-bayern-sudwest/scorerliste/wettbewerb/LBSW",
+    "Landesliga Südost": "https://www.transfermarkt.de/landesliga-bayern-sudost/scorerliste/wettbewerb/LBSO",
 }
 
 def get_transfermarkt_assists(liga_name):
