@@ -8,9 +8,9 @@ logger = logging.getLogger(__name__)
 TM_URLS = {
     "Regionalliga Bayern": "https://www.transfermarkt.de/regionalliga-bayern/scorerliste/wettbewerb/RLB3",
     "Bayernliga Nord": "https://www.transfermarkt.de/bayernliga-nord/scorerliste/wettbewerb/OLL5",
-    "Bayernliga Sued": "https://www.transfermarkt.de/bayernliga-sud/scorerliste/wettbewerb/OLL6",
-    # Landesligen sind auf TM oft nicht oder schwerer als Gesamtscorerliste verfuegbar,
-    # wir versuchen es fuer die oberen 3 Ligen als Proof of Concept.
+    "Bayernliga Süd": "https://www.transfermarkt.de/bayernliga-sud/scorerliste/wettbewerb/OLL6",
+    "Landesliga Mitte": "https://www.transfermarkt.de/landesliga-bayern-mitte/scorerliste/wettbewerb/LBM",
+    "Landesliga Nordost": "https://www.transfermarkt.de/landesliga-bayern-nordost/scorerliste/wettbewerb/BLN",
 }
 
 def get_transfermarkt_assists(liga_name):
