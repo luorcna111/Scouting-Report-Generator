@@ -150,31 +150,27 @@ def validate_data(df):
         logger.info(f"  -> {removed} Spieler entfernt (weniger als {min_spiele} Spiele)")
 
     # ==========================================
-    # MULTI-SOURCE PIPELINE: FuPa.net Merging
+    # MULTI-SOURCE PIPELINE: Transfermarkt.de Merging
     # ==========================================
     try:
-        from fupa_scraper import get_fupa_data
-        logger.info("Starte FuPa-Daten-Pipeline (Assists & EdW)...")
-        fupa_df = get_fupa_data(df)
+        from transfermarkt_scraper import get_real_assists
+        logger.info("Starte Transfermarkt-Daten-Pipeline (Assists)...")
+        tm_df = get_real_assists(df)
         
-        if not fupa_df.empty:
-            # Zusammenführen von BFV und FuPa basierend auf dem Spielernamen
-            # Hinweis: In echten Pipelines wuerde man hier thefuzz fuer Fuzzy-Matching nutzen.
-            df = pd.merge(df, fupa_df, on="name", how="left")
+        if not tm_df.empty:
+            # Zusammenführen von BFV und TM basierend auf dem Spielernamen
+            df = pd.merge(df, tm_df, on="name", how="left")
             
             # Fehlende Werte mit 0 auffuellen
             df["assists"] = df["assists"].fillna(0).astype(int)
-            df["elf_der_woche"] = df["elf_der_woche"].fillna(0).astype(int)
-            logger.info("Datenquellen erfolgreich kombiniert!")
+            logger.info("Transfermarkt-Daten erfolgreich integriert!")
         else:
-            logger.warning("Keine FuPa Daten gefunden. Setze Assists=0, EdW=0.")
+            logger.warning("Keine Transfermarkt Daten gefunden. Setze Assists=0.")
             df["assists"] = 0
-            df["elf_der_woche"] = 0
             
     except Exception as e:
-        logger.error(f"Fehler beim FuPa-Merge: {e}")
+        logger.error(f"Fehler beim Transfermarkt-Merge: {e}")
         df["assists"] = 0
-        df["elf_der_woche"] = 0
 
     # Spieler ohne Minuten entfernen
     df = df[df["minuten"] > 0].copy()

@@ -90,14 +90,13 @@ def _create_radar_chart(player_row, output_path):
         player_row: Series mit Spielerdaten und Scores
         output_path: Pfad zum Speichern des Chart-Bildes
     """
-    categories = ["Scorerquote", "Einsatzzeit", "Spielpraxis", "Disziplin", "Alter", "Elf d. Woche"]
+    categories = ["Scorerquote", "Einsatzzeit", "Spielpraxis", "Disziplin", "Alter"]
     scores = [
         player_row.get("score_scorer", 0),
         player_row.get("score_einsatz", 0),
         player_row.get("score_praxis", 0),
         player_row.get("score_disziplin", 0),
         player_row.get("score_alter", 0),
-        player_row.get("score_edw", 0),
     ]
 
     # Anzahl Achsen

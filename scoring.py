@@ -59,17 +59,7 @@ def score_scorer_pro_spiel(df):
 
     return scores.clip(0, 100).round(1)
 
-def score_elf_der_woche(df):
-    """
-    Bewertet die FuPa Elf-der-Woche Nominierungen.
-    3 Nominierungen in einer Saison = 100 Punkte.
-    """
-    if "elf_der_woche" not in df.columns:
-        df["elf_der_woche"] = 0
-        
-    # 3 Nominierungen = 100 Punkte
-    scores = (df["elf_der_woche"] / 3.0) * 100
-    return scores.clip(0, 100).round(1)
+
 
 
 def score_einsatzzeit(df):
@@ -213,7 +203,6 @@ def calculate_scores(df):
     df["score_praxis"] = score_spielpraxis(df)
     df["score_disziplin"] = score_disziplin(df)
     df["score_alter"] = score_alter(df)
-    df["score_edw"] = score_elf_der_woche(df)
 
     logger.info(f"  Scorerquote-Scores: Min={df['score_scorer'].min():.1f}, "
                 f"Max={df['score_scorer'].max():.1f}, "
@@ -221,8 +210,6 @@ def calculate_scores(df):
     logger.info(f"  Einsatzzeit-Scores: Min={df['score_einsatz'].min():.1f}, "
                 f"Max={df['score_einsatz'].max():.1f}, "
                 f"Mittel={df['score_einsatz'].mean():.1f}")
-    logger.info(f"  Elf-der-Woche-Scores: Min={df['score_edw'].min():.1f}, "
-                f"Max={df['score_edw'].max():.1f}")
 
     # Schritt 2: Gewichteten Gesamtscore berechnen
     logger.info("\nBerechne gewichteten Gesamtscore...")
@@ -233,8 +220,7 @@ def calculate_scores(df):
         df["score_einsatz"] * weights.get("einsatzzeit", 0) +
         df["score_praxis"] * weights.get("spielpraxis", 0) +
         df["score_disziplin"] * weights.get("disziplin", 0) +
-        df["score_alter"] * weights.get("alter", 0) +
-        df["score_edw"] * weights.get("elf_der_woche", 0)
+        df["score_alter"] * weights.get("alter", 0)
     ).round(1)
 
     # Schritt 3: Liga-Faktor anwenden
@@ -303,14 +289,8 @@ def get_score_breakdown(player_row):
         "Scorerquote": {
             "score": player_row.get("score_scorer", 0),
             "value": f"{player_row.get('tore', 0) + player_row.get('assists', 0)} Scorer ({(player_row.get('tore', 0) + player_row.get('assists', 0)) / max(1, player_row.get('spiele', 1)):.2f}/Sp)",
-            "raw_value": f"{int(player_row.get('tore', 0))} Tore, {int(player_row.get('assists', 0))} Assists",
+            "raw_value": f"{int(player_row.get('tore', 0))} Tore, {int(player_row.get('assists', 0))} Assists (TM.de)",
             "weight": BFV_SCORING_WEIGHTS.get("scorerquote", 0),
-        },
-        "Elf der Woche": {
-            "score": player_row.get("score_edw", 0),
-            "value": f"{int(player_row.get('elf_der_woche', 0))}x nominiert",
-            "raw_value": "FuPa.net Auszeichnung",
-            "weight": BFV_SCORING_WEIGHTS.get("elf_der_woche", 0),
         },
         "Einsatzzeit": {
             "score": player_row.get("score_einsatz", 0),

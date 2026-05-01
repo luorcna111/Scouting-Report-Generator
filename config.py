@@ -97,11 +97,10 @@ BFV_PLAYER_URL = BFV_BASE_URL + "/spieler/-/{player_id}"
 # Gewichtung der Scoring-Kategorien (Summe = 1.0)
 BFV_SCORING_WEIGHTS = {
     "alter": 0.10,                # Youngstar-Faktor
-    "einsatzzeit": 0.20,          # Minuten pro Spiel
-    "scorerquote": 0.30,          # Tore + Assists pro Spiel (NEU)
-    "spielpraxis": 0.10,          # Anzahl absolvierter Spiele
+    "einsatzzeit": 0.25,          # Minuten pro Spiel
+    "scorerquote": 0.40,          # Tore + Assists pro Spiel (TM.de)
+    "spielpraxis": 0.15,          # Anzahl absolvierter Spiele
     "disziplin": 0.10,            # Karten-Disziplin
-    "elf_der_woche": 0.20,        # FuPa Elf der Woche Nominierungen (NEU)
 }
 
 # Benchmarks fuer maximalen Score (100 Punkte)

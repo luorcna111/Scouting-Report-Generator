@@ -39,7 +39,6 @@ def generate_ai_summary(player_row):
         min_pro_spiel = player_row.get("minuten_pro_spiel", 0)
         
         assists = player_row.get("assists", 0)
-        edw = player_row.get("elf_der_woche", 0)
         
         prompt = f"""
         Du bist der Chef-Scout eines professionellen bayerischen Fussballvereins. 
@@ -50,11 +49,9 @@ def generate_ai_summary(player_row):
         Liga: {liga}
         Scouting-Score: {score:.1f}/100
         Statistik: {tore} Tore und {assists} Vorlagen in {spiele} Spielen. Durchschnittlich {min_pro_spiel:.0f} Minuten Einsatzzeit pro Spiel.
-        Auszeichnungen: {edw}x Nominierung für die 'Elf der Woche' (FuPa).
         
         Gehe in deinem Fazit detailliert auf Folgendes ein:
         - Interpretation seiner Einsatzzeiten, Torquote und Teamdienlichkeit (Vorlagen)
-        - Besondere Auszeichnungen wie die Elf der Woche Nominierungen
         - Sein Alter in Bezug auf Transfer- und Entwicklungspotenzial
         - Eine konkrete Handlungsempfehlung (Verpflichten, Beobachten, oder Ignorieren)
         
