@@ -66,7 +66,7 @@ def generate_ai_summary(player_row):
             try:
                 # Nutzen der neuen genai API
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-2.0-flash',
                     contents=prompt
                 )
                 
