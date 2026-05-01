@@ -61,20 +61,21 @@ def get_transfermarkt_assists(liga_name):
             name = name_col.text.strip()
             
             # Assists stehen in der Scorerliste typischerweise in der vorletzten Spalte
-            # (Spiele, Tore, Vorlagen, Scorerpunkte)
-            # Wir suchen die zentrierten Zahlen
             num_cols = row.select("td.zentriert")
             
-            # Transfermarkt Layout:
-            # 0: Alter
-            # 1: Spiele
-            # 2: Tore
-            # 3: Vorlagen
-            # 4: Scorer
+            # Transfermarkt Layout (8 zentrierte Spalten in der Scorerliste):
+            # 0: Platzierung
+            # 1: Verein (Bild)
+            # 2: Nationalitaet (Bild)
+            # 3: Alter
+            # 4: Spiele
+            # 5: Tore
+            # 6: Vorlagen
+            # 7: Scorerpunkte (teilweise zusaetzlich Klasse 'hauptlink')
             assists = 0
-            if len(num_cols) >= 4:
+            if len(num_cols) >= 7:
                 try:
-                    assists_text = num_cols[3].text.strip()
+                    assists_text = num_cols[6].text.strip()
                     if assists_text and assists_text != '-':
                         assists = int(assists_text)
                 except ValueError:
