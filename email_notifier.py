@@ -216,7 +216,7 @@ def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_
             if EMAIL_CONFIG.get("use_tls", True):
                 server.starttls()
             if EMAIL_CONFIG.get("sender_password"):
-                server.login(EMAIL_CONFIG["sender_email"], EMAIL_CONFIG["sender_password"])
+                server.login(EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]), EMAIL_CONFIG["sender_password"])
             server.send_message(msg)
 
         logger.info(f"   ✅ E-Mail erfolgreich versendet!")
