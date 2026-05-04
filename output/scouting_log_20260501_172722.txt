@@ -1,0 +1,157 @@
+17:27:22 [INFO] Gestartet: 01.05.2026 17:27:22
+17:27:22 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+17:27:22 [INFO] ============================================================
+17:27:22 [INFO] DATENVERARBEITUNG GESTARTET
+17:27:22 [INFO] ============================================================
+17:27:22 [WARNING] Konnte nicht aus SQLite-Datenbank laden: near "alter": syntax error
+17:27:22 [INFO] Fallback auf CSV-Datei...
+17:27:22 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+17:27:22 [INFO]   -> 59 Spieler geladen
+17:27:22 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+17:27:22 [INFO] Validiere Daten...
+17:27:22 [INFO] Starte Transfermarkt-Daten-Pipeline (Assists)...
+17:27:22 [INFO] Scrape Transfermarkt Assists: https://www.transfermarkt.de/regionalliga-bayern/scorerliste/wettbewerb/RLB3
+17:27:24 [INFO]   -> 25 Spieler-Statistiken von Transfermarkt geladen.
+17:27:24 [INFO] Scrape Transfermarkt Assists: https://www.transfermarkt.de/bayernliga-nord/scorerliste/wettbewerb/OLL5
+17:27:25 [INFO]   -> 100 Spieler-Statistiken von Transfermarkt geladen.
+17:27:25 [INFO] Scrape Transfermarkt Assists: https://www.transfermarkt.de/bayernliga-sud/scorerliste/wettbewerb/OLL6
+17:27:25 [INFO]   -> 100 Spieler-Statistiken von Transfermarkt geladen.
+17:27:25 [INFO] Transfermarkt-Daten erfolgreich integriert!
+17:27:25 [INFO]   -> 59 Spieler nach Validierung
+17:27:25 [INFO] Berechne abgeleitete Metriken...
+17:27:25 [INFO] 
+  Top 3 Torquote:
+17:27:25 [INFO]     Simon Gruber (TSV 1861 Nördlingen): 0.90 Tore/Spiel
+17:27:25 [INFO]     Jonas Kronbichler (SV Kirchanschöring): 0.76 Tore/Spiel
+17:27:25 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+17:27:25 [INFO] 
+Datenverarbeitung abgeschlossen:
+17:27:25 [INFO]   Spieler gesamt:     59
+17:27:25 [INFO]   Ligen:              3
+17:27:25 [INFO]   Vereine:            41
+17:27:25 [INFO]   Tore gesamt:        686
+17:27:25 [INFO]   Durchschn. Spiele:  26.9
+17:27:25 [INFO]   Durchschn. Tore:    11.6
+17:27:25 [INFO] 
+[SCHRITT 2] Scoring berechnen
+17:27:25 [INFO] ============================================================
+17:27:25 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+17:27:25 [INFO] ============================================================
+17:27:25 [INFO] Berechne Kategorie-Scores...
+17:27:25 [INFO]   Scorerquote-Scores: Min=42.7, Max=92.9, Mittel=59.3
+17:27:25 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+17:27:25 [INFO] 
+Berechne gewichteten Gesamtscore...
+17:27:25 [INFO] Wende Liga-Faktor an...
+17:27:25 [INFO] 
+==================================================
+17:27:25 [INFO] SCORE-VERTEILUNG:
+17:27:25 [INFO] ==================================================
+17:27:25 [INFO]   Score >= 70: 0 Spieler (0.0%)
+17:27:25 [INFO]   Score >= 60: 12 Spieler (20.3%)
+17:27:25 [INFO]   Score >= 50: 40 Spieler (67.8%)
+17:27:25 [INFO]   Score <  50: 19 Spieler (32.2%)
+17:27:25 [INFO] 
+__________________________________________________
+17:27:25 [INFO] TOP 10 SPIELER:
+17:27:25 [INFO] __________________________________________________
+17:27:25 [INFO]   # 1 | Yannick Glessing          | Regionalliga Bayern    | Score:  69.6 | Gut
+17:27:25 [INFO]   # 2 | Simon Skarlatidis         | Regionalliga Bayern    | Score:  66.2 | Gut
+17:27:25 [INFO]   # 3 | Anton Heinz               | Regionalliga Bayern    | Score:  66.1 | Gut
+17:27:25 [INFO]   # 4 | Simon Gruber              | Bayernliga Süd         | Score:  65.3 | Gut
+17:27:25 [INFO]   # 5 | Severo Sturm              | Regionalliga Bayern    | Score:  63.7 | Gut
+17:27:25 [INFO]   # 6 | Piet Scobel               | Regionalliga Bayern    | Score:  63.6 | Gut
+17:27:25 [INFO]   # 7 | Milos Cocic               | Regionalliga Bayern    | Score:  62.6 | Gut
+17:27:25 [INFO]   # 8 | Lado Akhalaia             | Regionalliga Bayern    | Score:  61.5 | Gut
+17:27:25 [INFO]   # 9 | Jonas Kronbichler         | Bayernliga Süd         | Score:  61.2 | Gut
+17:27:25 [INFO]   #10 | Tarsis Bonga              | Regionalliga Bayern    | Score:  60.5 | Gut
+17:27:25 [INFO] __________________________________________________
+
+17:27:25 [INFO] 
+[SCHRITT 3] KI-Fazit generieren (Gemini) fuer Top 3 Spieler
+17:27:25 [INFO]   Generiere KI-Fazit fuer Yannick Glessing...
+17:27:26 [INFO] AFC is enabled with max remote calls: 10.
+17:27:26 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+17:27:26 [ERROR] Fehler bei Gemini API-Aufruf: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 33.140690598s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '33s'}]}}
+17:27:26 [INFO]   Generiere KI-Fazit fuer Simon Skarlatidis...
+17:27:27 [INFO] AFC is enabled with max remote calls: 10.
+17:27:27 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+17:27:27 [ERROR] Fehler bei Gemini API-Aufruf: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 32.538126489s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '32s'}]}}
+17:27:27 [INFO]   Generiere KI-Fazit fuer Anton Heinz...
+17:27:27 [INFO] AFC is enabled with max remote calls: 10.
+17:27:27 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+17:27:27 [ERROR] Fehler bei Gemini API-Aufruf: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 31.928720969s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '31s'}]}}
+17:27:27 [INFO] 
+[SCHRITT 4] PDF-Reports generieren
+17:27:27 [INFO] Generiere Uebersichts-Report...
+17:27:27 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260501.pdf
+17:27:27 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260501.pdf
+17:27:27 [INFO] 
+  Generiere individuelle Reports fuer Top 3 Spieler...
+17:27:27 [INFO] Generiere Report: Yannick Glessing (Rang #1)
+17:27:28 [INFO]   -> Report gespeichert: Scouting_Report_Yannick_Glessing_20260501.pdf
+17:27:28 [INFO]   [OK] #1 Yannick Glessing: Scouting_Report_Yannick_Glessing_20260501.pdf
+17:27:28 [INFO] Generiere Report: Simon Skarlatidis (Rang #2)
+17:27:28 [INFO]   -> Report gespeichert: Scouting_Report_Simon_Skarlatidis_20260501.pdf
+17:27:28 [INFO]   [OK] #2 Simon Skarlatidis: Scouting_Report_Simon_Skarlatidis_20260501.pdf
+17:27:28 [INFO] Generiere Report: Anton Heinz (Rang #3)
+17:27:28 [INFO]   -> Report gespeichert: Scouting_Report_Anton_Heinz_20260501.pdf
+17:27:28 [INFO]   [OK] #3 Anton Heinz: Scouting_Report_Anton_Heinz_20260501.pdf
+17:27:28 [INFO] 
+[SCHRITT 5] E-Mail-Benachrichtigungen
+17:27:28 [INFO] 
+============================================================
+17:27:28 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+17:27:28 [INFO] ============================================================
+17:27:28 [INFO] 
+📧 E-Mail-Benachrichtigung für Yannick Glessing (Score: 69.6)
+17:27:28 [INFO]    Betreff: Scouting-Alert: Yannick Glessing (Score: 69.6/100)
+17:27:28 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+17:27:31 [INFO]    ✅ E-Mail erfolgreich versendet!
+17:27:31 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Skarlatidis (Score: 66.2)
+17:27:31 [INFO]    Betreff: Scouting-Alert: Simon Skarlatidis (Score: 66.2/100)
+17:27:31 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+17:27:33 [INFO]    ✅ E-Mail erfolgreich versendet!
+17:27:33 [INFO] 
+📧 E-Mail-Benachrichtigung für Anton Heinz (Score: 66.1)
+17:27:33 [INFO]    Betreff: Scouting-Alert: Anton Heinz (Score: 66.1/100)
+17:27:33 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+17:27:35 [INFO]    ✅ E-Mail erfolgreich versendet!
+17:27:35 [INFO]   Simon Gruber: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Severo Sturm: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Piet Scobel: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Milos Cocic: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Lado Akhalaia: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Jonas Kronbichler: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Tarsis Bonga: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Tobias Stossberger: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO]   Lucas Schraufstetter: kein PDF-Report vorhanden, E-Mail wird übersprungen
+17:27:35 [INFO] 
+📊 3 E-Mail-Alerts versendet
+17:27:35 [INFO] 
+============================================================
+17:27:35 [INFO] ZUSAMMENFASSUNG
+17:27:35 [INFO] ============================================================
+17:27:35 [INFO]   Verarbeitete Spieler:    59
+17:27:35 [INFO]   Ligen:                   3
+17:27:35 [INFO]   Generierte Reports:      4 (inkl. Uebersicht)
+17:27:35 [INFO]   KI-Fazits generiert:     0 von 3
+17:27:35 [INFO]   E-Mail-Alerts:           3 von 3
+17:27:35 [INFO]   Score-Schwellenwert:     60/100
+17:27:35 [INFO]   Datenquelle:             www.bfv.de
+17:27:35 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+17:27:35 [INFO]   Laufzeit:                12.9 Sekunden
+17:27:35 [INFO] 
+  Spieler mit Score >= 70: 0 (0.0%)
+17:27:35 [INFO] 
+  TOP 3 SPIELER:
+17:27:35 [INFO]   [Mail] # 1 | Yannick Glessing          | FV Illertissen         | Score:  69.6 | Gut
+17:27:35 [INFO]   [Mail] # 2 | Simon Skarlatidis         | SpVgg Unterhaching     | Score:  66.2 | Gut
+17:27:35 [INFO]   [Mail] # 3 | Anton Heinz               | FC Bayern München II   | Score:  66.1 | Gut
+17:27:35 [INFO] 
+============================================================
+17:27:35 [INFO] Scouting-Analyse abgeschlossen!
+17:27:35 [INFO] ============================================================
+

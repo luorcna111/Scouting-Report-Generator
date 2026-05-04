@@ -105,7 +105,7 @@ def _create_radar_chart(player_row, output_path):
     scores_plot = scores + [scores[0]]
     angles += [angles[0]]
 
-    fig, ax = plt.subplots(figsize=(5, 5), subplot_kw=dict(polar=True))
+    fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
 
     # Stil
     ax.set_theta_offset(np.pi / 2)
@@ -114,6 +114,7 @@ def _create_radar_chart(player_row, output_path):
     # Achsen-Labels
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(categories, fontsize=10, fontweight="bold")
+    ax.tick_params(axis='x', pad=15)
 
     # Y-Achse (Score 0-100)
     ax.set_ylim(0, 100)
@@ -234,6 +235,7 @@ def generate_single_report(player_row, all_players_df, rank, ai_fazit: str = "")
     stats = [
         ("Spiele", str(int(player_row.get("spiele", 0)))),
         ("Tore", str(int(player_row.get("tore", 0)))),
+        ("Assists", str(int(player_row.get("assists", 0)))),
         ("Tore/Spiel", f"{player_row.get('tore_pro_spiel', 0):.2f}"),
         ("Minuten", str(int(player_row.get("minuten", 0)))),
         ("Min/Spiel", f"{player_row.get('minuten_pro_spiel', 0):.0f}"),

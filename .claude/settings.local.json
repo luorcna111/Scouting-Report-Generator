@@ -5,7 +5,10 @@
       "Bash(python -c ' *)",
       "Bash(python main.py --top 1)",
       "Bash(python main.py --top 2)",
-      "Bash(python main.py --top 1 --send-emails)"
+      "Bash(python main.py --top 1 --send-emails)",
+      "Bash(python main.py --top 3 --send-emails)",
+      "WebFetch(domain:www.bfv.de)",
+      "WebSearch"
     ]
   }
 }
