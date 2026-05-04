@@ -31,7 +31,7 @@ jobs:
         env:
           # Wir injizieren hier sicher deine GitHub-Secrets!
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SCOUTING_EMAIL_PW: ${{ secrets.SCOUTING_EMAIL_PW }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
         run: |
           # Fuehrt das Skript vollumfaenglich aus
           python main.py --scrape --send-emails

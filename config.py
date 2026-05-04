@@ -142,11 +142,11 @@ SCORE_THRESHOLD_AVERAGE = 45    # Durchschnittlich
 # E-MAIL-KONFIGURATION
 # ============================================================
 EMAIL_CONFIG = {
-    "smtp_server": "smtp.gmail.com",
+    "smtp_server": "smtp.sendgrid.net",
     "smtp_port": 587,
     "use_tls": True,
-    "sender_email": os.environ.get("SCOUTING_EMAIL", "informationssystemetest@gmail.com"),
-    "sender_password": os.environ.get("SCOUTING_EMAIL_PW", ""),
+    "sender_email": "apikey",  # SendGrid SMTP: Benutzername ist immer "apikey"
+    "sender_password": os.environ.get("SENDGRID_API_KEY", ""),
     "recipients": [
         "linus.eilers@hm.edu",
         "informationssystemetest@gmail.com",
