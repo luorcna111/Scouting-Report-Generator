@@ -145,7 +145,8 @@ EMAIL_CONFIG = {
     "smtp_server": "smtp.sendgrid.net",
     "smtp_port": 587,
     "use_tls": True,
-    "sender_email": "apikey",  # SendGrid SMTP: Benutzername ist immer "apikey"
+    "smtp_username": "apikey",
+    "sender_email": os.environ.get("SENDGRID_FROM_EMAIL", "luca.schreiner@hm.edu"),
     "sender_password": os.environ.get("SENDGRID_API_KEY", ""),
     "recipients": [
         "linus.eilers@hm.edu",
