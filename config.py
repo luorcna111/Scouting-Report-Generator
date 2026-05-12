@@ -151,6 +151,7 @@ EMAIL_CONFIG = {
     "recipients": [
         "linus.eilers@hm.edu",
         "luca.schreiner@hm.edu",
+        "weiss19@hm.edu",
     ],
     "subject_template": "Scouting-Alert: {player_name} (Score: {score}/100)",
 }
