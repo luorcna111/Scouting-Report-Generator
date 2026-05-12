@@ -136,7 +136,7 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
     logger.info(f"Scrape Torjaeger: {liga_name} -> {url}")
 
     driver.get(url)
-    time.sleep(5)  # Warten auf JavaScript-Rendering
+    time.sleep(3)  # Warten auf JavaScript-Rendering
 
     players = []
 
@@ -221,7 +221,7 @@ def scrape_player_details(driver, player_id, player_name):
     logger.info(f"  Scrape Details: {player_name}")
 
     driver.get(url)
-    time.sleep(3)
+    time.sleep(1.5)
 
     # Fallback-Werte: Spieler auf Torjaeger-Liste haben definitiv genug Spiele
     details = {
@@ -367,7 +367,6 @@ def scrape_all_leagues(leagues=None, headless=True, max_per_league=20):
                         driver, player["player_id"], player["name"]
                     )
                     player.update(details)
-                    time.sleep(1)  # Rate Limiting: 1 Sekunde zwischen Anfragen
 
                 # Liga-Informationen hinzufuegen
                 player["liga"] = liga["name"]
