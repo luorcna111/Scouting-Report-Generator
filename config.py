@@ -150,7 +150,7 @@ EMAIL_CONFIG = {
     "sender_password": os.environ.get("SENDGRID_API_KEY", ""),
     "recipients": [
         "linus.eilers@hm.edu",
-        "informationssystemetest@gmail.com",
+        "luca.schreiner@hm.edu",
     ],
     "subject_template": "Scouting-Alert: {player_name} (Score: {score}/100)",
 }
