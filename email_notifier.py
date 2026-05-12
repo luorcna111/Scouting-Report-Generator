@@ -3,10 +3,12 @@ E-Mail-Benachrichtigungsmodul.
 
 Sendet automatische Benachrichtigungen an das Trainerteam,
 wenn ein Spieler den definierten Score-Schwellenwert überschreitet.
+Sendet zusätzlich simulierte Terminvorschlag-Mails an die Spieler.
 
 Features:
 - HTML-formatierte E-Mails mit Spieler-Zusammenfassung
 - PDF-Report als Anhang
+- Automatische Terminvorschlag-Mails an Spieler (simuliert)
 - Konfigurierbare Empfängerliste
 - SMTP-Authentifizierung mit TLS
 - Simulationsmodus (wenn keine E-Mail-Credentials gesetzt)
@@ -18,7 +20,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from config import EMAIL_CONFIG, SCORE_THRESHOLD_EMAIL, REPORT_CONFIG
 
@@ -149,6 +151,151 @@ def _create_html_body(player_row, report_path: str) -> str:
     return html
 
 
+def _create_player_invitation_html(player_row, termin_str: str) -> str:
+    """
+    Erstellt den HTML-Body für die Terminvorschlag-Mail an den Spieler.
+
+    Args:
+        player_row: Series mit Spielerdaten
+        termin_str: Formatiertes Datum des Terminvorschlags
+
+    Returns:
+        HTML-String für den E-Mail-Body
+    """
+    name = player_row["name"]
+    verein = player_row.get("verein", "Ihrem Verein")
+    liga = player_row.get("liga", "")
+
+    html = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #2c3e50;">
+
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #004990, #2980b9);
+                    padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 22px;">
+                Einladung zum Probetraining
+            </h1>
+            <p style="color: #bdc3c7; margin: 5px 0 0 0; font-size: 12px;">
+                Scouting-Abteilung | Saison {REPORT_CONFIG['season']}
+            </p>
+        </div>
+
+        <!-- Inhalt -->
+        <div style="padding: 25px; background: #f9f9f9;">
+            <p style="font-size: 15px;">Sehr geehrter <strong>{name}</strong>,</p>
+
+            <p>wir haben Ihre Leistungen beim <strong>{verein}</strong>
+            in der <strong>{liga}</strong> aufmerksam verfolgt und sind
+            von Ihrem Potenzial überzeugt.</p>
+
+            <p>Wir möchten Sie herzlich zu einem <strong>Probetraining</strong>
+            bei uns einladen:</p>
+
+            <!-- Termin-Box -->
+            <div style="background: #004990; color: white; padding: 20px;
+                        border-radius: 8px; text-align: center; margin: 25px 0;">
+                <p style="margin: 0; font-size: 13px; letter-spacing: 1px;">
+                    TERMINVORSCHLAG
+                </p>
+                <p style="margin: 8px 0 4px 0; font-size: 24px; font-weight: bold;">
+                    {termin_str}
+                </p>
+                <p style="margin: 0; font-size: 14px;">
+                    10:00 Uhr | Trainingsgelände
+                </p>
+            </div>
+
+            <p>Bitte bestätigen Sie Ihre Teilnahme durch eine Antwort auf
+            diese E-Mail. Bei Fragen stehen wir Ihnen gerne zur Verfügung.</p>
+
+            <p style="margin-top: 25px;">
+                Mit freundlichen Grüßen,<br>
+                <strong>Scouting-Abteilung</strong><br>
+                {REPORT_CONFIG['club_name']}
+            </p>
+        </div>
+
+        <!-- Simulations-Hinweis -->
+        <div style="background: #f39c12; padding: 10px; text-align: center;
+                    font-size: 11px; color: white;">
+            SIMULATION – Im Produktivbetrieb würde diese Mail direkt an den Spieler gesendet
+        </div>
+
+        <!-- Footer -->
+        <div style="background: #ecf0f1; padding: 12px; text-align: center;
+                    border-radius: 0 0 8px 8px; font-size: 11px; color: #95a5a6;">
+            Automatisch generiert am {datetime.now().strftime('%d.%m.%Y um %H:%M Uhr')}
+            <br>
+            {REPORT_CONFIG['author']} | Datenquelle: www.bfv.de
+        </div>
+
+    </body>
+    </html>
+    """
+    return html
+
+
+def send_player_invitation(player_row, simulate: bool = True) -> bool:
+    """
+    Sendet einen automatischen Terminvorschlag an den Spieler (simuliert).
+    Im Simulationsmodus geht die Mail an die konfigurierten Scout-Adressen,
+    aber mit dem Inhalt als wäre sie an den Spieler gerichtet.
+
+    Args:
+        player_row: Series mit Spielerdaten
+        simulate: Wenn True, wird die E-Mail nur simuliert (kein Versand)
+
+    Returns:
+        True wenn erfolgreich (oder simuliert), False bei Fehler
+    """
+    name = player_row["name"]
+
+    # Nächsten Montag als Terminvorschlag berechnen
+    heute = datetime.now()
+    tage_bis_montag = (7 - heute.weekday()) % 7 or 7
+    termin = heute + timedelta(days=tage_bis_montag)
+    termin_str = termin.strftime("%d.%m.%Y")
+
+    subject = f"Einladung zum Probetraining – {name} [{termin_str}]"
+
+    logger.info(f"\n📅 Terminvorschlag-Mail für {name} (Termin: {termin_str})")
+    logger.info(f"   Betreff: {subject}")
+    logger.info(f"   Empfänger (simuliert): {name} <spieler@beispiel.de>")
+    logger.info(f"   Tatsächlich an: {', '.join(EMAIL_CONFIG['recipients'])}")
+
+    if simulate:
+        logger.info(f"   ⚠️  SIMULATIONSMODUS - Mail geht an Scout-Adressen mit Spieler-Inhalt")
+        logger.info(f"   ✅ Terminvorschlag-Simulation erfolgreich")
+        return True
+
+    try:
+        msg = MIMEMultipart()
+        msg["From"] = EMAIL_CONFIG["sender_email"]
+        msg["To"] = ", ".join(EMAIL_CONFIG["recipients"])
+        msg["Subject"] = subject
+
+        html_body = _create_player_invitation_html(player_row, termin_str)
+        msg.attach(MIMEText(html_body, "html", "utf-8"))
+
+        with smtplib.SMTP(EMAIL_CONFIG["smtp_server"], EMAIL_CONFIG["smtp_port"]) as server:
+            if EMAIL_CONFIG.get("use_tls", True):
+                server.starttls()
+            if EMAIL_CONFIG.get("sender_password"):
+                server.login(
+                    EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
+                    EMAIL_CONFIG["sender_password"]
+                )
+            server.send_message(msg)
+
+        logger.info(f"   ✅ Terminvorschlag-Mail erfolgreich versendet!")
+        return True
+
+    except Exception as e:
+        logger.error(f"   ❌ Terminvorschlag-Mail fehlgeschlagen: {e}")
+        return False
+
+
 def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_fazit: str = "") -> bool:
     """
     Sendet eine Scouting-Alert-E-Mail an das Trainerteam.
@@ -216,7 +363,10 @@ def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_
             if EMAIL_CONFIG.get("use_tls", True):
                 server.starttls()
             if EMAIL_CONFIG.get("sender_password"):
-                server.login(EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]), EMAIL_CONFIG["sender_password"])
+                server.login(
+                    EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
+                    EMAIL_CONFIG["sender_password"]
+                )
             server.send_message(msg)
 
         logger.info(f"   ✅ E-Mail erfolgreich versendet!")
@@ -230,6 +380,9 @@ def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_
 def send_batch_alerts(df_scored, report_paths: dict, simulate: bool = True, ai_fazits: dict = None) -> dict:
     """
     Sendet E-Mail-Alerts für alle Spieler über dem Score-Schwellenwert.
+    Pro Spieler werden zwei Mails versendet:
+    1. Scout-Alert mit PDF-Report an das Trainerteam
+    2. Simulierter Terminvorschlag an den Spieler
 
     Args:
         df_scored: DataFrame mit allen bewerteten Spielern
@@ -245,6 +398,7 @@ def send_batch_alerts(df_scored, report_paths: dict, simulate: bool = True, ai_f
 
     results = {}
     alert_count = 0
+    invitation_count = 0
     if ai_fazits is None:
         ai_fazits = {}
 
@@ -255,11 +409,19 @@ def send_batch_alerts(df_scored, report_paths: dict, simulate: bool = True, ai_f
             if not report_path:
                 logger.info(f"  {player_name}: kein PDF-Report vorhanden, E-Mail wird übersprungen")
                 continue
+
+            # 1. Scout-Alert Mail
             fazit = ai_fazits.get(player_name, "")
             success = send_scouting_alert(player_row, report_path, simulate=simulate, ai_fazit=fazit)
             results[player_name] = success
             if success:
                 alert_count += 1
 
-    logger.info(f"\n📊 {alert_count} E-Mail-Alerts {'simuliert' if simulate else 'versendet'}")
+            # 2. Terminvorschlag-Mail an Spieler (simuliert)
+            invite_success = send_player_invitation(player_row, simulate=simulate)
+            if invite_success:
+                invitation_count += 1
+
+    logger.info(f"\n📊 {alert_count} Scout-Alerts {'simuliert' if simulate else 'versendet'}")
+    logger.info(f"📅 {invitation_count} Terminvorschläge {'simuliert' if simulate else 'versendet'}")
     return results
