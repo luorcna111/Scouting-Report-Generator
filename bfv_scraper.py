@@ -207,10 +207,10 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
     except Exception as e:
         logger.error(f"Fehler beim Scrapen von {liga_name}: {e}")
 
-    return players
+    return players, decoder
 
 
-def scrape_player_details(driver, player_id, player_name):
+def scrape_player_details(driver, player_id, player_name, decoder=None):
     """
     Scrapt detaillierte Leistungsdaten eines Spielers von seinem Profil.
     Zudem wird versucht, das Alter (oder Geburtsdatum) zu extrahieren.
@@ -226,6 +226,7 @@ def scrape_player_details(driver, player_id, player_name):
         driver: Selenium WebDriver
         player_id: BFV Spieler-ID
         player_name: Name (fuer Logging)
+        decoder: Optional vorgeladener BFV-Font-Decoder von der Listen-Seite
 
     Returns:
         Dictionary mit Spieler-Detaildaten
@@ -253,7 +254,9 @@ def scrape_player_details(driver, player_id, player_name):
         import re
         from datetime import datetime
 
-        decoder = _get_bfv_decoder(driver)
+        # Decoder von der Listen-Seite weiterverwenden (Detail-Seiten haben oft keinen Font-Link)
+        if decoder is None:
+            decoder = _get_bfv_decoder(driver)
         soup = BeautifulSoup(driver.page_source, "html.parser")
 
         # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
@@ -371,15 +374,17 @@ def scrape_all_leagues(leagues=None, headless=True, max_per_league=20):
                 continue
 
             liga = BFV_LEAGUES[liga_key]
-            players = scrape_torjaeger_list(
+            players, list_decoder = scrape_torjaeger_list(
                 driver, liga["comp_id"], liga["name"], max_per_league
             )
 
             # Spieler-Details scrapen (Rate Limiting)
+            # Decoder von der Listen-Seite weitergeben, damit Zahlen korrekt dekodiert werden
             for player in players:
                 if player.get("player_id"):
                     details = scrape_player_details(
-                        driver, player["player_id"], player["name"]
+                        driver, player["player_id"], player["name"],
+                        decoder=list_decoder
                     )
                     player.update(details)
 

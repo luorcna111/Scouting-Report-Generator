@@ -27,7 +27,7 @@ def init_db():
         gelbe_karten INTEGER,
         rote_karten INTEGER,
         minuten INTEGER,
-        alter INTEGER,
+        "alter" INTEGER,
         scouted_at TIMESTAMP
     )
     ''')
@@ -47,8 +47,8 @@ def save_players_to_db(players):
     
     for p in players:
         cursor.execute('''
-        INSERT INTO players 
-        (name, verein, liga, liga_faktor, spiele, tore, gelbe_karten, rote_karten, minuten, alter, scouted_at)
+        INSERT INTO players
+        (name, verein, liga, liga_faktor, spiele, tore, gelbe_karten, rote_karten, minuten, "alter", scouted_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             p.get("name"),
