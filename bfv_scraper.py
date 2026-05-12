@@ -24,10 +24,61 @@ import csv
 import time
 import logging
 import argparse
+import urllib.request
 from pathlib import Path
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
+
+_bfv_decoder = None
+
+def _get_bfv_decoder(driver):
+    """
+    Lädt den BFV-Custom-Font und baut ein Mapping von PUA-Zeichen zu echten Zeichen.
+    BFV verschlüsselt seit 2026 alle Texte mit einem Custom-Font (Private Use Area Unicode).
+    """
+    global _bfv_decoder
+    if _bfv_decoder is not None:
+        return _bfv_decoder
+
+    try:
+        from fontTools.ttLib import TTFont
+        from fontTools import agl
+        import io
+
+        # Font-URL aus aktuellem Seiten-Source lesen
+        page_source = driver.page_source
+        import re
+        match = re.search(r'https://app\.bfv\.de/export\.fontface/-/format/ttf/id/([^/]+)/type/font', page_source)
+        if not match:
+            logger.warning("BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
+            _bfv_decoder = {}
+            return _bfv_decoder
+
+        font_url = f"https://app.bfv.de/export.fontface/-/format/ttf/id/{match.group(1)}/type/font"
+        logger.info(f"  Lade BFV-Decoder-Font: {font_url}")
+
+        req = urllib.request.Request(font_url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            font_data = r.read()
+
+        font = TTFont(io.BytesIO(font_data))
+        cmap = font.getBestCmap()
+        _bfv_decoder = {chr(pua): agl.toUnicode(name) for pua, name in cmap.items() if agl.toUnicode(name)}
+        logger.info(f"  BFV-Decoder geladen: {len(_bfv_decoder)} Zeichen-Mappings")
+
+    except Exception as e:
+        logger.warning(f"  BFV-Decoder konnte nicht geladen werden: {e}")
+        _bfv_decoder = {}
+
+    return _bfv_decoder
+
+
+def _decode_bfv(text, decoder):
+    """Dekodiert BFV-verschlüsselten Text anhand des Font-Mappings."""
+    if not decoder:
+        return text
+    return ''.join(decoder.get(c, c) for c in text)
 
 # BFV Liga-Konfiguration mit IDs und Multiplikatoren
 BFV_LEAGUES = {
@@ -92,8 +143,7 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
         Liste von Dictionaries mit Spielerdaten
     """
     from selenium.webdriver.common.by import By
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
+    from bs4 import BeautifulSoup
 
     url = TORJAEGER_URL.format(comp_id=comp_id)
     logger.info(f"Scrape Torjaeger: {liga_name} -> {url}")
@@ -104,62 +154,48 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
     players = []
 
     try:
-        # "MEHR" Button klicken um genug Spieler zu laden (ca. 20 pro Klick)
-        clicks_needed = (max_players // 20) + 1
-        for _ in range(clicks_needed):
+        # Decoder für BFV-Font-Verschlüsselung laden
+        decoder = _get_bfv_decoder(driver)
+
+        # Seite via BeautifulSoup parsen (schneller als viele find_element Aufrufe)
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        rows = soup.find_all("tr", attrs={"data-testid": "row"})
+
+        if not rows:
+            logger.warning(f"  Keine Spieler-Zeilen gefunden in {liga_name} (data-testid='row')")
+            return players
+
+        for i, row in enumerate(rows[:max_players]):
             try:
-                mehr_btn = driver.find_element(By.XPATH, "//button[contains(text(), 'MEHR') or contains(text(), 'Mehr')]")
-                driver.execute_script("arguments[0].click();", mehr_btn)
-                time.sleep(2.5)
-            except Exception:
-                break  # Button nicht mehr da oder verdeckt
+                tds = row.find_all("td")
+                if len(tds) < 4:
+                    continue
 
-        # Torjaeger-Eintraege finden
-        entries = driver.find_elements(By.CSS_SELECTOR, ".bfv-torjaeger-entry, .scorer-entry, [class*='torjaeger']")
+                # Spalte 2: Name + Verein, Spalte 3: Tore
+                player_td = tds[2]
+                goals_td = tds[3]
 
-        if not entries:
-            # Fallback: Versuche andere Selektoren
-            entries = driver.find_elements(By.CSS_SELECTOR, ".ranking-list-item, .list-item")
+                texts = [_decode_bfv(t.strip(), decoder) for t in player_td.stripped_strings if t.strip()]
+                name = texts[0] if texts else ""
+                verein = texts[1] if len(texts) > 1 else ""
 
-        if not entries:
-            # Debug: Seiten-Quelle speichern um Struktur zu analysieren
-            debug_path = Path(__file__).parent / "output" / f"debug_{liga_name.replace(' ', '_')}.html"
-            debug_path.parent.mkdir(exist_ok=True)
-            debug_path.write_text(driver.page_source, encoding="utf-8")
-            logger.warning(f"  Keine Eintraege gefunden. Seiten-HTML gespeichert: {debug_path.name}")
-            logger.warning(f"  Seitentitel: {driver.title}")
-            # Alle sichtbaren Klassen auf der Seite loggen
-            all_classes = driver.execute_script(
-                "return [...new Set([...document.querySelectorAll('*')].map(e => e.className).filter(c => typeof c === 'string' && c))].slice(0, 30)"
-            )
-            logger.warning(f"  Gefundene CSS-Klassen (Auswahl): {all_classes}")
+                goals_raw = list(goals_td.stripped_strings)
+                goals_str = _decode_bfv(goals_raw[0], decoder) if goals_raw else "0"
+                goals = int(goals_str) if goals_str.isdigit() else 0
 
-        for i, entry in enumerate(entries[:max_players]):
-            try:
-                # Spielername und Verein extrahieren
-                name_el = entry.find_element(By.CSS_SELECTOR, ".player-name, .name, a[href*='spieler']")
-                name = name_el.text.strip()
-
-                team_el = entry.find_element(By.CSS_SELECTOR, ".team-name, .club, .verein")
-                team = team_el.text.strip()
-
-                # Tore extrahieren
-                goals_el = entry.find_element(By.CSS_SELECTOR, ".goals, .tore, .count")
-                goals = int(goals_el.text.strip())
-
-                # Spieler-Profil-Link
-                link_el = entry.find_element(By.CSS_SELECTOR, "a[href*='spieler']")
-                profile_url = link_el.get_attribute("href")
+                link = player_td.find("a", href=True)
+                profile_url = link["href"] if link else ""
                 player_id = profile_url.split("/")[-1] if profile_url else ""
 
-                players.append({
-                    "name": name,
-                    "verein": team,
-                    "tore": goals,
-                    "player_id": player_id,
-                    "profile_url": profile_url,
-                    "rang": i + 1,
-                })
+                if name:
+                    players.append({
+                        "name": name,
+                        "verein": verein,
+                        "tore": goals,
+                        "player_id": player_id,
+                        "profile_url": profile_url,
+                        "rang": i + 1,
+                    })
             except Exception as e:
                 logger.debug(f"Konnte Eintrag {i+1} nicht parsen: {e}")
                 continue
