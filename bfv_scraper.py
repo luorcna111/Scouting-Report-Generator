@@ -109,6 +109,21 @@ BFV_LEAGUES = {
         "comp_id": "02T7P85BRG000000VS5489BTVSDFH806-G",
         "liga_faktor": 0.85,
     },
+    "landesliga_nordwest": {
+        "name": "Landesliga Nordwest",
+        "comp_id": "TODO_NORDWEST_ID",  # Richtige ID auf bfv.de nachschlagen
+        "liga_faktor": 0.85,
+    },
+    "landesliga_suedwest": {
+        "name": "Landesliga Südwest",
+        "comp_id": "TODO_SUEDWEST_ID",  # Richtige ID auf bfv.de nachschlagen
+        "liga_faktor": 0.85,
+    },
+    "landesliga_suedost": {
+        "name": "Landesliga Südost",
+        "comp_id": "TODO_SUEDOST_ID",  # Richtige ID auf bfv.de nachschlagen
+        "liga_faktor": 0.85,
+    },
 }
 
 BFV_BASE_URL = "https://www.bfv.de"
