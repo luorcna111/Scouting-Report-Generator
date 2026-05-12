@@ -36,3 +36,11 @@ jobs:
         run: |
           # Fuehrt das Skript vollumfaenglich aus
           python main.py --scrape --send-emails
+
+      - name: Reports als Artifact hochladen
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scouting-reports-${{ github.run_number }}
+          path: output/
+          retention-days: 30
