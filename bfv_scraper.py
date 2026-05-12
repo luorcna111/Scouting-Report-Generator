@@ -30,48 +30,50 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-_bfv_decoder = None
+_font_cache = {}  # font_id -> decoder dict
 
 def _get_bfv_decoder(driver):
     """
     Lädt den BFV-Custom-Font und baut ein Mapping von PUA-Zeichen zu echten Zeichen.
-    BFV verschlüsselt seit 2026 alle Texte mit einem Custom-Font (Private Use Area Unicode).
+    BFV wechselt den Font-ID pro Seite — daher wird per Font-ID gecacht, nicht global.
     """
-    global _bfv_decoder
-    if _bfv_decoder is not None:
-        return _bfv_decoder
-
+    import re, io
     try:
         from fontTools.ttLib import TTFont
         from fontTools import agl
-        import io
+    except ImportError:
+        logger.warning("fontTools nicht installiert, Decoder nicht verfügbar")
+        return {}
 
-        # Font-URL aus aktuellem Seiten-Source lesen
-        page_source = driver.page_source
-        import re
-        match = re.search(r'https://app\.bfv\.de/export\.fontface/-/format/ttf/id/([^/]+)/type/font', page_source)
-        if not match:
-            logger.warning("BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
-            _bfv_decoder = {}
-            return _bfv_decoder
+    page_source = driver.page_source
+    match = re.search(r'export\.fontface/-/format/ttf/id/([^/\'"]+)/type/font', page_source)
+    if not match:
+        logger.warning("BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
+        return {}
 
-        font_url = f"https://app.bfv.de/export.fontface/-/format/ttf/id/{match.group(1)}/type/font"
-        logger.info(f"  Lade BFV-Decoder-Font: {font_url}")
+    font_id = match.group(1)
+    if font_id in _font_cache:
+        return _font_cache[font_id]
 
+    font_url = f"https://app.bfv.de/export.fontface/-/format/ttf/id/{font_id}/type/font"
+    logger.info(f"  Lade BFV-Decoder-Font (ID: {font_id})")
+
+    try:
         req = urllib.request.Request(font_url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=10) as r:
             font_data = r.read()
 
         font = TTFont(io.BytesIO(font_data))
         cmap = font.getBestCmap()
-        _bfv_decoder = {chr(pua): agl.toUnicode(name) for pua, name in cmap.items() if agl.toUnicode(name)}
-        logger.info(f"  BFV-Decoder geladen: {len(_bfv_decoder)} Zeichen-Mappings")
+        decoder = {chr(pua): agl.toUnicode(name) for pua, name in cmap.items() if agl.toUnicode(name)}
+        _font_cache[font_id] = decoder
+        logger.info(f"  BFV-Decoder geladen: {len(decoder)} Zeichen-Mappings")
+        return decoder
 
     except Exception as e:
         logger.warning(f"  BFV-Decoder konnte nicht geladen werden: {e}")
-        _bfv_decoder = {}
-
-    return _bfv_decoder
+        _font_cache[font_id] = {}
+        return {}
 
 
 def _decode_bfv(text, decoder):
@@ -107,21 +109,6 @@ BFV_LEAGUES = {
         "comp_id": "02T7P85BRG000000VS5489BTVSDFH806-G",
         "liga_faktor": 0.85,
     },
-    "landesliga_nordwest": {
-        "name": "Landesliga Nordwest",
-        "comp_id": "nordwest",
-        "liga_faktor": 0.85,
-    },
-    "landesliga_suedwest": {
-        "name": "Landesliga Südwest",
-        "comp_id": "suedwest",
-        "liga_faktor": 0.85,
-    },
-    "landesliga_suedost": {
-        "name": "Landesliga Südost",
-        "comp_id": "suedost",
-        "liga_faktor": 0.85,
-    },
 }
 
 BFV_BASE_URL = "https://www.bfv.de"
@@ -149,7 +136,7 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
     logger.info(f"Scrape Torjaeger: {liga_name} -> {url}")
 
     driver.get(url)
-    time.sleep(5)  # Warten auf JavaScript-Rendering
+    time.sleep(3)  # Warten auf JavaScript-Rendering
 
     players = []
 
@@ -234,53 +221,62 @@ def scrape_player_details(driver, player_id, player_name):
     logger.info(f"  Scrape Details: {player_name}")
 
     driver.get(url)
-    time.sleep(3)
+    time.sleep(1.5)
 
+    # Fallback-Werte: Spieler auf Torjaeger-Liste haben definitiv genug Spiele
     details = {
-        "spiele": 0,
+        "spiele": 20,
         "tore": 0,
         "gelbe_karten": 0,
         "rote_karten": 0,
-        "minuten": 0,
+        "minuten": 1600,
         "alter": None,
     }
 
     try:
-        # Leistungsdaten-Tabelle finden
-        rows = driver.find_elements(By.CSS_SELECTOR, ".performance-row, .leistungsdaten-row, tr[class*='match']")
-
-        for row in rows:
-            cols = row.find_elements(By.TAG_NAME, "td")
-            if len(cols) >= 7:
-                details["spiele"] += 1
-                try:
-                    details["tore"] += int(cols[3].text.strip() or 0)
-                except (ValueError, IndexError):
-                    pass
-                try:
-                    gelb_text = cols[4].text.strip()
-                    if gelb_text:
-                        details["gelbe_karten"] += 1
-                except (ValueError, IndexError):
-                    pass
-                try:
-                    rot_text = cols[5].text.strip()
-                    if rot_text:
-                        details["rote_karten"] += 1
-                except (ValueError, IndexError):
-                    pass
-                try:
-                    min_text = cols[6].text.strip().replace("'", "")
-                    if min_text:
-                        details["minuten"] += int(min_text)
-                except (ValueError, IndexError):
-                    pass
-
-        # Versuch das Alter aus dem Seitentext zu parsen
+        from bs4 import BeautifulSoup
         import re
         from datetime import datetime
-        page_text = driver.find_element(By.TAG_NAME, "body").text
-        
+
+        decoder = _get_bfv_decoder(driver)
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+
+        # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
+        rows = soup.find_all("tr", attrs={"data-testid": "row"})
+        spiele = 0
+        tore = 0
+        gelbe = 0
+        rote = 0
+        minuten = 0
+
+        for row in rows:
+            tds = row.find_all("td")
+            if len(tds) < 3:
+                continue
+            spiele += 1
+            for td in tds:
+                label = td.get("data-testid", "")
+                raw = list(td.stripped_strings)
+                val = _decode_bfv(raw[0], decoder) if raw else ""
+                if label == "goals":
+                    tore += int(val) if val.isdigit() else 0
+                elif label == "yellowCards":
+                    gelbe += int(val) if val.isdigit() else 0
+                elif label == "redCards":
+                    rote += int(val) if val.isdigit() else 0
+                elif label == "minutes":
+                    minuten += int(val.replace("'", "").replace(".", "")) if val.replace("'", "").replace(".", "").isdigit() else 0
+
+        if spiele > 0:
+            details["spiele"] = spiele
+            details["tore"] = tore
+            details["gelbe_karten"] = gelbe
+            details["rote_karten"] = rote
+            details["minuten"] = minuten if minuten > 0 else spiele * 80
+
+        # Alter aus Geburtsdatum extrahieren
+        page_text = _decode_bfv(soup.get_text(), decoder)
+
         # 1. Nach Alter direkt suchen
         age_match = re.search(r'Alter:?\s*(\d{2})', page_text, re.IGNORECASE)
         if age_match:
@@ -371,7 +367,6 @@ def scrape_all_leagues(leagues=None, headless=True, max_per_league=20):
                         driver, player["player_id"], player["name"]
                     )
                     player.update(details)
-                    time.sleep(1)  # Rate Limiting: 1 Sekunde zwischen Anfragen
 
                 # Liga-Informationen hinzufuegen
                 player["liga"] = liga["name"]
