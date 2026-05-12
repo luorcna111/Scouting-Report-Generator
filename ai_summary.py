@@ -69,13 +69,22 @@ def generate_ai_summary(player_row):
                     model='gemini-2.0-flash',
                     contents=prompt
                 )
-                
+
                 # Kurze Pause für den naechsten Durchlauf
                 time.sleep(2)
                 return response.text.strip()
-                
+
             except Exception as e:
-                if "503" in str(e) and attempt < max_retries - 1:
+                error_str = str(e)
+                if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
+                    # Kontingent erschöpft – kein Retry möglich, sofort überspringen
+                    logger.warning(
+                        "Gemini-Kontingent erschöpft (429 RESOURCE_EXHAUSTED). "
+                        "KI-Fazit wird übersprungen. "
+                        "Bitte Gemini API-Key auf Billing-Plan upgraden."
+                    )
+                    return ""
+                elif "503" in error_str and attempt < max_retries - 1:
                     logger.warning(f"Google API ueberlastet (503). Versuch {attempt+2} in 5 Sekunden...")
                     time.sleep(5)
                 else:

@@ -269,6 +269,15 @@ def send_player_invitation(player_row, simulate: bool = True) -> bool:
         logger.info(f"   ✅ Terminvorschlag-Simulation erfolgreich")
         return True
 
+    # Credentials prüfen bevor eine SMTP-Verbindung versucht wird
+    sender_password = EMAIL_CONFIG.get("sender_password", "")
+    if not sender_password:
+        logger.warning(
+            "   ⚠️  Kein SENDGRID_API_KEY konfiguriert. "
+            "Terminvorschlag-Mail nicht möglich – bitte Secret in GitHub setzen."
+        )
+        return False
+
     try:
         msg = MIMEMultipart()
         msg["From"] = EMAIL_CONFIG["sender_email"]
@@ -281,11 +290,10 @@ def send_player_invitation(player_row, simulate: bool = True) -> bool:
         with smtplib.SMTP(EMAIL_CONFIG["smtp_server"], EMAIL_CONFIG["smtp_port"]) as server:
             if EMAIL_CONFIG.get("use_tls", True):
                 server.starttls()
-            if EMAIL_CONFIG.get("sender_password"):
-                server.login(
-                    EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
-                    EMAIL_CONFIG["sender_password"]
-                )
+            server.login(
+                EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
+                sender_password
+            )
             server.send_message(msg)
 
         logger.info(f"   ✅ Terminvorschlag-Mail erfolgreich versendet!")
@@ -337,6 +345,15 @@ def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_
         return True
 
     # Tatsächlicher E-Mail-Versand
+    # Credentials prüfen bevor eine SMTP-Verbindung versucht wird
+    sender_password = EMAIL_CONFIG.get("sender_password", "")
+    if not sender_password:
+        logger.warning(
+            "   ⚠️  Kein SENDGRID_API_KEY konfiguriert. "
+            "E-Mail-Versand nicht möglich – bitte Secret in GitHub setzen."
+        )
+        return False
+
     try:
         msg = MIMEMultipart()
         msg["From"] = EMAIL_CONFIG["sender_email"]
@@ -362,11 +379,10 @@ def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_
         with smtplib.SMTP(EMAIL_CONFIG["smtp_server"], EMAIL_CONFIG["smtp_port"]) as server:
             if EMAIL_CONFIG.get("use_tls", True):
                 server.starttls()
-            if EMAIL_CONFIG.get("sender_password"):
-                server.login(
-                    EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
-                    EMAIL_CONFIG["sender_password"]
-                )
+            server.login(
+                EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
+                sender_password
+            )
             server.send_message(msg)
 
         logger.info(f"   ✅ E-Mail erfolgreich versendet!")
