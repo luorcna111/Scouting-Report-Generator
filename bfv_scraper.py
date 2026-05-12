@@ -121,6 +121,19 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
             # Fallback: Versuche andere Selektoren
             entries = driver.find_elements(By.CSS_SELECTOR, ".ranking-list-item, .list-item")
 
+        if not entries:
+            # Debug: Seiten-Quelle speichern um Struktur zu analysieren
+            debug_path = Path(__file__).parent / "output" / f"debug_{liga_name.replace(' ', '_')}.html"
+            debug_path.parent.mkdir(exist_ok=True)
+            debug_path.write_text(driver.page_source, encoding="utf-8")
+            logger.warning(f"  Keine Eintraege gefunden. Seiten-HTML gespeichert: {debug_path.name}")
+            logger.warning(f"  Seitentitel: {driver.title}")
+            # Alle sichtbaren Klassen auf der Seite loggen
+            all_classes = driver.execute_script(
+                "return [...new Set([...document.querySelectorAll('*')].map(e => e.className).filter(c => typeof c === 'string' && c))].slice(0, 30)"
+            )
+            logger.warning(f"  Gefundene CSS-Klassen (Auswahl): {all_classes}")
+
         for i, entry in enumerate(entries[:max_players]):
             try:
                 # Spielername und Verein extrahieren
