@@ -199,9 +199,12 @@ def get_transfermarkt_cards_for_players(bfv_df, top_n=15):
     """
     if "tore" in bfv_df.columns and "spiele" in bfv_df.columns:
         bfv_df = bfv_df.copy()
-        bfv_df["_tore_pro_spiel"] = bfv_df["tore"] / bfv_df["spiele"].clip(lower=1)
-        bfv_df = bfv_df.nlargest(top_n, "_tore_pro_spiel")
-        logger.info(f"  TM-Karten: nur Top {top_n} Spieler nach Tore/Spiel werden abgefragt")
+        liga_faktor = bfv_df.get("liga_faktor", 1.0)
+        # Liga-Faktor einbeziehen damit Regionalliga-Spieler nicht verdraengt werden
+        bfv_df["_sort_key"] = (bfv_df["tore"] / bfv_df["spiele"].clip(lower=1)) * liga_faktor
+        bfv_df = bfv_df.nlargest(top_n, "_sort_key")
+        logger.info(f"  TM-Karten: Top {top_n} Spieler nach Tore/Spiel×Liga-Faktor: "
+                    f"{list(bfv_df['name'])}")
 
     results = []
     total = len(bfv_df)
