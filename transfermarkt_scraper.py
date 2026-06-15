@@ -104,86 +104,130 @@ def get_transfermarkt_assists(liga_name):
         logger.error(f"Fehler beim Transfermarkt Scraping: {e}")
         return []
 
-def get_transfermarkt_cards(liga_name):
-    """
-    Holt Karten-Daten (Gelbe/Rote Karten) von der Transfermarkt Verwarnungs-Seite.
-    """
-    url = TM_CARD_URLS.get(liga_name)
-    if not url:
-        return []
+TM_LIGA_KEYS = {
+    "Regionalliga Bayern": "RLB3",
+    "Bayernliga Nord": "OLL5",
+    "Bayernliga Süd": "OLL6",
+    "Landesliga Mitte": "LBM",
+    "Landesliga Nordost": "BLN",
+    "Landesliga Nordwest": "LBNW",
+    "Landesliga Südwest": "LBSW",
+    "Landesliga Südost": "LBSO",
+}
 
-    logger.info(f"Scrape Transfermarkt Karten: {url}")
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    }
 
+def _search_tm_player(name):
+    """Sucht einen Spieler auf Transfermarkt und gibt seine Profil-URL zurueck."""
+    import time
+    url = f"https://www.transfermarkt.de/schnellsuche/ergebnis/schnellsuche?query={name.replace(' ', '+')}&Spieler_page=0"
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        if response.status_code != 200:
-            logger.error(f"Transfermarkt Karten HTTP Fehler: {response.status_code}")
-            return []
-
-        soup = BeautifulSoup(response.text, 'html.parser')
-        table = soup.select_one("table.items")
-        if not table:
-            return []
-
-        players = []
-        for row in table.select("tbody tr"):
-            name_col = row.select_one("td.hauptlink a")
-            if not name_col:
+        r = requests.get(url, headers=HEADERS, timeout=10)
+        if r.status_code != 200:
+            return None
+        soup = BeautifulSoup(r.text, 'html.parser')
+        # Erste Spieler-Ergebnis-Tabelle
+        for table in soup.select("table.items"):
+            header = table.find_previous("h2")
+            if header and "Spieler" not in header.text:
                 continue
+            link = table.select_one("td.hauptlink a")
+            if link and link.get("href"):
+                return "https://www.transfermarkt.de" + link["href"]
+    except Exception:
+        pass
+    return None
 
-            name = name_col.text.strip()
-            num_cols = row.select("td.zentriert")
 
-            # Transfermarkt Verwarnungs-Layout:
-            # 0: Platzierung, 1: Verein, 2: Nationalität, 3: Alter,
-            # 4: Spiele, 5: Gelbe, 6: Gelb-Rot, 7: Rote
-            gelbe = 0
-            rote = 0
-            if len(num_cols) >= 8:
+def _get_player_cards_from_profile(profile_url, liga_key, saison="2025"):
+    """
+    Laedt die Leistungsdaten eines Spielers von seinem TM-Profil
+    und gibt gelbe/rote Karten fuer die angegebene Liga und Saison zurueck.
+    """
+    try:
+        # profil -> leistungsdaten URL bauen
+        parts = profile_url.replace("https://www.transfermarkt.de/", "").split("/")
+        slug = parts[0]
+        player_id = parts[-1]
+        stats_url = (
+            f"https://www.transfermarkt.de/{slug}/leistungsdaten"
+            f"/spieler/{player_id}/plus/0?saison={saison}"
+        )
+        r = requests.get(stats_url, headers=HEADERS, timeout=10)
+        if r.status_code != 200:
+            return 0, 0
+        soup = BeautifulSoup(r.text, 'html.parser')
+
+        # Tabellen-Zeilen durchsuchen — Liga-Key in der Zeile finden
+        for row in soup.select("table.items tbody tr"):
+            wettbewerb = row.select_one("td a.vereinprofil_tooltip, td a")
+            if not wettbewerb:
+                continue
+            href = wettbewerb.get("href", "")
+            if liga_key not in href:
+                continue
+            # Zentrierte Spalten: Einsätze, Tore, Vorlagen, Gelb, Gelb-Rot, Rot, Minuten
+            cols = row.select("td.zentriert")
+            if len(cols) >= 6:
                 try:
-                    g = num_cols[5].text.strip()
-                    gelbe = int(g) if g.isdigit() else 0
+                    gelbe = int(cols[3].text.strip()) if cols[3].text.strip().isdigit() else 0
+                    rote  = int(cols[5].text.strip()) if cols[5].text.strip().isdigit() else 0
+                    return gelbe, rote
                 except (ValueError, IndexError):
                     pass
-                try:
-                    r = num_cols[7].text.strip()
-                    rote = int(r) if r.isdigit() else 0
-                except (ValueError, IndexError):
-                    pass
+    except Exception:
+        pass
+    return 0, 0
 
-            players.append({"name": name, "gelbe_karten_tm": gelbe, "rote_karten_tm": rote})
 
-        logger.info(f"  -> {len(players)} Spieler-Karten von Transfermarkt geladen.")
-        return players
+def get_transfermarkt_cards_for_players(bfv_df):
+    """
+    Sucht jeden BFV-Spieler auf Transfermarkt und liest seine Karten
+    fuer die aktuelle Saison vom Spielerprofil aus.
+    """
+    import time
+    results = []
+    total = len(bfv_df)
 
-    except Exception as e:
-        logger.error(f"Fehler beim Transfermarkt Karten-Scraping: {e}")
-        return []
+    for i, (_, row) in enumerate(bfv_df.iterrows()):
+        name = row["name"]
+        liga = row.get("liga", "")
+        liga_key = TM_LIGA_KEYS.get(liga, "")
+
+        logger.info(f"  TM-Karten [{i+1}/{total}]: {name}")
+        profile_url = _search_tm_player(name)
+
+        gelbe, rote = 0, 0
+        if profile_url and liga_key:
+            gelbe, rote = _get_player_cards_from_profile(profile_url, liga_key)
+            logger.info(f"    -> {gelbe} Gelb, {rote} Rot")
+        else:
+            logger.info(f"    -> Spieler nicht gefunden auf TM")
+
+        results.append({"name": name, "gelbe_karten_tm": gelbe, "rote_karten_tm": rote})
+        time.sleep(0.5)  # Rate-Limiting
+
+    return pd.DataFrame(results)
 
 
 def get_real_assists(bfv_df):
     """
-    Hauptfunktion die BFV-Daten nimmt und mit echten Transfermarkt-Assists und Karten anreichert.
+    Hauptfunktion: BFV-Daten mit Transfermarkt-Assists und Karten anreichern.
     """
     all_assist_data = []
-    all_card_data = []
 
-    ligen = bfv_df["liga"].unique()
-
-    for liga in ligen:
+    for liga in bfv_df["liga"].unique():
         assists = get_transfermarkt_assists(liga)
         if assists:
             all_assist_data.extend(assists)
-        cards = get_transfermarkt_cards(liga)
-        if cards:
-            all_card_data.extend(cards)
 
     df_assists = pd.DataFrame(all_assist_data) if all_assist_data else pd.DataFrame(columns=["name", "assists"])
-    df_cards = pd.DataFrame(all_card_data) if all_card_data else pd.DataFrame(columns=["name", "gelbe_karten_tm", "rote_karten_tm"])
+
+    logger.info("Starte TM-Karten-Suche pro Spieler...")
+    df_cards = get_transfermarkt_cards_for_players(bfv_df)
 
     if df_assists.empty and df_cards.empty:
         return pd.DataFrame()
