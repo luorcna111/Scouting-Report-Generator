@@ -58,7 +58,7 @@ def _tm_get(url, retries=2):
         except Exception as e:
             logger.warning(f"    TM Fehler (Versuch {attempt+1}): {e}")
         if attempt < retries:
-            time.sleep(2)
+            time.sleep(1)
     return None
 
 
@@ -218,7 +218,7 @@ def get_transfermarkt_cards_for_players(bfv_df):
             logger.info(f"    -> Spieler nicht auf TM gefunden")
 
         results.append({"name": name, "gelbe_karten_tm": gelbe, "rote_karten_tm": rote})
-        time.sleep(1.5)  # TM Rate-Limiting
+        time.sleep(0.5)  # TM Rate-Limiting
 
     return pd.DataFrame(results)
 
