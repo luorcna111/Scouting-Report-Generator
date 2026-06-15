@@ -6,18 +6,22 @@ import time
 
 logger = logging.getLogger(__name__)
 
-# Shared session so cookies persist across requests (reduces bot detection)
-_session = requests.Session()
-_session.headers.update({
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-    'Accept-Language': 'de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Connection': 'keep-alive',
-    'Upgrade-Insecure-Requests': '1',
-    'Cache-Control': 'max-age=0',
-    'Referer': 'https://www.transfermarkt.de/',
-})
+# cloudscraper loest Cloudflare-JS-Challenges automatisch
+# (TM sperrt plain requests auf Spieler-Seiten, aber nicht auf Suche)
+try:
+    import cloudscraper
+    _session = cloudscraper.create_scraper(
+        browser={'browser': 'chrome', 'platform': 'windows', 'mobile': False}
+    )
+    logger.info("TM-Scraper: cloudscraper aktiv (Cloudflare-Bypass)")
+except ImportError:
+    _session = requests.Session()
+    _session.headers.update({
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Accept-Language': 'de-DE,de;q=0.9',
+        'Referer': 'https://www.transfermarkt.de/',
+    })
+    logger.warning("TM-Scraper: cloudscraper nicht verfuegbar, Fallback auf requests")
 
 TM_URLS = {
     "Regionalliga Bayern": "https://www.transfermarkt.de/regionalliga-bayern/scorerliste/wettbewerb/RLB3",
