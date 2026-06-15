@@ -387,9 +387,15 @@ def scrape_all_leagues(leagues=None, headless=True, max_per_league=20):
                         decoder=list_decoder
                     )
                     list_tore = player.get("tore", 0)
+                    list_gelbe = player.get("gelbe_karten", 0)
+                    list_rote = player.get("rote_karten", 0)
                     player.update(details)
                     if player.get("tore", 0) == 0 and list_tore > 0:
                         player["tore"] = list_tore
+                    if player.get("gelbe_karten", 0) == 0 and list_gelbe > 0:
+                        player["gelbe_karten"] = list_gelbe
+                    if player.get("rote_karten", 0) == 0 and list_rote > 0:
+                        player["rote_karten"] = list_rote
 
                 # Liga-Informationen hinzufuegen
                 player["liga"] = liga["name"]
