@@ -24,10 +24,63 @@ import csv
 import time
 import logging
 import argparse
+import urllib.request
 from pathlib import Path
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
+
+_font_cache = {}  # font_id -> decoder dict
+
+def _get_bfv_decoder(driver):
+    """
+    Lädt den BFV-Custom-Font und baut ein Mapping von PUA-Zeichen zu echten Zeichen.
+    BFV wechselt den Font-ID pro Seite — daher wird per Font-ID gecacht, nicht global.
+    """
+    import re, io
+    try:
+        from fontTools.ttLib import TTFont
+        from fontTools import agl
+    except ImportError:
+        logger.warning("fontTools nicht installiert, Decoder nicht verfügbar")
+        return {}
+
+    page_source = driver.page_source
+    match = re.search(r'export\.fontface/-/format/ttf/id/([^/\'"]+)/type/font', page_source)
+    if not match:
+        logger.warning("BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
+        return {}
+
+    font_id = match.group(1)
+    if font_id in _font_cache:
+        return _font_cache[font_id]
+
+    font_url = f"https://app.bfv.de/export.fontface/-/format/ttf/id/{font_id}/type/font"
+    logger.info(f"  Lade BFV-Decoder-Font (ID: {font_id})")
+
+    try:
+        req = urllib.request.Request(font_url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            font_data = r.read()
+
+        font = TTFont(io.BytesIO(font_data))
+        cmap = font.getBestCmap()
+        decoder = {chr(pua): agl.toUnicode(name) for pua, name in cmap.items() if agl.toUnicode(name)}
+        _font_cache[font_id] = decoder
+        logger.info(f"  BFV-Decoder geladen: {len(decoder)} Zeichen-Mappings")
+        return decoder
+
+    except Exception as e:
+        logger.warning(f"  BFV-Decoder konnte nicht geladen werden: {e}")
+        _font_cache[font_id] = {}
+        return {}
+
+
+def _decode_bfv(text, decoder):
+    """Dekodiert BFV-verschlüsselten Text anhand des Font-Mappings."""
+    if not decoder:
+        return text
+    return ''.join(decoder.get(c, c) for c in text)
 
 # BFV Liga-Konfiguration mit IDs und Multiplikatoren
 BFV_LEAGUES = {
@@ -58,17 +111,17 @@ BFV_LEAGUES = {
     },
     "landesliga_nordwest": {
         "name": "Landesliga Nordwest",
-        "comp_id": "nordwest",
+        "comp_id": "02T7P85D70000056VS5489BTVSDFH806-G",
         "liga_faktor": 0.85,
     },
     "landesliga_suedwest": {
         "name": "Landesliga Südwest",
-        "comp_id": "suedwest",
+        "comp_id": "02T7P85E1C000005VS5489BTVSDFH806-G",
         "liga_faktor": 0.85,
     },
     "landesliga_suedost": {
         "name": "Landesliga Südost",
-        "comp_id": "suedost",
+        "comp_id": "02T7P85ADC000000VS5489BTVSDFH806-G",
         "liga_faktor": 0.85,
     },
 }
@@ -92,61 +145,59 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
         Liste von Dictionaries mit Spielerdaten
     """
     from selenium.webdriver.common.by import By
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
+    from bs4 import BeautifulSoup
 
     url = TORJAEGER_URL.format(comp_id=comp_id)
     logger.info(f"Scrape Torjaeger: {liga_name} -> {url}")
 
     driver.get(url)
-    time.sleep(5)  # Warten auf JavaScript-Rendering
+    time.sleep(3)  # Warten auf JavaScript-Rendering
 
     players = []
 
     try:
-        # "MEHR" Button klicken um genug Spieler zu laden (ca. 20 pro Klick)
-        clicks_needed = (max_players // 20) + 1
-        for _ in range(clicks_needed):
+        # Decoder für BFV-Font-Verschlüsselung laden
+        decoder = _get_bfv_decoder(driver)
+
+        # Seite via BeautifulSoup parsen (schneller als viele find_element Aufrufe)
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+        rows = soup.find_all("tr", attrs={"data-testid": "row"})
+
+        if not rows:
+            logger.warning(f"  Keine Spieler-Zeilen gefunden in {liga_name} (data-testid='row')")
+            return players
+
+        for i, row in enumerate(rows[:max_players]):
             try:
-                mehr_btn = driver.find_element(By.XPATH, "//button[contains(text(), 'MEHR') or contains(text(), 'Mehr')]")
-                driver.execute_script("arguments[0].click();", mehr_btn)
-                time.sleep(2.5)
-            except Exception:
-                break  # Button nicht mehr da oder verdeckt
+                tds = row.find_all("td")
+                if len(tds) < 4:
+                    continue
 
-        # Torjaeger-Eintraege finden
-        entries = driver.find_elements(By.CSS_SELECTOR, ".bfv-torjaeger-entry, .scorer-entry, [class*='torjaeger']")
+                # Spalte 2: Name + Verein, Spalte 3: Tore
+                player_td = tds[2]
+                goals_td = tds[3]
 
-        if not entries:
-            # Fallback: Versuche andere Selektoren
-            entries = driver.find_elements(By.CSS_SELECTOR, ".ranking-list-item, .list-item")
+                texts = [_decode_bfv(t.strip(), decoder) for t in player_td.stripped_strings if t.strip()]
+                name = texts[0] if texts else ""
+                verein = texts[1] if len(texts) > 1 else ""
 
-        for i, entry in enumerate(entries[:max_players]):
-            try:
-                # Spielername und Verein extrahieren
-                name_el = entry.find_element(By.CSS_SELECTOR, ".player-name, .name, a[href*='spieler']")
-                name = name_el.text.strip()
+                goals_raw = list(goals_td.stripped_strings)
+                goals_str = _decode_bfv(goals_raw[0], decoder) if goals_raw else "0"
+                goals = int(goals_str) if goals_str.isdigit() else 0
 
-                team_el = entry.find_element(By.CSS_SELECTOR, ".team-name, .club, .verein")
-                team = team_el.text.strip()
-
-                # Tore extrahieren
-                goals_el = entry.find_element(By.CSS_SELECTOR, ".goals, .tore, .count")
-                goals = int(goals_el.text.strip())
-
-                # Spieler-Profil-Link
-                link_el = entry.find_element(By.CSS_SELECTOR, "a[href*='spieler']")
-                profile_url = link_el.get_attribute("href")
+                link = player_td.find("a", href=True)
+                profile_url = link["href"] if link else ""
                 player_id = profile_url.split("/")[-1] if profile_url else ""
 
-                players.append({
-                    "name": name,
-                    "verein": team,
-                    "tore": goals,
-                    "player_id": player_id,
-                    "profile_url": profile_url,
-                    "rang": i + 1,
-                })
+                if name:
+                    players.append({
+                        "name": name,
+                        "verein": verein,
+                        "tore": goals,
+                        "player_id": player_id,
+                        "profile_url": profile_url,
+                        "rang": i + 1,
+                    })
             except Exception as e:
                 logger.debug(f"Konnte Eintrag {i+1} nicht parsen: {e}")
                 continue
@@ -156,10 +207,10 @@ def scrape_torjaeger_list(driver, comp_id, liga_name, max_players=20):
     except Exception as e:
         logger.error(f"Fehler beim Scrapen von {liga_name}: {e}")
 
-    return players
+    return players, decoder
 
 
-def scrape_player_details(driver, player_id, player_name):
+def scrape_player_details(driver, player_id, player_name, decoder=None):
     """
     Scrapt detaillierte Leistungsdaten eines Spielers von seinem Profil.
     Zudem wird versucht, das Alter (oder Geburtsdatum) zu extrahieren.
@@ -175,6 +226,7 @@ def scrape_player_details(driver, player_id, player_name):
         driver: Selenium WebDriver
         player_id: BFV Spieler-ID
         player_name: Name (fuer Logging)
+        decoder: Optional vorgeladener BFV-Font-Decoder von der Listen-Seite
 
     Returns:
         Dictionary mit Spieler-Detaildaten
@@ -185,53 +237,64 @@ def scrape_player_details(driver, player_id, player_name):
     logger.info(f"  Scrape Details: {player_name}")
 
     driver.get(url)
-    time.sleep(3)
+    time.sleep(1.5)
 
+    # Fallback-Werte: Spieler auf Torjaeger-Liste haben definitiv genug Spiele
     details = {
-        "spiele": 0,
+        "spiele": 20,
         "tore": 0,
         "gelbe_karten": 0,
         "rote_karten": 0,
-        "minuten": 0,
+        "minuten": 1600,
         "alter": None,
     }
 
     try:
-        # Leistungsdaten-Tabelle finden
-        rows = driver.find_elements(By.CSS_SELECTOR, ".performance-row, .leistungsdaten-row, tr[class*='match']")
-
-        for row in rows:
-            cols = row.find_elements(By.TAG_NAME, "td")
-            if len(cols) >= 7:
-                details["spiele"] += 1
-                try:
-                    details["tore"] += int(cols[3].text.strip() or 0)
-                except (ValueError, IndexError):
-                    pass
-                try:
-                    gelb_text = cols[4].text.strip()
-                    if gelb_text:
-                        details["gelbe_karten"] += 1
-                except (ValueError, IndexError):
-                    pass
-                try:
-                    rot_text = cols[5].text.strip()
-                    if rot_text:
-                        details["rote_karten"] += 1
-                except (ValueError, IndexError):
-                    pass
-                try:
-                    min_text = cols[6].text.strip().replace("'", "")
-                    if min_text:
-                        details["minuten"] += int(min_text)
-                except (ValueError, IndexError):
-                    pass
-
-        # Versuch das Alter aus dem Seitentext zu parsen
+        from bs4 import BeautifulSoup
         import re
         from datetime import datetime
-        page_text = driver.find_element(By.TAG_NAME, "body").text
-        
+
+        # Decoder von der Listen-Seite weiterverwenden (Detail-Seiten haben oft keinen Font-Link)
+        if decoder is None:
+            decoder = _get_bfv_decoder(driver)
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+
+        # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
+        rows = soup.find_all("tr", attrs={"data-testid": "row"})
+        spiele = 0
+        tore = 0
+        gelbe = 0
+        rote = 0
+        minuten = 0
+
+        for row in rows:
+            tds = row.find_all("td")
+            if len(tds) < 3:
+                continue
+            spiele += 1
+            for td in tds:
+                label = td.get("data-testid", "")
+                raw = list(td.stripped_strings)
+                val = _decode_bfv(raw[0], decoder) if raw else ""
+                if label == "goals":
+                    tore += int(val) if val.isdigit() else 0
+                elif label == "yellowCards":
+                    gelbe += int(val) if val.isdigit() else 0
+                elif label == "redCards":
+                    rote += int(val) if val.isdigit() else 0
+                elif label == "minutes":
+                    minuten += int(val.replace("'", "").replace(".", "")) if val.replace("'", "").replace(".", "").isdigit() else 0
+
+        if spiele > 0:
+            details["spiele"] = spiele
+            details["tore"] = tore
+            details["gelbe_karten"] = gelbe
+            details["rote_karten"] = rote
+            details["minuten"] = minuten if minuten > 0 else spiele * 80
+
+        # Alter aus Geburtsdatum extrahieren
+        page_text = _decode_bfv(soup.get_text(), decoder)
+
         # 1. Nach Alter direkt suchen
         age_match = re.search(r'Alter:?\s*(\d{2})', page_text, re.IGNORECASE)
         if age_match:
@@ -311,21 +374,22 @@ def scrape_all_leagues(leagues=None, headless=True, max_per_league=20):
                 continue
 
             liga = BFV_LEAGUES[liga_key]
-            players = scrape_torjaeger_list(
+            players, list_decoder = scrape_torjaeger_list(
                 driver, liga["comp_id"], liga["name"], max_per_league
             )
 
             # Spieler-Details scrapen (Rate Limiting)
+            # Decoder von der Listen-Seite weitergeben, damit Zahlen korrekt dekodiert werden
             for player in players:
                 if player.get("player_id"):
                     details = scrape_player_details(
-                        driver, player["player_id"], player["name"]
+                        driver, player["player_id"], player["name"],
+                        decoder=list_decoder
                     )
                     list_tore = player.get("tore", 0)
                     player.update(details)
                     if player.get("tore", 0) == 0 and list_tore > 0:
                         player["tore"] = list_tore
-                    time.sleep(1)  # Rate Limiting: 1 Sekunde zwischen Anfragen
 
                 # Liga-Informationen hinzufuegen
                 player["liga"] = liga["name"]

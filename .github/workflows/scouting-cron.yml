@@ -31,7 +31,16 @@ jobs:
         env:
           # Wir injizieren hier sicher deine GitHub-Secrets!
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SCOUTING_EMAIL_PW: ${{ secrets.SCOUTING_EMAIL_PW }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          SENDGRID_FROM_EMAIL: ${{ secrets.SENDGRID_FROM_EMAIL }}
         run: |
           # Fuehrt das Skript vollumfaenglich aus
           python main.py --scrape --send-emails
+
+      - name: Reports als Artifact hochladen
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scouting-reports-${{ github.run_number }}
+          path: output/
+          retention-days: 30

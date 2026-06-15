@@ -142,14 +142,16 @@ SCORE_THRESHOLD_AVERAGE = 45    # Durchschnittlich
 # E-MAIL-KONFIGURATION
 # ============================================================
 EMAIL_CONFIG = {
-    "smtp_server": "smtp.gmail.com",
+    "smtp_server": "smtp.sendgrid.net",
     "smtp_port": 587,
     "use_tls": True,
-    "sender_email": os.environ.get("SCOUTING_EMAIL", "informationssystemetest@gmail.com"),
-    "sender_password": os.environ.get("SCOUTING_EMAIL_PW", ""),
+    "smtp_username": "apikey",
+    "sender_email": os.environ.get("SENDGRID_FROM_EMAIL", "luca.schreiner@hm.edu"),
+    "sender_password": os.environ.get("SENDGRID_API_KEY", ""),
     "recipients": [
         "linus.eilers@hm.edu",
-        "informationssystemetest@gmail.com",
+        "luca.schreiner@hm.edu",
+        "weiss19@hm.edu",
     ],
     "subject_template": "Scouting-Alert: {player_name} (Score: {score}/100)",
 }
