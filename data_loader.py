@@ -158,11 +158,25 @@ def validate_data(df):
         tm_df = get_real_assists(df)
         
         if not tm_df.empty:
-            # Zusammenführen von BFV und TM basierend auf dem Spielernamen
             df = pd.merge(df, tm_df, on="name", how="left")
-            
-            # Fehlende Werte mit 0 auffuellen
+
             df["assists"] = df["assists"].fillna(0).astype(int)
+
+            # Karten aus Transfermarkt übernehmen wenn BFV-Wert fehlt (= 0)
+            if "gelbe_karten_tm" in df.columns:
+                df["gelbe_karten_tm"] = df["gelbe_karten_tm"].fillna(0).astype(int)
+                mask = df["gelbe_karten"] == 0
+                df.loc[mask, "gelbe_karten"] = df.loc[mask, "gelbe_karten_tm"]
+                df.drop(columns=["gelbe_karten_tm"], inplace=True)
+                logger.info("  -> Gelbe Karten aus Transfermarkt ergänzt")
+
+            if "rote_karten_tm" in df.columns:
+                df["rote_karten_tm"] = df["rote_karten_tm"].fillna(0).astype(int)
+                mask = df["rote_karten"] == 0
+                df.loc[mask, "rote_karten"] = df.loc[mask, "rote_karten_tm"]
+                df.drop(columns=["rote_karten_tm"], inplace=True)
+                logger.info("  -> Rote Karten aus Transfermarkt ergänzt")
+
             logger.info("Transfermarkt-Daten erfolgreich integriert!")
         else:
             logger.warning("Keine Transfermarkt Daten gefunden. Setze Assists=0.")
