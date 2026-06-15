@@ -270,93 +270,77 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
     }
 
     try:
-        from bs4 import BeautifulSoup
+        import json
         import re
         from datetime import datetime
+        from bs4 import BeautifulSoup
 
-        # Detailseite kann eigene Font-ID haben — immer zuerst frischen Decoder versuchen
-        detail_decoder = _get_bfv_decoder(driver)
-        if detail_decoder:
-            decoder = detail_decoder
-        elif decoder is None:
-            decoder = {}
         soup = BeautifulSoup(driver.page_source, "html.parser")
 
-        # Beim ersten Spieler HTML-Struktur dumpen um aktuelle Seitenstruktur zu sehen
-        if not _font_cache:
-            all_testids = [el.get("data-testid") for el in soup.find_all(attrs={"data-testid": True})]
-            logger.info(f"  [DEBUG] Alle data-testid auf Detailseite: {list(set(all_testids))[:30]}")
-            logger.info(f"  [DEBUG] Seiten-Titel: {soup.title.string if soup.title else 'kein Titel'}")
-            # Ersten 300 Zeichen des Body loggen
-            body_text = soup.get_text()[:300].replace('\n', ' ').strip()
-            logger.info(f"  [DEBUG] Seiten-Text Anfang: {body_text}")
+        # BFV ist eine Next.js App — alle Daten stecken unverschluesselt im __NEXT_DATA__ JSON
+        next_data_tag = soup.find("script", {"id": "__NEXT_DATA__"})
+        if next_data_tag:
+            next_data = json.loads(next_data_tag.string)
 
-        # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
-        rows = soup.find_all("tr", attrs={"data-testid": "row"})
-        logger.info(f"  [DEBUG] {player_name}: {len(rows)} Zeilen gefunden auf Detailseite")
-        spiele = 0
-        tore = 0
-        gelbe = 0
-        rote = 0
-        minuten = 0
+            # JSON-Struktur rekursiv nach Leistungsdaten durchsuchen
+            def find_values(obj, keys):
+                """Sucht rekursiv nach einem Dict das alle keys enthaelt."""
+                results = []
+                if isinstance(obj, dict):
+                    if all(k in obj for k in keys):
+                        results.append(obj)
+                    for v in obj.values():
+                        results.extend(find_values(v, keys))
+                elif isinstance(obj, list):
+                    for item in obj:
+                        results.extend(find_values(item, keys))
+                return results
 
-        # Alle vorhandenen data-testid Werte einmalig loggen (nur beim ersten Spieler)
-        if rows:
-            alle_labels = set()
-            for row in rows:
-                for td in row.find_all("td"):
-                    lbl = td.get("data-testid", "")
-                    if lbl:
-                        alle_labels.add(lbl)
-            logger.info(f"  [DEBUG] Gefundene data-testid Labels: {sorted(alle_labels)}")
+            # Nach Spielstatistik-Eintraegen suchen (enthalten goals/yellowCards/redCards)
+            stat_entries = find_values(next_data, ["goals", "yellowCards"])
+            if not stat_entries:
+                # Alternativ-Keys versuchen
+                stat_entries = find_values(next_data, ["tore", "gelbeKarten"])
 
-        for row in rows:
-            tds = row.find_all("td")
-            if len(tds) < 3:
-                continue
-            spiele += 1
-            for td in tds:
-                label = td.get("data-testid", "")
-                raw = list(td.stripped_strings)
-                val = _decode_bfv(raw[0], decoder) if raw else ""
-                # Fallback: Wenn Dekodierung fehlschlägt, ASCII-Ziffern direkt extrahieren
-                if val and not val.isdigit():
-                    ascii_digits = re.sub(r"[^\d]", "", val)
-                    if ascii_digits:
-                        val = ascii_digits
-                if label == "goals":
-                    tore += int(val) if val.isdigit() else 0
-                elif label == "yellowCards":
-                    gelbe += int(val) if val.isdigit() else 0
-                elif label == "redCards":
-                    rote += int(val) if val.isdigit() else 0
-                elif label == "minutes":
-                    clean = val.replace("'", "").replace(".", "")
-                    minuten += int(clean) if clean.isdigit() else 0
+            spiele = 0
+            tore = 0
+            gelbe = 0
+            rote = 0
+            minuten = 0
 
-        logger.info(f"  [DEBUG] {player_name}: spiele={spiele} tore={tore} gelbe={gelbe} rote={rote} minuten={minuten}")
+            for entry in stat_entries:
+                spiele += 1
+                tore += int(entry.get("goals", entry.get("tore", 0)) or 0)
+                gelbe += int(entry.get("yellowCards", entry.get("gelbeKarten", 0)) or 0)
+                rote += int(entry.get("redCards", entry.get("roteKarten", 0)) or 0)
+                mins = entry.get("minutes", entry.get("minuten", 0)) or 0
+                minuten += int(mins)
 
-        if spiele > 0:
-            details["spiele"] = spiele
-            details["tore"] = tore
-            details["gelbe_karten"] = gelbe
-            details["rote_karten"] = rote
-            details["minuten"] = minuten if minuten > 0 else spiele * 80
+            if spiele > 0:
+                details["spiele"] = spiele
+                details["tore"] = tore
+                details["gelbe_karten"] = gelbe
+                details["rote_karten"] = rote
+                details["minuten"] = minuten if minuten > 0 else spiele * 80
+                logger.info(f"  [OK] {player_name}: {spiele} Spiele, {tore} Tore, {gelbe} Gelb, {rote} Rot (via JSON)")
+            else:
+                logger.warning(f"  {player_name}: Keine Statistik-Eintraege im JSON gefunden")
 
-        # Alter aus Geburtsdatum extrahieren
-        page_text = _decode_bfv(soup.get_text(), decoder)
-
-        # 1. Nach Alter direkt suchen
-        age_match = re.search(r'Alter:?\s*(\d{2})', page_text, re.IGNORECASE)
-        if age_match:
-            details["alter"] = int(age_match.group(1))
+            # Alter aus JSON extrahieren
+            alter_entries = find_values(next_data, ["age"])
+            if alter_entries:
+                alter = alter_entries[0].get("age")
+                if alter and str(alter).isdigit():
+                    details["alter"] = int(alter)
+            if not details["alter"]:
+                dob_entries = find_values(next_data, ["dateOfBirth"])
+                if dob_entries:
+                    dob = dob_entries[0].get("dateOfBirth", "")
+                    dob_match = re.search(r'(\d{4})', str(dob))
+                    if dob_match:
+                        details["alter"] = datetime.now().year - int(dob_match.group(1))
         else:
-            # 2. Nach Geburtsjahr suchen (z.B. 15.05.2003)
-            dob_match = re.search(r'Geburtsdatum:?\s*\d{2}\.\d{2}\.(\d{4})', page_text, re.IGNORECASE)
-            if dob_match:
-                birth_year = int(dob_match.group(1))
-                current_year = datetime.now().year
-                details["alter"] = current_year - birth_year
+            logger.warning(f"  {player_name}: Kein __NEXT_DATA__ gefunden auf Detailseite")
 
     except Exception as e:
         logger.warning(f"Konnte Details fuer {player_name} nicht laden: {e}")
