@@ -47,15 +47,35 @@ def _get_bfv_decoder(driver):
 
     page_source = driver.page_source
     match = re.search(r'export\.fontface/-/format/ttf/id/([^/\'"]+)/type/font', page_source)
-    if not match:
-        logger.warning("BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
-        return {}
 
-    font_id = match.group(1)
+    font_url = None
+    font_id = None
+
+    if match:
+        font_id = match.group(1)
+        font_url = f"https://app.bfv.de/export.fontface/-/format/ttf/id/{font_id}/type/font"
+    else:
+        # Detailseiten laden die Font per JavaScript — via Performance API suchen
+        try:
+            resources = driver.execute_script(
+                "return performance.getEntriesByType('resource')"
+                ".filter(function(r){ return r.name.indexOf('fontface') !== -1; })"
+                ".map(function(r){ return r.name; });"
+            )
+            if resources:
+                font_url = resources[0]
+                id_match = re.search(r'id/([^/]+)/type', font_url)
+                font_id = id_match.group(1) if id_match else font_url
+                logger.info(f"  Font-URL via Performance API gefunden (ID: {font_id})")
+            else:
+                logger.warning("BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
+                return {}
+        except Exception as e:
+            logger.warning(f"BFV-Font-URL nicht gefunden, Decoder nicht verfügbar")
+            return {}
+
     if font_id in _font_cache:
         return _font_cache[font_id]
-
-    font_url = f"https://app.bfv.de/export.fontface/-/format/ttf/id/{font_id}/type/font"
     logger.info(f"  Lade BFV-Decoder-Font (ID: {font_id})")
 
     try:
