@@ -254,9 +254,12 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
         import re
         from datetime import datetime
 
-        # Decoder von der Listen-Seite weiterverwenden (Detail-Seiten haben oft keinen Font-Link)
-        if decoder is None:
-            decoder = _get_bfv_decoder(driver)
+        # Detailseite kann eigene Font-ID haben — immer zuerst frischen Decoder versuchen
+        detail_decoder = _get_bfv_decoder(driver)
+        if detail_decoder:
+            decoder = detail_decoder
+        elif decoder is None:
+            decoder = {}
         soup = BeautifulSoup(driver.page_source, "html.parser")
 
         # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
@@ -276,6 +279,11 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
                 label = td.get("data-testid", "")
                 raw = list(td.stripped_strings)
                 val = _decode_bfv(raw[0], decoder) if raw else ""
+                # Fallback: Wenn Dekodierung fehlschlägt, ASCII-Ziffern direkt extrahieren
+                if val and not val.isdigit():
+                    ascii_digits = re.sub(r"[^\d]", "", val)
+                    if ascii_digits:
+                        val = ascii_digits
                 if label == "goals":
                     tore += int(val) if val.isdigit() else 0
                 elif label == "yellowCards":
@@ -283,7 +291,8 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
                 elif label == "redCards":
                     rote += int(val) if val.isdigit() else 0
                 elif label == "minutes":
-                    minuten += int(val.replace("'", "").replace(".", "")) if val.replace("'", "").replace(".", "").isdigit() else 0
+                    clean = val.replace("'", "").replace(".", "")
+                    minuten += int(clean) if clean.isdigit() else 0
 
         if spiele > 0:
             details["spiele"] = spiele
