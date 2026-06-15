@@ -257,7 +257,7 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
     logger.info(f"  Scrape Details: {player_name}")
 
     driver.get(url)
-    time.sleep(1.5)
+    time.sleep(3)
 
     # Fallback-Werte: Spieler auf Torjaeger-Liste haben definitiv genug Spiele
     details = {
@@ -281,6 +281,15 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
         elif decoder is None:
             decoder = {}
         soup = BeautifulSoup(driver.page_source, "html.parser")
+
+        # Beim ersten Spieler HTML-Struktur dumpen um aktuelle Seitenstruktur zu sehen
+        if not _font_cache:
+            all_testids = [el.get("data-testid") for el in soup.find_all(attrs={"data-testid": True})]
+            logger.info(f"  [DEBUG] Alle data-testid auf Detailseite: {list(set(all_testids))[:30]}")
+            logger.info(f"  [DEBUG] Seiten-Titel: {soup.title.string if soup.title else 'kein Titel'}")
+            # Ersten 300 Zeichen des Body loggen
+            body_text = soup.get_text()[:300].replace('\n', ' ').strip()
+            logger.info(f"  [DEBUG] Seiten-Text Anfang: {body_text}")
 
         # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
         rows = soup.find_all("tr", attrs={"data-testid": "row"})

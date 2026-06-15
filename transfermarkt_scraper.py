@@ -17,14 +17,14 @@ TM_URLS = {
 }
 
 TM_CARD_URLS = {
-    "Regionalliga Bayern": "https://www.transfermarkt.de/regionalliga-bayern/verwarnungen/wettbewerb/RLB3",
-    "Bayernliga Nord": "https://www.transfermarkt.de/bayernliga-nord/verwarnungen/wettbewerb/OLL5",
-    "Bayernliga Süd": "https://www.transfermarkt.de/bayernliga-sud/verwarnungen/wettbewerb/OLL6",
-    "Landesliga Mitte": "https://www.transfermarkt.de/landesliga-bayern-mitte/verwarnungen/wettbewerb/LBM",
-    "Landesliga Nordost": "https://www.transfermarkt.de/landesliga-bayern-nordost/verwarnungen/wettbewerb/BLN",
-    "Landesliga Nordwest": "https://www.transfermarkt.de/landesliga-bayern-nordwest/verwarnungen/wettbewerb/LBNW",
-    "Landesliga Südwest": "https://www.transfermarkt.de/landesliga-bayern-sudwest/verwarnungen/wettbewerb/LBSW",
-    "Landesliga Südost": "https://www.transfermarkt.de/landesliga-bayern-sudost/verwarnungen/wettbewerb/LBSO",
+    "Regionalliga Bayern": "https://www.transfermarkt.de/regionalliga-bayern/gelbekarten/wettbewerb/RLB3",
+    "Bayernliga Nord": "https://www.transfermarkt.de/bayernliga-nord/gelbekarten/wettbewerb/OLL5",
+    "Bayernliga Süd": "https://www.transfermarkt.de/bayernliga-sud/gelbekarten/wettbewerb/OLL6",
+    "Landesliga Mitte": "https://www.transfermarkt.de/landesliga-bayern-mitte/gelbekarten/wettbewerb/LBM",
+    "Landesliga Nordost": "https://www.transfermarkt.de/landesliga-bayern-nordost/gelbekarten/wettbewerb/BLN",
+    "Landesliga Nordwest": "https://www.transfermarkt.de/landesliga-bayern-nordwest/gelbekarten/wettbewerb/LBNW",
+    "Landesliga Südwest": "https://www.transfermarkt.de/landesliga-bayern-sudwest/gelbekarten/wettbewerb/LBSW",
+    "Landesliga Südost": "https://www.transfermarkt.de/landesliga-bayern-sudost/gelbekarten/wettbewerb/LBSO",
 }
 
 def get_transfermarkt_assists(liga_name):
