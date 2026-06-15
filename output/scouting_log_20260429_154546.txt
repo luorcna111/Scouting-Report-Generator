@@ -1,0 +1,151 @@
+15:45:46 [INFO] Gestartet: 29.04.2026 15:45:46
+15:45:46 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+15:45:46 [INFO] ============================================================
+15:45:46 [INFO] DATENVERARBEITUNG GESTARTET
+15:45:46 [INFO] ============================================================
+15:45:46 [WARNING] Konnte nicht aus SQLite-Datenbank laden: near "alter": syntax error
+15:45:46 [INFO] Fallback auf CSV-Datei...
+15:45:46 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+15:45:46 [INFO]   -> 59 Spieler geladen
+15:45:46 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+15:45:46 [INFO] Validiere Daten...
+15:45:46 [INFO]   -> 59 Spieler nach Validierung
+15:45:46 [INFO] Berechne abgeleitete Metriken...
+15:45:46 [INFO] 
+  Top 3 Torquote:
+15:45:46 [INFO]     Simon Gruber (TSV 1861 Nördlingen): 0.90 Tore/Spiel
+15:45:46 [INFO]     Jonas Kronbichler (SV Kirchanschöring): 0.76 Tore/Spiel
+15:45:46 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+15:45:46 [INFO] 
+Datenverarbeitung abgeschlossen:
+15:45:46 [INFO]   Spieler gesamt:     59
+15:45:46 [INFO]   Ligen:              3
+15:45:46 [INFO]   Vereine:            41
+15:45:46 [INFO]   Tore gesamt:        686
+15:45:46 [INFO]   Durchschn. Spiele:  26.9
+15:45:46 [INFO]   Durchschn. Tore:    11.6
+15:45:46 [INFO] 
+[SCHRITT 2] Scoring berechnen
+15:45:46 [INFO] ============================================================
+15:45:46 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+15:45:46 [INFO] ============================================================
+15:45:46 [INFO] Berechne Kategorie-Scores...
+15:45:46 [INFO]   Torquote-Scores:    Min=39.7, Max=92.9, Mittel=55.0
+15:45:46 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+15:45:46 [INFO]   Spielpraxis-Scores: Min=58.6, Max=82.9, Mittel=72.6
+15:45:46 [INFO]   Disziplin-Scores:   Min=1.0, Max=84.0, Mittel=62.9
+15:45:46 [INFO]   Alter-Scores:       Min=40.0, Max=40.0, Mittel=40.0
+15:45:46 [INFO] 
+Berechne gewichteten Gesamtscore...
+15:45:46 [INFO] Wende Liga-Faktor an...
+15:45:46 [INFO] 
+==================================================
+15:45:46 [INFO] SCORE-VERTEILUNG:
+15:45:46 [INFO] ==================================================
+15:45:46 [INFO]   Score >= 70: 0 Spieler (0.0%)
+15:45:46 [INFO]   Score >= 60: 4 Spieler (6.8%)
+15:45:46 [INFO]   Score >= 50: 38 Spieler (64.4%)
+15:45:46 [INFO]   Score <  50: 21 Spieler (35.6%)
+15:45:46 [INFO] 
+__________________________________________________
+15:45:46 [INFO] TOP 10 SPIELER:
+15:45:46 [INFO] __________________________________________________
+15:45:46 [INFO]   # 1 | Simon Gruber              | Bayernliga Süd         | Score:  62.2 | Gut
+15:45:46 [INFO]   # 2 | Tobias Stossberger        | Regionalliga Bayern    | Score:  62.0 | Gut
+15:45:46 [INFO]   # 3 | Severo Sturm              | Regionalliga Bayern    | Score:  61.4 | Gut
+15:45:46 [INFO]   # 4 | Lucas Schraufstetter      | Regionalliga Bayern    | Score:  60.9 | Gut
+15:45:46 [INFO]   # 5 | Anton Heinz               | Regionalliga Bayern    | Score:  58.9 | Durchschnittlich
+15:45:46 [INFO]   # 6 | Jonas Kronbichler         | Bayernliga Süd         | Score:  58.6 | Durchschnittlich
+15:45:46 [INFO]   # 7 | Benjamin Baier            | Regionalliga Bayern    | Score:  58.1 | Durchschnittlich
+15:45:46 [INFO]   # 8 | Achitpol Keereerom        | Regionalliga Bayern    | Score:  57.0 | Durchschnittlich
+15:45:46 [INFO]   # 8 | Felix Bachschmid          | Regionalliga Bayern    | Score:  57.0 | Durchschnittlich
+15:45:46 [INFO]   #10 | Raffael Ascher            | Bayernliga Süd         | Score:  56.0 | Durchschnittlich
+15:45:46 [INFO] __________________________________________________
+
+15:45:46 [INFO] 
+[SCHRITT 3] KI-Fazit generieren (Gemini) fuer Top 2 Spieler
+15:45:46 [INFO]   Generiere KI-Fazit fuer Simon Gruber...
+15:45:47 [INFO] AFC is enabled with max remote calls: 10.
+15:45:47 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+15:45:47 [ERROR] Fehler bei Gemini API-Aufruf: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 12.434144229s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '12s'}]}}
+15:45:47 [INFO]   Generiere KI-Fazit fuer Tobias Stossberger...
+15:45:47 [INFO] AFC is enabled with max remote calls: 10.
+15:45:48 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+15:45:48 [ERROR] Fehler bei Gemini API-Aufruf: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 11.873324271s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '11s'}]}}
+15:45:48 [INFO] 
+[SCHRITT 4] PDF-Reports generieren
+15:45:48 [INFO] Generiere Uebersichts-Report...
+15:45:48 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260429.pdf
+15:45:48 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260429.pdf
+15:45:48 [INFO] 
+  Generiere individuelle Reports fuer Top 2 Spieler...
+15:45:48 [INFO] Generiere Report: Simon Gruber (Rang #1)
+15:45:48 [INFO]   -> Report gespeichert: Scouting_Report_Simon_Gruber_20260429.pdf
+15:45:48 [INFO]   [OK] #1 Simon Gruber: Scouting_Report_Simon_Gruber_20260429.pdf
+15:45:48 [INFO] Generiere Report: Tobias Stossberger (Rang #2)
+15:45:48 [INFO]   -> Report gespeichert: Scouting_Report_Tobias_Stossberger_20260429.pdf
+15:45:48 [INFO]   [OK] #2 Tobias Stossberger: Scouting_Report_Tobias_Stossberger_20260429.pdf
+15:45:48 [INFO] 
+[SCHRITT 5] E-Mail-Benachrichtigungen
+15:45:48 [INFO]   Info: Simulationsmodus aktiv (--send-emails fuer echten Versand)
+15:45:48 [INFO] 
+============================================================
+15:45:48 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+15:45:48 [INFO] ============================================================
+15:45:48 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Gruber (Score: 62.2)
+15:45:48 [INFO]    Betreff: Scouting-Alert: Simon Gruber (Score: 62.2/100)
+15:45:48 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+15:45:48 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+15:45:48 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Simon_Gruber_20260429.pdf
+15:45:48 [INFO]    KI-Fazit: KI-Fazit konnte aufgrund eines API-Fehlers nicht generiert werden....
+15:45:48 [INFO]    ✅ E-Mail-Simulation erfolgreich
+15:45:48 [INFO] 
+📧 E-Mail-Benachrichtigung für Tobias Stossberger (Score: 62.0)
+15:45:48 [INFO]    Betreff: Scouting-Alert: Tobias Stossberger (Score: 62.0/100)
+15:45:48 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+15:45:48 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+15:45:48 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Tobias_Stossberger_20260429.pdf
+15:45:48 [INFO]    KI-Fazit: KI-Fazit konnte aufgrund eines API-Fehlers nicht generiert werden....
+15:45:48 [INFO]    ✅ E-Mail-Simulation erfolgreich
+15:45:48 [INFO] 
+📧 E-Mail-Benachrichtigung für Severo Sturm (Score: 61.4)
+15:45:48 [INFO]    Betreff: Scouting-Alert: Severo Sturm (Score: 61.4/100)
+15:45:48 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+15:45:48 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+15:45:48 [INFO]    📎 Anhang: 
+15:45:48 [INFO]    ✅ E-Mail-Simulation erfolgreich
+15:45:48 [INFO] 
+📧 E-Mail-Benachrichtigung für Lucas Schraufstetter (Score: 60.9)
+15:45:48 [INFO]    Betreff: Scouting-Alert: Lucas Schraufstetter (Score: 60.9/100)
+15:45:48 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+15:45:48 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+15:45:48 [INFO]    📎 Anhang: 
+15:45:48 [INFO]    ✅ E-Mail-Simulation erfolgreich
+15:45:48 [INFO] 
+📊 4 E-Mail-Alerts simuliert
+15:45:48 [INFO] 
+============================================================
+15:45:48 [INFO] ZUSAMMENFASSUNG
+15:45:48 [INFO] ============================================================
+15:45:48 [INFO]   Verarbeitete Spieler:    59
+15:45:48 [INFO]   Ligen:                   3
+15:45:48 [INFO]   Generierte Reports:      3 (inkl. Uebersicht)
+15:45:48 [INFO]   KI-Fazits generiert:     0 von 2
+15:45:48 [INFO]   E-Mail-Alerts:           4 von 4
+15:45:48 [INFO]   Score-Schwellenwert:     60/100
+15:45:48 [INFO]   Datenquelle:             www.bfv.de
+15:45:48 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+15:45:48 [INFO]   Laufzeit:                1.7 Sekunden
+15:45:48 [INFO] 
+  Spieler mit Score >= 70: 0 (0.0%)
+15:45:48 [INFO] 
+  TOP 2 SPIELER:
+15:45:48 [INFO]   [Mail] # 1 | Simon Gruber              | TSV 1861 Nördlingen    | Score:  62.2 | Gut
+15:45:48 [INFO]   [Mail] # 2 | Tobias Stossberger        | TSV Buchbach           | Score:  62.0 | Gut
+15:45:48 [INFO] 
+============================================================
+15:45:48 [INFO] Scouting-Analyse abgeschlossen!
+15:45:48 [INFO] ============================================================
+

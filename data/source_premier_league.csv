@@ -1,0 +1,21 @@
+Player,Pos,Age,MarketValue_M,Club,Nationality,Goals,Assists,Matches,Minutes
+James Whitfield,Forward,22,25.0,Manchester City,England,16,5,29,2465
+Carlos Mendez,Midfielder,24,19.0,Liverpool FC,Spain,7,13,30,2550
+Oliver Thompson,Defender,26,14.0,Arsenal FC,England,3,4,28,2520
+Amadou Diallo,Forward,21,15.5,Chelsea FC,France,12,6,27,2160
+Ryan O'Brien,Goalkeeper,29,9.0,Manchester United,Ireland,0,0,30,2700
+Kenji Tanaka,Midfielder,23,17.0,Tottenham,Japan,9,10,28,2380
+Lucas Moreau,Defender,25,12.0,Newcastle United,France,2,3,29,2610
+Ibrahim Hassan,Forward,20,8.0,Brighton,Egypt,8,4,24,1920
+David Nilsson,Midfielder,27,11.5,West Ham,Sweden,5,8,26,2210
+Patrick McAllister,Defender,24,10.0,Aston Villa,Scotland,1,5,27,2430
+Emiliano Rossi,Forward,23,20.0,Liverpool FC,Argentina,15,7,29,2465
+Tyrone Williams,Midfielder,22,13.0,Arsenal FC,England,6,9,28,2240
+Nathan Cooper,Defender,28,8.5,Everton FC,England,0,2,30,2700
+Alejandro Vega,Forward,25,16.0,Chelsea FC,Mexico,11,5,27,2295
+Marcus Johansson,Goalkeeper,23,6.0,Wolverhampton,Sweden,0,0,25,2250
+Pierre Dubois,Midfielder,21,9.5,Crystal Palace,France,4,7,24,1920
+Kim Seung-Ho,Forward,24,12.5,Tottenham,South Korea,10,3,28,2380
+Rafael Santos,Defender,22,7.0,Fulham FC,Brazil,2,4,26,2080
+Ben Harrison,Midfielder,26,10.5,Newcastle United,England,3,6,29,2465
+Sofia Chen,Forward,20,6.5,Nottingham Forest,China,7,5,22,1760

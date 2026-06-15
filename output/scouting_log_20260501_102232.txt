@@ -1,0 +1,199 @@
+10:22:32 [INFO] Gestartet: 01.05.2026 10:22:32
+10:22:32 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+10:22:32 [INFO] ============================================================
+10:22:32 [INFO] DATENVERARBEITUNG GESTARTET
+10:22:32 [INFO] ============================================================
+10:22:32 [WARNING] Konnte nicht aus SQLite-Datenbank laden: near "alter": syntax error
+10:22:32 [INFO] Fallback auf CSV-Datei...
+10:22:32 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+10:22:32 [INFO]   -> 59 Spieler geladen
+10:22:32 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+10:22:32 [INFO] Validiere Daten...
+10:22:32 [INFO] Starte Transfermarkt-Daten-Pipeline (Assists)...
+10:22:32 [INFO] Scrape Transfermarkt Assists: https://www.transfermarkt.de/regionalliga-bayern/scorerliste/wettbewerb/RLB3
+10:22:33 [INFO]   -> 25 Spieler-Statistiken von Transfermarkt geladen.
+10:22:33 [INFO] Scrape Transfermarkt Assists: https://www.transfermarkt.de/bayernliga-nord/scorerliste/wettbewerb/OLL5
+10:22:34 [INFO]   -> 100 Spieler-Statistiken von Transfermarkt geladen.
+10:22:34 [INFO] Keine Transfermarkt URL konfiguriert fuer Bayernliga Süd
+10:22:34 [INFO] Transfermarkt-Daten erfolgreich integriert!
+10:22:34 [INFO]   -> 59 Spieler nach Validierung
+10:22:34 [INFO] Berechne abgeleitete Metriken...
+10:22:34 [INFO] 
+  Top 3 Torquote:
+10:22:34 [INFO]     Simon Gruber (TSV 1861 Nördlingen): 0.90 Tore/Spiel
+10:22:34 [INFO]     Jonas Kronbichler (SV Kirchanschöring): 0.76 Tore/Spiel
+10:22:34 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+10:22:34 [INFO] 
+Datenverarbeitung abgeschlossen:
+10:22:34 [INFO]   Spieler gesamt:     59
+10:22:34 [INFO]   Ligen:              3
+10:22:34 [INFO]   Vereine:            41
+10:22:34 [INFO]   Tore gesamt:        686
+10:22:34 [INFO]   Durchschn. Spiele:  26.9
+10:22:34 [INFO]   Durchschn. Tore:    11.6
+10:22:34 [INFO] 
+[SCHRITT 2] Scoring berechnen
+10:22:34 [INFO] ============================================================
+10:22:34 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+10:22:34 [INFO] ============================================================
+10:22:34 [INFO] Berechne Kategorie-Scores...
+10:22:34 [INFO]   Scorerquote-Scores: Min=42.7, Max=100.0, Mittel=68.5
+10:22:34 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+10:22:34 [INFO] 
+Berechne gewichteten Gesamtscore...
+10:22:34 [INFO] Wende Liga-Faktor an...
+10:22:34 [INFO] 
+==================================================
+10:22:34 [INFO] SCORE-VERTEILUNG:
+10:22:34 [INFO] ==================================================
+10:22:34 [INFO]   Score >= 70: 13 Spieler (22.0%)
+10:22:34 [INFO]   Score >= 60: 20 Spieler (33.9%)
+10:22:34 [INFO]   Score >= 50: 41 Spieler (69.5%)
+10:22:34 [INFO]   Score <  50: 18 Spieler (30.5%)
+10:22:34 [INFO] 
+__________________________________________________
+10:22:34 [INFO] TOP 10 SPIELER:
+10:22:34 [INFO] __________________________________________________
+10:22:34 [INFO]   # 1 | Achitpol Keereerom        | Regionalliga Bayern    | Score:  77.2 | Herausragend
+10:22:34 [INFO]   # 2 | Benjamin Baier            | Regionalliga Bayern    | Score:  76.5 | Herausragend
+10:22:34 [INFO]   # 2 | Lucas Schraufstetter      | Regionalliga Bayern    | Score:  76.5 | Herausragend
+10:22:34 [INFO]   # 4 | Felix Bachschmid          | Regionalliga Bayern    | Score:  76.0 | Herausragend
+10:22:34 [INFO]   # 5 | Severo Sturm              | Regionalliga Bayern    | Score:  75.7 | Herausragend
+10:22:34 [INFO]   # 6 | Jermain Nischalke         | Regionalliga Bayern    | Score:  73.0 | Gut
+10:22:34 [INFO]   # 7 | Simon Skarlatidis         | Regionalliga Bayern    | Score:  72.8 | Gut
+10:22:34 [INFO]   # 8 | Piet Scobel               | Regionalliga Bayern    | Score:  72.7 | Gut
+10:22:34 [INFO]   # 8 | Yannick Glessing          | Regionalliga Bayern    | Score:  72.7 | Gut
+10:22:34 [INFO]   #10 | Anton Heinz               | Regionalliga Bayern    | Score:  72.6 | Gut
+10:22:34 [INFO] __________________________________________________
+
+10:22:34 [INFO] 
+[SCHRITT 3] KI-Fazit generieren (Gemini) fuer Top 5 Spieler
+10:22:34 [INFO]   Generiere KI-Fazit fuer Achitpol Keereerom...
+10:22:35 [INFO] AFC is enabled with max remote calls: 10.
+10:22:35 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 403 Forbidden"
+10:22:35 [ERROR] Fehler bei Gemini API-Aufruf: 403 PERMISSION_DENIED. {'error': {'code': 403, 'message': 'Your project has been denied access. Please contact support.', 'status': 'PERMISSION_DENIED'}}
+10:22:35 [INFO]   Generiere KI-Fazit fuer Benjamin Baier...
+10:22:36 [INFO] AFC is enabled with max remote calls: 10.
+10:22:36 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 403 Forbidden"
+10:22:36 [ERROR] Fehler bei Gemini API-Aufruf: 403 PERMISSION_DENIED. {'error': {'code': 403, 'message': 'Your project has been denied access. Please contact support.', 'status': 'PERMISSION_DENIED'}}
+10:22:36 [INFO]   Generiere KI-Fazit fuer Lucas Schraufstetter...
+10:22:36 [INFO] AFC is enabled with max remote calls: 10.
+10:22:37 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 403 Forbidden"
+10:22:37 [ERROR] Fehler bei Gemini API-Aufruf: 403 PERMISSION_DENIED. {'error': {'code': 403, 'message': 'Your project has been denied access. Please contact support.', 'status': 'PERMISSION_DENIED'}}
+10:22:37 [INFO]   Generiere KI-Fazit fuer Felix Bachschmid...
+10:22:37 [INFO] AFC is enabled with max remote calls: 10.
+10:22:37 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 403 Forbidden"
+10:22:37 [ERROR] Fehler bei Gemini API-Aufruf: 403 PERMISSION_DENIED. {'error': {'code': 403, 'message': 'Your project has been denied access. Please contact support.', 'status': 'PERMISSION_DENIED'}}
+10:22:37 [INFO]   Generiere KI-Fazit fuer Severo Sturm...
+10:22:38 [INFO] AFC is enabled with max remote calls: 10.
+10:22:38 [INFO] HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 403 Forbidden"
+10:22:38 [ERROR] Fehler bei Gemini API-Aufruf: 403 PERMISSION_DENIED. {'error': {'code': 403, 'message': 'Your project has been denied access. Please contact support.', 'status': 'PERMISSION_DENIED'}}
+10:22:38 [INFO] 
+[SCHRITT 4] PDF-Reports generieren
+10:22:38 [INFO] Generiere Uebersichts-Report...
+10:22:38 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260501.pdf
+10:22:38 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260501.pdf
+10:22:38 [INFO] 
+  Generiere individuelle Reports fuer Top 5 Spieler...
+10:22:38 [INFO] Generiere Report: Achitpol Keereerom (Rang #1)
+10:22:38 [INFO]   -> Report gespeichert: Scouting_Report_Achitpol_Keereerom_20260501.pdf
+10:22:38 [INFO]   [OK] #1 Achitpol Keereerom: Scouting_Report_Achitpol_Keereerom_20260501.pdf
+10:22:38 [INFO] Generiere Report: Benjamin Baier (Rang #2)
+10:22:38 [INFO]   -> Report gespeichert: Scouting_Report_Benjamin_Baier_20260501.pdf
+10:22:38 [INFO]   [OK] #2 Benjamin Baier: Scouting_Report_Benjamin_Baier_20260501.pdf
+10:22:38 [INFO] Generiere Report: Lucas Schraufstetter (Rang #3)
+10:22:39 [INFO]   -> Report gespeichert: Scouting_Report_Lucas_Schraufstetter_20260501.pdf
+10:22:39 [INFO]   [OK] #3 Lucas Schraufstetter: Scouting_Report_Lucas_Schraufstetter_20260501.pdf
+10:22:39 [INFO] Generiere Report: Felix Bachschmid (Rang #4)
+10:22:39 [INFO]   -> Report gespeichert: Scouting_Report_Felix_Bachschmid_20260501.pdf
+10:22:39 [INFO]   [OK] #4 Felix Bachschmid: Scouting_Report_Felix_Bachschmid_20260501.pdf
+10:22:39 [INFO] Generiere Report: Severo Sturm (Rang #5)
+10:22:39 [INFO]   -> Report gespeichert: Scouting_Report_Severo_Sturm_20260501.pdf
+10:22:39 [INFO]   [OK] #5 Severo Sturm: Scouting_Report_Severo_Sturm_20260501.pdf
+10:22:39 [INFO] 
+[SCHRITT 5] E-Mail-Benachrichtigungen
+10:22:39 [INFO]   Info: Simulationsmodus aktiv (--send-emails fuer echten Versand)
+10:22:39 [INFO] 
+============================================================
+10:22:39 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+10:22:39 [INFO] ============================================================
+10:22:39 [INFO] 
+📧 E-Mail-Benachrichtigung für Achitpol Keereerom (Score: 77.2)
+10:22:39 [INFO]    Betreff: Scouting-Alert: Achitpol Keereerom (Score: 77.2/100)
+10:22:39 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+10:22:39 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+10:22:39 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Achitpol_Keereerom_20260501.pdf
+10:22:39 [INFO]    ✅ E-Mail-Simulation erfolgreich
+10:22:39 [INFO] 
+📧 E-Mail-Benachrichtigung für Benjamin Baier (Score: 76.5)
+10:22:39 [INFO]    Betreff: Scouting-Alert: Benjamin Baier (Score: 76.5/100)
+10:22:39 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+10:22:39 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+10:22:39 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Benjamin_Baier_20260501.pdf
+10:22:39 [INFO]    ✅ E-Mail-Simulation erfolgreich
+10:22:39 [INFO] 
+📧 E-Mail-Benachrichtigung für Lucas Schraufstetter (Score: 76.5)
+10:22:39 [INFO]    Betreff: Scouting-Alert: Lucas Schraufstetter (Score: 76.5/100)
+10:22:39 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+10:22:39 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+10:22:39 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Lucas_Schraufstetter_20260501.pdf
+10:22:39 [INFO]    ✅ E-Mail-Simulation erfolgreich
+10:22:39 [INFO] 
+📧 E-Mail-Benachrichtigung für Felix Bachschmid (Score: 76.0)
+10:22:39 [INFO]    Betreff: Scouting-Alert: Felix Bachschmid (Score: 76.0/100)
+10:22:39 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+10:22:39 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+10:22:39 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Felix_Bachschmid_20260501.pdf
+10:22:39 [INFO]    ✅ E-Mail-Simulation erfolgreich
+10:22:39 [INFO] 
+📧 E-Mail-Benachrichtigung für Severo Sturm (Score: 75.7)
+10:22:39 [INFO]    Betreff: Scouting-Alert: Severo Sturm (Score: 75.7/100)
+10:22:39 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+10:22:39 [INFO]    ⚠️  SIMULATIONSMODUS - E-Mail wird nicht tatsächlich versendet
+10:22:39 [INFO]    📎 Anhang: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\Scouting_Report_Severo_Sturm_20260501.pdf
+10:22:39 [INFO]    ✅ E-Mail-Simulation erfolgreich
+10:22:39 [INFO]   Jermain Nischalke: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Simon Skarlatidis: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Piet Scobel: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Yannick Glessing: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Anton Heinz: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   David Günes: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Pascal Schittler: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Lado Akhalaia: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Tarsis Bonga: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Cornelius Pfeiffer: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Milos Cocic: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Simon Gruber: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Samed Bahar: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Jonas Kronbichler: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO]   Tobias Stossberger: kein PDF-Report vorhanden, E-Mail wird übersprungen
+10:22:39 [INFO] 
+📊 5 E-Mail-Alerts simuliert
+10:22:39 [INFO] 
+============================================================
+10:22:39 [INFO] ZUSAMMENFASSUNG
+10:22:39 [INFO] ============================================================
+10:22:39 [INFO]   Verarbeitete Spieler:    59
+10:22:39 [INFO]   Ligen:                   3
+10:22:39 [INFO]   Generierte Reports:      6 (inkl. Uebersicht)
+10:22:39 [INFO]   KI-Fazits generiert:     0 von 5
+10:22:39 [INFO]   E-Mail-Alerts:           5 von 5
+10:22:39 [INFO]   Score-Schwellenwert:     60/100
+10:22:39 [INFO]   Datenquelle:             www.bfv.de
+10:22:39 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+10:22:39 [INFO]   Laufzeit:                6.6 Sekunden
+10:22:39 [INFO] 
+  Spieler mit Score >= 70: 13 (22.0%)
+10:22:39 [INFO] 
+  TOP 5 SPIELER:
+10:22:39 [INFO]   [Mail] # 1 | Achitpol Keereerom        | TSV Schwaben Augsburg  | Score:  77.2 | Herausragend
+10:22:39 [INFO]   [Mail] # 2 | Benjamin Baier            | Viktoria Aschaffenburg | Score:  76.5 | Herausragend
+10:22:39 [INFO]   [Mail] # 3 | Lucas Schraufstetter      | VfB Eichstaett         | Score:  76.5 | Herausragend
+10:22:39 [INFO]   [Mail] # 4 | Felix Bachschmid          | SV Wacker Burghausen   | Score:  76.0 | Herausragend
+10:22:39 [INFO]   [Mail] # 5 | Severo Sturm              | TSV Aubstadt           | Score:  75.7 | Herausragend
+10:22:39 [INFO] 
+============================================================
+10:22:39 [INFO] Scouting-Analyse abgeschlossen!
+10:22:39 [INFO] ============================================================
+

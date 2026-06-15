@@ -1,0 +1,156 @@
+00:06:01 [INFO] Gestartet: 29.04.2026 00:06:01
+00:06:01 [INFO] 
+[SCHRITT 1] Daten laden und verarbeiten
+00:06:01 [INFO] ============================================================
+00:06:01 [INFO] DATENVERARBEITUNG GESTARTET
+00:06:01 [INFO] ============================================================
+00:06:01 [WARNING] Konnte nicht aus SQLite-Datenbank laden: near "alter": syntax error
+00:06:01 [INFO] Fallback auf CSV-Datei...
+00:06:01 [INFO] Lade BFV-Daten aus: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\data\bfv_spieler.csv
+00:06:01 [INFO]   -> 59 Spieler geladen
+00:06:01 [INFO]   -> Ligen: ['Regionalliga Bayern', 'Bayernliga Nord', 'Bayernliga Sued']
+00:06:01 [INFO] Validiere Daten...
+00:06:01 [INFO]   -> 59 Spieler nach Validierung
+00:06:01 [INFO] Berechne abgeleitete Metriken...
+00:06:01 [INFO] 
+  Top 3 Torquote:
+00:06:01 [INFO]     Simon Gruber (TSV 1861 Noerdlingen): 0.90 Tore/Spiel
+00:06:01 [INFO]     Jonas Kronbichler (SV Kirchanschoering): 0.76 Tore/Spiel
+00:06:01 [INFO]     Raffael Ascher (FC Spfr. Schwaig): 0.75 Tore/Spiel
+00:06:01 [INFO] 
+Datenverarbeitung abgeschlossen:
+00:06:01 [INFO]   Spieler gesamt:     59
+00:06:01 [INFO]   Ligen:              3
+00:06:01 [INFO]   Vereine:            41
+00:06:01 [INFO]   Tore gesamt:        686
+00:06:01 [INFO]   Durchschn. Spiele:  26.9
+00:06:01 [INFO]   Durchschn. Tore:    11.6
+00:06:01 [INFO] 
+[SCHRITT 2] Scoring berechnen
+00:06:01 [INFO] ============================================================
+00:06:01 [INFO] SCORING-ENGINE GESTARTET (BFV-Modell)
+00:06:01 [INFO] ============================================================
+00:06:01 [INFO] Berechne Kategorie-Scores...
+00:06:01 [INFO]   Torquote-Scores:    Min=39.7, Max=92.9, Mittel=55.0
+00:06:01 [INFO]   Einsatzzeit-Scores: Min=41.3, Max=92.6, Mittel=71.6
+00:06:01 [INFO]   Spielpraxis-Scores: Min=58.6, Max=82.9, Mittel=72.6
+00:06:01 [INFO]   Disziplin-Scores:   Min=1.0, Max=84.0, Mittel=62.9
+00:06:01 [INFO]   Alter-Scores:       Min=40.0, Max=40.0, Mittel=40.0
+00:06:01 [INFO] 
+Berechne gewichteten Gesamtscore...
+00:06:01 [INFO] Wende Liga-Faktor an...
+00:06:01 [INFO] 
+==================================================
+00:06:01 [INFO] SCORE-VERTEILUNG:
+00:06:01 [INFO] ==================================================
+00:06:01 [INFO]   Score >= 70: 0 Spieler (0.0%)
+00:06:01 [INFO]   Score >= 60: 6 Spieler (10.2%)
+00:06:01 [INFO]   Score >= 50: 44 Spieler (74.6%)
+00:06:01 [INFO]   Score <  50: 15 Spieler (25.4%)
+00:06:01 [INFO] 
+__________________________________________________
+00:06:01 [INFO] TOP 10 SPIELER:
+00:06:01 [INFO] __________________________________________________
+00:06:01 [INFO]   # 1 | Simon Gruber              | Bayernliga Sued        | Score:  67.3 | Gut
+00:06:01 [INFO]   # 2 | Jonas Kronbichler         | Bayernliga Sued        | Score:  63.4 | Gut
+00:06:01 [INFO]   # 3 | Tobias Stossberger        | Regionalliga Bayern    | Score:  62.0 | Gut
+00:06:01 [INFO]   # 4 | Severo Sturm              | Regionalliga Bayern    | Score:  61.4 | Gut
+00:06:01 [INFO]   # 5 | Lucas Schraufstetter      | Regionalliga Bayern    | Score:  60.9 | Gut
+00:06:01 [INFO]   # 6 | Raffael Ascher            | Bayernliga Sued        | Score:  60.6 | Gut
+00:06:01 [INFO]   # 7 | Anton Heinz               | Regionalliga Bayern    | Score:  58.9 | Durchschnittlich
+00:06:01 [INFO]   # 8 | Michael Senger            | Bayernliga Sued        | Score:  58.4 | Durchschnittlich
+00:06:01 [INFO]   # 9 | Benjamin Baier            | Regionalliga Bayern    | Score:  58.1 | Durchschnittlich
+00:06:01 [INFO]   #10 | Lukas Riglewski           | Bayernliga Sued        | Score:  57.7 | Durchschnittlich
+00:06:01 [INFO] __________________________________________________
+
+00:06:01 [INFO] 
+[SCHRITT 3] PDF-Reports generieren
+00:06:01 [INFO] Generiere Uebersichts-Report...
+00:06:01 [INFO]   -> Uebersicht gespeichert: BFV_Scouting_Uebersicht_20260429.pdf
+00:06:01 [INFO]   [OK] Uebersichts-Report: C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output\BFV_Scouting_Uebersicht_20260429.pdf
+00:06:01 [INFO] 
+  Generiere individuelle Reports fuer Top 5 Spieler...
+00:06:01 [INFO] Generiere Report: Simon Gruber (Rang #1)
+00:06:02 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+00:06:02 [INFO]   -> Report gespeichert: Scouting_Report_Simon_Gruber_20260429.pdf
+00:06:02 [INFO]   [OK] #1 Simon Gruber: Scouting_Report_Simon_Gruber_20260429.pdf
+00:06:02 [INFO] Generiere Report: Jonas Kronbichler (Rang #2)
+00:06:02 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+00:06:02 [INFO]   -> Report gespeichert: Scouting_Report_Jonas_Kronbichler_20260429.pdf
+00:06:02 [INFO]   [OK] #2 Jonas Kronbichler: Scouting_Report_Jonas_Kronbichler_20260429.pdf
+00:06:02 [INFO] Generiere Report: Tobias Stossberger (Rang #3)
+00:06:02 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+00:06:02 [INFO]   -> Report gespeichert: Scouting_Report_Tobias_Stossberger_20260429.pdf
+00:06:02 [INFO]   [OK] #3 Tobias Stossberger: Scouting_Report_Tobias_Stossberger_20260429.pdf
+00:06:02 [INFO] Generiere Report: Severo Sturm (Rang #4)
+00:06:03 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+00:06:03 [INFO]   -> Report gespeichert: Scouting_Report_Severo_Sturm_20260429.pdf
+00:06:03 [INFO]   [OK] #4 Severo Sturm: Scouting_Report_Severo_Sturm_20260429.pdf
+00:06:03 [INFO] Generiere Report: Lucas Schraufstetter (Rang #5)
+00:06:03 [ERROR] Fehler bei Gemini API-Aufruf: 404 models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+00:06:03 [INFO]   -> Report gespeichert: Scouting_Report_Lucas_Schraufstetter_20260429.pdf
+00:06:03 [INFO]   [OK] #5 Lucas Schraufstetter: Scouting_Report_Lucas_Schraufstetter_20260429.pdf
+00:06:03 [INFO] 
+[SCHRITT 4] E-Mail-Benachrichtigungen
+00:06:03 [INFO] 
+============================================================
+00:06:03 [INFO] E-MAIL-BENACHRICHTIGUNGEN
+00:06:03 [INFO] ============================================================
+00:06:03 [INFO] 
+📧 E-Mail-Benachrichtigung für Simon Gruber (Score: 67.3)
+00:06:03 [INFO]    Betreff: Scouting-Alert: Simon Gruber (Score: 67.3/100)
+00:06:03 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+00:06:06 [INFO]    ✅ E-Mail erfolgreich versendet!
+00:06:06 [INFO] 
+📧 E-Mail-Benachrichtigung für Jonas Kronbichler (Score: 63.4)
+00:06:06 [INFO]    Betreff: Scouting-Alert: Jonas Kronbichler (Score: 63.4/100)
+00:06:06 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+00:06:07 [INFO]    ✅ E-Mail erfolgreich versendet!
+00:06:07 [INFO] 
+📧 E-Mail-Benachrichtigung für Tobias Stossberger (Score: 62.0)
+00:06:07 [INFO]    Betreff: Scouting-Alert: Tobias Stossberger (Score: 62.0/100)
+00:06:07 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+00:06:09 [INFO]    ✅ E-Mail erfolgreich versendet!
+00:06:09 [INFO] 
+📧 E-Mail-Benachrichtigung für Severo Sturm (Score: 61.4)
+00:06:09 [INFO]    Betreff: Scouting-Alert: Severo Sturm (Score: 61.4/100)
+00:06:09 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+00:06:11 [INFO]    ✅ E-Mail erfolgreich versendet!
+00:06:11 [INFO] 
+📧 E-Mail-Benachrichtigung für Lucas Schraufstetter (Score: 60.9)
+00:06:11 [INFO]    Betreff: Scouting-Alert: Lucas Schraufstetter (Score: 60.9/100)
+00:06:11 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+00:06:13 [INFO]    ✅ E-Mail erfolgreich versendet!
+00:06:13 [INFO] 
+📧 E-Mail-Benachrichtigung für Raffael Ascher (Score: 60.6)
+00:06:13 [INFO]    Betreff: Scouting-Alert: Raffael Ascher (Score: 60.6/100)
+00:06:13 [INFO]    Empfänger: linus.eilers@hm.edu, informationssystemetest@gmail.com
+00:06:13 [ERROR]    ❌ E-Mail-Versand fehlgeschlagen: [Errno 2] No such file or directory: ''
+00:06:13 [INFO] 
+📊 5 E-Mail-Alerts versendet
+00:06:13 [INFO] 
+============================================================
+00:06:13 [INFO] ZUSAMMENFASSUNG
+00:06:13 [INFO] ============================================================
+00:06:13 [INFO]   Verarbeitete Spieler:    59
+00:06:13 [INFO]   Ligen:                   3
+00:06:13 [INFO]   Generierte Reports:      6 (inkl. Uebersicht)
+00:06:13 [INFO]   E-Mail-Alerts:           5 von 6
+00:06:13 [INFO]   Score-Schwellenwert:     60/100
+00:06:13 [INFO]   Datenquelle:             www.bfv.de
+00:06:13 [INFO]   Ausgabeverzeichnis:      C:\Users\luorc\.gemini\antigravity\scratch\scouting-report-generator\output
+00:06:13 [INFO]   Laufzeit:                12.5 Sekunden
+00:06:13 [INFO] 
+  Spieler mit Score >= 70: 0 (0.0%)
+00:06:13 [INFO] 
+  TOP 5 SPIELER:
+00:06:13 [INFO]   [Mail] # 1 | Simon Gruber              | TSV 1861 Noerdlingen   | Score:  67.3 | Gut
+00:06:13 [INFO]   [Mail] # 2 | Jonas Kronbichler         | SV Kirchanschoering    | Score:  63.4 | Gut
+00:06:13 [INFO]   [Mail] # 3 | Tobias Stossberger        | TSV Buchbach           | Score:  62.0 | Gut
+00:06:13 [INFO]   [Mail] # 4 | Severo Sturm              | TSV Aubstadt           | Score:  61.4 | Gut
+00:06:13 [INFO]   [Mail] # 5 | Lucas Schraufstetter      | VfB Eichstaett         | Score:  60.9 | Gut
+00:06:13 [INFO] 
+============================================================
+00:06:13 [INFO] Scouting-Analyse abgeschlossen!
+00:06:13 [INFO] ============================================================
+

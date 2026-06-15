@@ -1,0 +1,60 @@
+name,verein,liga,liga_faktor,spiele,tore,gelbe_karten,rote_karten,minuten
+Anton Heinz,FC Bayern Muenchen II,Regionalliga Bayern,1.0,29,19,3,0,2280
+Severo Sturm,TSV Aubstadt,Regionalliga Bayern,1.0,30,15,5,0,2520
+Tarsis Bonga,FC Wuerzburger Kickers,Regionalliga Bayern,1.0,28,13,4,0,2100
+Milos Cocic,FV Illertissen,Regionalliga Bayern,1.0,27,13,6,1,2070
+Lado Akhalaia,SpVgg Greuther Fuerth II,Regionalliga Bayern,1.0,25,12,2,0,1890
+Simon Skarlatidis,SpVgg Unterhaching,Regionalliga Bayern,1.0,29,11,4,0,2320
+Yannick Glessing,FV Illertissen,Regionalliga Bayern,1.0,26,11,3,0,2080
+Lucas Schraufstetter,VfB Eichstaett,Regionalliga Bayern,1.0,30,11,7,0,2610
+Piet Scobel,1. FC Nuernberg II,Regionalliga Bayern,1.0,24,11,2,0,1920
+David Guenes,FC Memmingen,Regionalliga Bayern,1.0,28,10,5,0,2240
+Jermain Nischalke,FC Wuerzburger Kickers,Regionalliga Bayern,1.0,27,10,3,0,2160
+Pascal Schittler,VfB Eichstaett,Regionalliga Bayern,1.0,29,10,4,1,2380
+Tobias Stossberger,TSV Buchbach,Regionalliga Bayern,1.0,30,10,2,0,2610
+Jorden Aigboje,SpVgg Unterhaching,Regionalliga Bayern,1.0,26,9,6,0,2080
+Felix Bachschmid,SV Wacker Burghausen,Regionalliga Bayern,1.0,28,9,3,0,2350
+Samed Bahar,Tuerkguecue Muenchen,Regionalliga Bayern,1.0,25,9,8,1,1900
+Benjamin Baier,Viktoria Aschaffenburg,Regionalliga Bayern,1.0,29,9,4,0,2470
+Cornelius Pfeiffer,FC Augsburg II,Regionalliga Bayern,1.0,22,9,2,0,1540
+Eric Weeger,SpVgg Ansbach,Regionalliga Bayern,1.0,27,8,5,0,2160
+Achitpol Keereerom,TSV Schwaben Augsburg,Regionalliga Bayern,1.0,30,8,3,0,2520
+Kelvin Onuigwe,SSV Jahn Regensburg II,Bayernliga Nord,0.92,28,16,4,0,2300
+Selim Mjaki,ASV Neumarkt,Bayernliga Nord,0.92,29,14,6,0,2430
+Timo Kraeftner,SC Grossschwarzenlohe,Bayernliga Nord,0.92,27,13,3,0,2200
+Lucas Markert,ATSV Erlangen,Bayernliga Nord,0.92,26,13,5,1,2100
+Lukas Da Silva Freundorfer,SV Fortuna Regensburg,Bayernliga Nord,0.92,28,12,4,0,2350
+Marin Hrgota,TSV Neudrossenfeld,Bayernliga Nord,0.92,25,12,3,0,1950
+Alexander Moratz,ATSV Erlangen,Bayernliga Nord,0.92,29,11,7,0,2430
+Fabian Vogl,SV Fortuna Regensburg,Bayernliga Nord,0.92,27,11,2,0,2200
+Jean-Paul Ajala-Alexis,TSV Neudrossenfeld,Bayernliga Nord,0.92,24,11,5,0,1800
+Nico Ott,SC Eltersdorf,Bayernliga Nord,0.92,28,11,4,0,2380
+Jonas Bauer,SSV Jahn Regensburg II,Bayernliga Nord,0.92,26,10,3,0,2080
+Tom Kunert,SpVgg Bayern Hof,Bayernliga Nord,0.92,29,10,6,0,2520
+Lucas Seidel,SpVgg Bayern Hof,Bayernliga Nord,0.92,27,10,4,0,2250
+Edis Bakic,FC Ingolstadt 04 II,Bayernliga Nord,0.92,23,9,2,0,1680
+Ilhami Medineli,SV Fortuna Regensburg,Bayernliga Nord,0.92,28,9,5,1,2300
+Marco Weber,FSV Stadeln,Bayernliga Nord,0.92,26,9,3,0,2150
+Patryk Bytomski,SpVgg SV Weiden,Bayernliga Nord,0.92,25,8,7,0,1900
+Aykut Civelek,FC Coburg,Bayernliga Nord,0.92,27,8,4,0,2100
+Hueseyin Durkan,SpVgg Bayern Hof,Bayernliga Nord,0.92,22,8,3,0,1700
+Simon Gruber,TSV 1861 Noerdlingen,Bayernliga Sued,0.92,30,27,4,0,2640
+Jonas Kronbichler,SV Kirchanschoering,Bayernliga Sued,0.92,29,22,3,0,2520
+Raffael Ascher,FC Spfr. Schwaig,Bayernliga Sued,0.92,28,21,5,0,2380
+Lukas Riglewski,SV Heimstetten,Bayernliga Sued,0.92,27,18,4,0,2250
+Srdan Ivkovic,TuS Geretsried,Bayernliga Sued,0.92,26,14,6,1,2100
+Cristian Leone,SV Heimstetten,Bayernliga Sued,0.92,28,14,3,0,2350
+Achitpol Keereerom BL,TSV 1860 Muenchen II,Bayernliga Sued,0.92,25,13,4,0,2000
+Michael Senger,SV Kirchanschoering,Bayernliga Sued,0.92,29,13,2,0,2520
+Alessandro Kazakov,FC Ismaning,Bayernliga Sued,0.92,27,12,5,0,2200
+Amar Cekic,Tuerkguecue Muenchen BL,Bayernliga Sued,0.92,26,11,7,1,2050
+David Lang,TSV 1882 Landsberg,Bayernliga Sued,0.92,28,11,3,0,2380
+Felix Lehmer,SV Erlbach,Bayernliga Sued,0.92,25,11,4,0,2050
+Leonhard Thiel,SV Erlbach,Bayernliga Sued,0.92,27,11,2,0,2300
+Thomas Breu,SV Kirchanschoering,Bayernliga Sued,0.92,29,11,5,0,2500
+Ibrahim Capar,Tuerkspor Augsburg,Bayernliga Sued,0.92,24,10,8,0,1900
+Daniele Sgodzaj,TSV 1882 Landsberg,Bayernliga Sued,0.92,28,10,3,0,2350
+Florian Gebert,FC Pipinsried,Bayernliga Sued,0.92,26,9,4,0,2100
+Manuel Omelanowsky,SV Kirchanschoering,Bayernliga Sued,0.92,27,9,2,0,2250
+Maximilian Seemueller,TSV 1882 Landsberg,Bayernliga Sued,0.92,25,9,5,0,2000
+Matthias Jocham,TSV 1874 Kottern,Bayernliga Sued,0.92,23,8,3,0,1800
