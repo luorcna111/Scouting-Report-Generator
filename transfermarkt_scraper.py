@@ -192,11 +192,17 @@ def _get_player_cards_from_profile(profile_url, liga_key, saison="2025"):
     return 0, 0
 
 
-def get_transfermarkt_cards_for_players(bfv_df):
+def get_transfermarkt_cards_for_players(bfv_df, top_n=15):
     """
-    Sucht jeden BFV-Spieler auf Transfermarkt und liest seine Karten
-    fuer die aktuelle Saison vom Spielerprofil aus.
+    Sucht die besten Spieler (nach Tore/Spiel) auf Transfermarkt und liest ihre Karten.
+    Nur top_n Spieler werden abgefragt, da nur diese Emails/Reports bekommen.
     """
+    if "tore" in bfv_df.columns and "spiele" in bfv_df.columns:
+        bfv_df = bfv_df.copy()
+        bfv_df["_tore_pro_spiel"] = bfv_df["tore"] / bfv_df["spiele"].clip(lower=1)
+        bfv_df = bfv_df.nlargest(top_n, "_tore_pro_spiel")
+        logger.info(f"  TM-Karten: nur Top {top_n} Spieler nach Tore/Spiel werden abgefragt")
+
     results = []
     total = len(bfv_df)
 
