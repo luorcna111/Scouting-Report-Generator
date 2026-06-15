@@ -14,11 +14,10 @@ Features:
 - Simulationsmodus (wenn keine E-Mail-Credentials gesetzt)
 """
 
-import smtplib
 import logging
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
+import json
+import base64
+import requests as http_requests
 from pathlib import Path
 from datetime import datetime, timedelta
 
@@ -236,6 +235,29 @@ def _create_player_invitation_html(player_row, termin_str: str) -> str:
     return html
 
 
+def _sendgrid_send(api_key, from_email, to_emails, subject, html_content, attachments=None):
+    """Sendet eine E-Mail ueber die SendGrid HTTP API (Port 443, kein SMTP)."""
+    payload = {
+        "personalizations": [{"to": [{"email": e} for e in to_emails]}],
+        "from": {"email": from_email},
+        "subject": subject,
+        "content": [{"type": "text/html", "value": html_content}],
+    }
+    if attachments:
+        payload["attachments"] = attachments
+
+    resp = http_requests.post(
+        "https://api.sendgrid.com/v3/mail/send",
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        data=json.dumps(payload),
+        timeout=15,
+    )
+    if resp.status_code in (200, 202):
+        return True
+    logger.error(f"   SendGrid API Fehler {resp.status_code}: {resp.text[:200]}")
+    return False
+
+
 def send_player_invitation(player_row, simulate: bool = True) -> bool:
     """
     Sendet einen automatischen Terminvorschlag an den Spieler (simuliert).
@@ -279,25 +301,17 @@ def send_player_invitation(player_row, simulate: bool = True) -> bool:
         return False
 
     try:
-        msg = MIMEMultipart()
-        msg["From"] = EMAIL_CONFIG["sender_email"]
-        msg["To"] = ", ".join(EMAIL_CONFIG["recipients"])
-        msg["Subject"] = subject
-
         html_body = _create_player_invitation_html(player_row, termin_str)
-        msg.attach(MIMEText(html_body, "html", "utf-8"))
-
-        with smtplib.SMTP(EMAIL_CONFIG["smtp_server"], EMAIL_CONFIG["smtp_port"]) as server:
-            if EMAIL_CONFIG.get("use_tls", True):
-                server.starttls()
-            server.login(
-                EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
-                sender_password
-            )
-            server.send_message(msg)
-
-        logger.info(f"   ✅ Terminvorschlag-Mail erfolgreich versendet!")
-        return True
+        success = _sendgrid_send(
+            api_key=sender_password,
+            from_email=EMAIL_CONFIG["sender_email"],
+            to_emails=EMAIL_CONFIG["recipients"],
+            subject=subject,
+            html_content=html_body,
+        )
+        if success:
+            logger.info(f"   ✅ Terminvorschlag-Mail erfolgreich versendet!")
+        return success
 
     except Exception as e:
         logger.error(f"   ❌ Terminvorschlag-Mail fehlgeschlagen: {e}")
@@ -355,38 +369,30 @@ def send_scouting_alert(player_row, report_path: str, simulate: bool = True, ai_
         return False
 
     try:
-        msg = MIMEMultipart()
-        msg["From"] = EMAIL_CONFIG["sender_email"]
-        msg["To"] = ", ".join(EMAIL_CONFIG["recipients"])
-        msg["Subject"] = subject
-
-        # HTML-Body
         html_body = _create_html_body(player_row, report_path)
-        msg.attach(MIMEText(html_body, "html", "utf-8"))
 
-        # PDF-Anhang
+        # PDF als Base64-Anhang
+        attachments = []
         if Path(report_path).exists():
             with open(report_path, "rb") as f:
-                pdf_attachment = MIMEApplication(f.read(), _subtype="pdf")
-                pdf_attachment.add_header(
-                    "Content-Disposition",
-                    "attachment",
-                    filename=Path(report_path).name,
-                )
-                msg.attach(pdf_attachment)
+                attachments.append({
+                    "content": base64.b64encode(f.read()).decode(),
+                    "type": "application/pdf",
+                    "filename": Path(report_path).name,
+                    "disposition": "attachment",
+                })
 
-        # SMTP-Verbindung
-        with smtplib.SMTP(EMAIL_CONFIG["smtp_server"], EMAIL_CONFIG["smtp_port"]) as server:
-            if EMAIL_CONFIG.get("use_tls", True):
-                server.starttls()
-            server.login(
-                EMAIL_CONFIG.get("smtp_username", EMAIL_CONFIG["sender_email"]),
-                sender_password
-            )
-            server.send_message(msg)
-
-        logger.info(f"   ✅ E-Mail erfolgreich versendet!")
-        return True
+        success = _sendgrid_send(
+            api_key=sender_password,
+            from_email=EMAIL_CONFIG["sender_email"],
+            to_emails=EMAIL_CONFIG["recipients"],
+            subject=subject,
+            html_content=html_body,
+            attachments=attachments,
+        )
+        if success:
+            logger.info(f"   ✅ E-Mail erfolgreich versendet!")
+        return success
 
     except Exception as e:
         logger.error(f"   ❌ E-Mail-Versand fehlgeschlagen: {e}")
