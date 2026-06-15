@@ -264,11 +264,22 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
 
         # Leistungsdaten: Zeilen mit data-testid="row" in Tabellen
         rows = soup.find_all("tr", attrs={"data-testid": "row"})
+        logger.info(f"  [DEBUG] {player_name}: {len(rows)} Zeilen gefunden auf Detailseite")
         spiele = 0
         tore = 0
         gelbe = 0
         rote = 0
         minuten = 0
+
+        # Alle vorhandenen data-testid Werte einmalig loggen (nur beim ersten Spieler)
+        if rows:
+            alle_labels = set()
+            for row in rows:
+                for td in row.find_all("td"):
+                    lbl = td.get("data-testid", "")
+                    if lbl:
+                        alle_labels.add(lbl)
+            logger.info(f"  [DEBUG] Gefundene data-testid Labels: {sorted(alle_labels)}")
 
         for row in rows:
             tds = row.find_all("td")
@@ -293,6 +304,8 @@ def scrape_player_details(driver, player_id, player_name, decoder=None):
                 elif label == "minutes":
                     clean = val.replace("'", "").replace(".", "")
                     minuten += int(clean) if clean.isdigit() else 0
+
+        logger.info(f"  [DEBUG] {player_name}: spiele={spiele} tore={tore} gelbe={gelbe} rote={rote} minuten={minuten}")
 
         if spiele > 0:
             details["spiele"] = spiele
